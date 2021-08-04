@@ -1000,7 +1000,7 @@ function Content() {
                                                             <td>{index + 1}</td>
                                                             <td>{ben[1]}</td>
                                         
-                                                            <td><input value={share[index] >0 ? share[index]['value'] : 0} onChange={(e) => handleShareChange(e, ben[1], ben[2], index)} type="number" min="0" max="100"></input>%</td>
+                                                            <td><input value={share[index]? share[index]['value'] : 0} onChange={(e) => handleShareChange(e, ben[1], ben[2], index)} type="number" min="0" max="100"></input>%</td>
                                                         </tr>)}
                                                 </tbody>
                                             </table> : ''}
@@ -1257,75 +1257,7 @@ kind of investment apart from the list mentioned above' value={description} onCh
                                 
                                 <h2>Details of Alternate Beneficiary</h2>
                                 <p className="note-para">(Note- If any of the previously-stated Beneficiary predecease the author of  the Will by any reason, in such case who shall receive the assets or benefits under Will.)</p>
-                                    {/* <form id='beneficiary-form' style={{ marginTop: '60px' }}> */}
-                            {/* <div className='form-row'>
-                                <div className='form-item'>
-                                    <label>Title: </label>
-                                    <select value={benSal} onChange={(e) => setBenSal(e.target.value)}>
-                                        <option value="Mr">Mr.</option>
-                                        <option value="Ms">Ms.</option>
-                                        <option value="Mrs">Mrs.</option>
-                                        <option value="">N/A</option>
-                                    </select>
-                                </div>
-                                <div className='form-item'>
-                                    <label> Full Name</label>
-                                    <input value={benName} onChange={(e) => setBenName(e.target.value)}></input>
-                                </div>
-                                <div className='form-item'>
-                                    <label>DOB</label>
-                                    <input value={benDOB} onChange={(e) => setBenDOB(e.target.value)} type='date'></input>
-                                </div>
-                                <div className='form-item' style={{ width: '300px' }}>
-                                    <label>Relation with Author of Will: </label>
-                                    {/* <p style={{ width: '275px', fontSize: '16px' }} className="note-para">(eg. friend, son, sister, etc.)</p> */}
-                                    {/* <input value={benRelation} onChange={(e) => setBenRelation(e.target.value)} placeholder='eg.  friend, son, sister, etc. '></input>
-                                </div>
-                                {!(getAge(benDOB) < 18) ? <><div style={{ justifyContent: "right" }} className='form-row'>
-                                    <button type='submit' onClick={addBeneficiary} id="add-beneficiary"><AddIcon /> Add Alternate Beneficiary</button>
-
-                                </div></> : ''}
-                            </div>
-                            {
-                                getAge(benDOB) < 18 ?
-                                    <div>
-                                        <h3>Guardian details</h3>
-                                        <p className="note-para">As the listed beneficiary is Minor, kindly appoint a Guardian*<br />
-                                            (Note: Guardian should be such a person who will act as a trustee and whatever assets are being receivable by a Minor under WILL be maintained by a Guardian on behalf of a minor till the time he turns 18 years of age.)
-                                        </p>
-                                        <div className='form-row'>
-                                            <div className='form-item'>
-                                                <label>Title: </label>
-                                                <select value={guardianSal} onChange={(e) => setGuardianSal(e.target.value)}>
-                                                    <option value="Mr">Mr.</option>
-                                                    <option value="Ms">Ms.</option>
-                                                    <option value="Mrs">Mrs.</option>
-                                                    <option value="">N/A</option>
-                                                </select>
-                                            </div>
-                                            <div className='form-item'>
-                                                <label> Full Name</label>
-                                                <input value={guardianName} onChange={(e) => setGuardianName(e.target.value)}></input>
-                                            </div>
-                                            <div className='form-item'>
-                                                <label>DOB</label>
-                                                <input value={guardianDOB} onChange={(e) => setGuardianDOB(e.target.value)} type='date'></input>
-                                            </div>
-                                            <div className='form-item'>
-                                                <label>Relation with Minor: </label>
-                                                <input value={guardianRelation} onChange={(e) => setGuardianRelation(e.target.value)}></input>
-                                            </div>
-                                            {(getAge(benDOB) < 18) ? <><div style={{ justifyContent: "right", marginLeft: 'auto' }} className='form-row'>
-                                                <button type='submit' onClick={addBeneficiary} id="add-beneficiary" style={{marginTop:'20px'}}><AddIcon /> Add Beneficiary</button>
-
-                                            </div></> : ''}
-                                        </div>
-                                    </div>
-                                    : ''
-                            }
-
-                           
-                        </form>                         */} 
+                                    
                                 {alternate ?
                                     <table className="styled-table">
                                         <thead>
