@@ -11,6 +11,7 @@ import { PDFExport, savePDF } from '@progress/kendo-react-pdf';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import Will from '../Will/Will';
 import emailjs from 'emailjs-com';
+import Logo from '../Banner/logo.png';
 
 // Create styles
 
@@ -554,8 +555,164 @@ function Content() {
         }
     }
     const handleExportWithComponent = (event) => {
-        <Will />
-        // ReactPDF.render(<Will />, `${__dirname}/example.pdf`);
+                // PDF Downloading Code
+                
+            let temp =    localStorage.getItem('personalDetails')
+            let temp1 =    localStorage.getItem('movableAssets')
+            let temp2 =    localStorage.getItem('immovableAssets')
+
+            console.log(temp)
+            console.log(temp2)
+            console.log(temp1)
+// PDF Maker
+var dd = {
+    content: [
+        { text: `WILL THAT IS STATEMENT OF ${temp['sal']} ${name.toUpperCase()} EXECUTED ON ${temp['date']}`, style: 'header' },
+        { text: `I, ${temp['sal']} ${temp['name']} , age ${temp['age']} years, ${religion} by religion, occupation ${occupation}, ${presentCountry} Citizen , having residential address as ${present1}, ${present2}, ${presentCity} – ${presentPin}, do make this my last Will and Testament.`, style: 'subheader' },
+        { text: '1. I have not made any will but if any made, I hereby revoke the same and declare this to be my last will and testament in India.', style: 'subheader' },
+        { text: `2. Under this Will, I appoint my son Mr. Nikhil Sharma and my daughter Ms. Naina Sharma as the Executors of this Will and Trustees of my estate. They may act as executors either jointly or severally. The abovenamed executors shall take charge of my assets and properties after my death and procure Probate from the Competent Court to my Will having effect over all my assets and properties in India.`, style: 'subheader' },
+        { text: `3. I got married to my wife ${spouse} in the year ${yom}.I have ${noOfChilderen}. The name/s of my children are as under:.`, style: 'subheader' },
+        {
+            style: 'tableExample',
+
+            table: {
+                widths: ['*', '*'],
+                body: [
+                    [{ text: 'Name', style: 'tableHeader' }, { text: 'Age (years)', style: 'tableHeader' }],
+                    
+                    //['Nikhil', '28'],
+                    //['Naina', '25']
+                ]
+            }
+        },
+        { text: '4. My immovable assets and properties consist of following and after my death, I wish to bequeath my share in the below mentioned immovable properties to the persons mentioned in the table below:.', style: 'subheader' },
+        {
+            style: 'tableExample',
+            table: {
+                body: [
+                    [
+                        { text: 'Sr. No.', style: 'tableHeader' },
+                        { text: 'Name of Asset', style: 'tableHeader' },
+                        { text: 'Description Asset and Address', style: 'tableHeader' },
+                        { text: 'Beneficiaries & percentage to beneficiary', style: 'tableHeader' },
+                        { text: 'Relation with the Testaor', style: 'tableHeader' },
+                    ],
+                    // ['1', 'Flat', 'Solely owned, Area 600 sq.ft. Address: F-302, Palms Apartments,Whitefield, Bangalore – 560 066', 'Nikhil 100%', 'Son'],
+                    // ['2', 'Flat', 'Solely owned, Area 600 sq.ft. Address: F-302, Palms Apartments,Whitefield, Bangalore – 560 066', 'Naina 100%', 'Daughter'],
+                    // ['3', 'Flat', 'Solely owned, Area 600 sq.ft. Address: F-302, Palms Apartments,Whitefield, Bangalore – 560 066', 'Naina 100%', 'Daughter'],
+                ]
+            }
+        },
+        { text: '5. My movable assets and properties consist of following and after my death, I wish to bequeath my share in the below mentioned movable properties to the persons mentioned below:', style: 'subheader' },
+        {
+            style: 'tableExample',
+            table: {
+                body: [
+                    [
+                        { text: 'Sr. No.', style: 'tableHeader' },
+                        { text: 'Name of Asset', style: 'tableHeader' },
+                        { text: 'Description Asset and Address', style: 'tableHeader' },
+                        { text: 'Beneficiaries & percentage to beneficiary', style: 'tableHeader' },
+                        { text: 'Relation with the Testaor', style: 'tableHeader' },
+                    ],
+                    ['1', 'Bank account', 'Kotak Mahindra Bank, having Account No. 1234567890, Savings Account Address: Old Madras Road, Bangalore Branch', 'Nikhil 100%', 'Son'],
+                    ['2', 'Safe Deposit Locker', 'Kotak Mahindra Bank, having Account No. 1234567890, Savings Account Address: Old Madras Road, Bangalore Branch', 'Naina 100%', 'Daughter'],
+                    ['3', 'Flat', 'Solely owned, Area 600 sq.ft. Address: F-302, Palms Apartments,Whitefield, Bangalore – 560 066', 'Naina 100%', 'Daughter'],
+                ]
+            }
+        },
+        { text: '6. It is also my wish that, in case any of the above stated beneficiaries predecease me then the share of that beneficiary under this WILL shall devolve upon:', style: 'subheader' },
+        {
+            style: 'tableExample',
+            table: {
+                body: [
+                    [
+                        { text: 'Sr. No.', style: 'tableHeader' },
+                        { text: 'Name of Asset', style: 'tableHeader' },
+                        { text: 'Description Asset and Address', style: 'tableHeader' },
+                        { text: 'Beneficiaries & percentage to beneficiary', style: 'tableHeader' },
+                        { text: 'Relation with the Testaor', style: 'tableHeader' },
+                    ],
+                    //{immovableAssets.map((iA,index) => {
+                    //   [index+1, iA['description']]
+                    //})},
+                    ['1', 'Bank account', 'Kotak Mahindra Bank, having Account No. 1234567890, Savings Account Address: Old Madras Road, Bangalore Branch', 'Nikhil 100%', 'Son'],
+                    ['2', 'Safe Deposit Locker', 'Kotak Mahindra Bank, having Account No. 1234567890, Savings Account Address: Old Madras Road, Bangalore Branch', 'Naina 100%', 'Daughter'],
+                    ['3', 'Flat', 'Solely owned, Area 600 sq.ft. Address: F-302, Palms Apartments,Whitefield, Bangalore – 560 066', 'Naina 100%', 'Daughter'],
+                ]
+            }
+        },
+        { text: '7. I believe that for the aforesaid properties I do not possess any other movable or immovable properties. However in case it is found that I have missed or forgotten to mention any of the properties held by me as on date or if I acquire or become entitled to any moveable or immovable properties other than mentioned herein above at the time of my death, I bequeath all such properties to the following persons:', style: 'subheader' },
+        {
+            style: 'tableExample',
+
+            table: {
+                widths: ['*', '*'],
+                body: [
+                    [{ text: 'List of Beneficiaries', style: 'tableHeader' }, { text: 'Percentage of bequeath', style: 'tableHeader' }],
+                    ['Nikhil', '50%'],
+                    ['Naina', '50%']
+                ]
+            }
+        },
+        { text: '8. I wish to appoint _______ as a guardian for the minor/minors who are the beneficiaries in the Will, till the time they turn major.', style: 'subheader' },
+        { text: '9. I have made this Will out of my free will and while I am in sound health and in good understanding and in witness hereof I have put my signature hereunder in the presence of witnesses on this day of June, 2021', style: 'subheader' },
+        { text: 'Signed by the within named Testator Mr. Rahul Sharma In our presence and we the undersigned Witnesses have, at the request of the Testator, in his presence and in the presence of each other, put our signatures as Witnesses ', style: 'subheader' },
+        {
+            style: 'tableExample',
+
+            table: {
+                widths: ['*', '*'],
+                heights: 40,
+                body: [
+                    [{ text: 'WITNESS 1', style: 'tableHeader' }, { text: 'WITNESS 2', style: 'tableHeader' }],
+                    [{ border: [true, false, true, false], alignment: 'left', text: 'Signature:' }, { border: [true, false, true, false], alignment: 'left', text: 'Signature:' }],
+                    [{ border: [true, false, true, false], alignment: 'left', text: 'Name:' }, { border: [true, false, true, false], alignment: 'left', text: 'Name:' }],
+                    [{ border: [true, false, true, false], alignment: 'left', text: 'Address:' }, { border: [true, false, true, false], alignment: 'left', text: 'Address:' }],
+                    [{ border: [true, false, true, true], alignment: 'left', text: 'Date:' }, { border: [true, false, true, true], alignment: 'left', text: 'Date:' }],
+                ]
+            }
+        },
+        { text: `DTD THIS DAY OF ${temp['date']}`, style: 'header' },
+        { text: `${sal} ${name}`, style: 'header' },
+        { text: '.. TESTATOR', style: 'header' },
+        { text: 'WILL', style: 'header' },
+        { text: 'WILL made through WILL CREATOR by BAJAJ ALLIANZ powered by LawTarazoo', style: 'footer' },
+        { text: 'For any legal queries contact on +91-9619792288 or mail on experts@lawtarazoo.com', style: 'footer' },
+    ],
+    styles: {
+        header: {
+            fontSize: 18,
+            bold: true,
+            margin: [0, 0, 0, 10],
+            alignment: 'center'
+        },
+        subheader: {
+            fontSize: 14,
+            margin: [0, 10, 0, 5]
+        },
+        tableExample: {
+            margin: [0, 5, 0, 15],
+            alignment: 'center',
+        },
+        tableHeader: {
+            bold: true,
+            fontSize: 14,
+            color: 'black'
+        },
+        footer: {
+            bold: true,
+            fontSize: 12,
+            color: 'black',
+            alignment: 'center',
+            margin: [40, 20, 40, 10],
+        }
+    },
+    defaultStyle: {
+        // alignment: 'justify'
+    }
+    };
+    window.pdfMake.createPdf(dd).download('myWill');
     };
 
 
@@ -1316,11 +1473,21 @@ kind of investment apart from the list mentioned above' value={description} onCh
                     </TabPanel>
                     <TabPanel>
 
-                        <div style={{ justifyContent: "right", marginTop: '20px' }} className='form-row'>
+                        
+                        
+    <div class="bts-container" style={{width:'350px', height:'350px', backgroundColor:'#ffffff',overflow:'hidden'}}>
+      <img src={Logo} alt="" width="75%" style={{alignSelf:'center'}} />
+      	<p style={{color:'#f27317', marginTop:'20px',textAlign:'center', fontSize:'20px', transitionDelay:'2s'}}>Email has been sent to the User!</p>
+        
+        
+    
+    
+</div><div style={{ justifyContent: "right", marginTop: '20px' }} className='form-row'>
                             <a onClick={() => { setTabIndex(2) }} id="next-btn">Previous</a>
-                            <button id='add-beneficiary' onClick={handleExportWithComponent()} primary={true}>Download Will</button>
-                            <Will />
+                            <button id='add-beneficiary' onClick={handleExportWithComponent } primary={true}>Download Will</button>
+                    
                         </div>
+
                     </TabPanel>
                 </Tabs>
             </div >

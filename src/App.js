@@ -1,4 +1,12 @@
-import logo from './logo.svg';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+
+import pdfMake from 'pdfmake/build/pdfmake';
 import Banner from './components/Banner/Banner';
 import MediaQuery from 'react-responsive'
 import './App.css';
@@ -7,16 +15,13 @@ import Fullscreen from './components/Fullscreen/Fullscreen'
 import Mobilescreen from './components/Mobilescreen/Mobilescreen'
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "../node_modules/bootstrap/dist/js/bootstrap.bundle";
+import logo from './logo.svg';
 
 
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
+
 
 function App() {
+  pdfMake.vfs = pdfFonts.pdfMake.vfs;
   return (
     <Router>
       <div className="App">
