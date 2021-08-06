@@ -5,7 +5,6 @@ import {
   Link
 } from "react-router-dom";
 import pdfFonts from 'pdfmake/build/vfs_fonts';
-
 import pdfMake from 'pdfmake/build/pdfmake';
 import Banner from './components/Banner/Banner';
 import MediaQuery from 'react-responsive'
@@ -17,11 +16,9 @@ import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "../node_modules/bootstrap/dist/js/bootstrap.bundle";
 import logo from './logo.svg';
 
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
-
-
-function App() {
-  pdfMake.vfs = pdfFonts.pdfMake.vfs;
+function App() { 
   return (
     <Router>
       <div className="App">

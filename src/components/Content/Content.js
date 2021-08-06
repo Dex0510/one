@@ -1,5 +1,5 @@
 import ReactPDF from '@react-pdf/renderer';
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, Children } from 'react'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import AddIcon from '@material-ui/icons/Add';
 import CancelIcon from '@material-ui/icons/Cancel';
@@ -562,13 +562,127 @@ function Content() {
     const handleExportWithComponent = (event) => {
                 // PDF Downloading Code
                 
-            let temp =    localStorage.getItem('personalDetails')
-            let temp1 =    localStorage.getItem('movableAssets')
-            let temp2 =    localStorage.getItem('immovableAssets')
+            
 
-            console.log(temp)
-            console.log(temp2)
-            console.log(temp1)
+            
+            //console.log('temp2', temp2)
+            //console.log('temp1', temp1)
+            
+        
+        const child = [[
+                      { text: "Name", style: "tableHeader" },
+                      { text: "Age (years)", style: "tableHeader" },
+                    ]];
+        for(let i =0; i< childeren.length; i++){
+            child.push([
+                    { text: `${childeren[i].childName}`, style: "tableHeader" },
+                    { text: `${childeren[i].childAge}`, style: "tableHeader" },
+                  ]);
+        }
+        // const tem = {style: "tableExample",table:{width:["*", "*"],body:child}}
+        let rel = ''
+        for(let i = 0; i< beneficiaries.length;i++){
+            rel += beneficiaries[i][3] +', '
+        }
+        rel = rel.substring(0,rel.length-2)
+
+        const immov = [
+            [
+                { text: "Sr. No.", style: "tableHeader" },
+                { text: "Name of Asset", style: "tableHeader" },
+                { text: "Description Asset and Address", style: "tableHeader" },
+                {
+                  text: "Beneficiaries & percentage to beneficiary",
+                  style: "tableHeader",
+                },
+                { text: "Relation with the Testaor", style: "tableHeader" },
+              ]
+        ];
+        //share":[{"index":0,"name":"jayashree","dob":"1965-08-10","value":"60"},{"index":1,"name":"shantanu","dob":"1999-05-05","value":"40"}]},
+        for(let i =0; i< immovableAssets.length; i++){
+            //const [assetType,description] = immovableAssets[i];
+            let sharevalue = '';
+            immovableAssets[i].share.forEach(function(sh){
+                sharevalue += sh.name + ' ' + sh.value + '%, ' ;
+            })
+            sharevalue=sharevalue.substring(0,sharevalue.length -2)
+            //console.log('assettype',immovableAssets[i])
+            immov.push(
+                [
+                    {text:i+1},
+                     {text:immovableAssets[i].assetType},
+                    {text:immovableAssets[i].description},
+                    {text:sharevalue},
+                    {text:rel},
+                  ]
+            )
+        }
+
+
+        const movv = [[
+            { text: "Sr. No.", style: "tableHeader" },
+            { text: "Name of Asset", style: "tableHeader" },
+            { text: "Description Asset and Address", style: "tableHeader" },
+            {
+              text: "Beneficiaries & percentage to beneficiary",
+              style: "tableHeader",
+            },
+            { text: "Relation with the Testaor", style: "tableHeader" },
+          ]];
+        
+        for(let i = 0; i< movableAssets.length; i++){
+            let sharevalue = '';
+            movableAssets[i].share.forEach(function(sh){
+                sharevalue += sh.name + ' ' + sh.value + '%, ' ;
+            })
+            sharevalue=sharevalue.substring(0,sharevalue.length -2)
+            //console.log('assettype',immovableAssets[i])
+            movv.push(
+                [
+                    {text:i+1},
+                     {text:movableAssets[i].assetType},
+                    {text:movableAssets[i].description},
+                    {text:sharevalue},
+                    {text:rel},
+                  ]
+            )
+        }
+        const alt = [[
+            { text: "Sr. No.", style: "tableHeader" },
+            { text: "Name of Asset", style: "tableHeader" },
+            { text: "Description Asset and Address", style: "tableHeader" },
+            {
+              text: "Beneficiaries & percentage to beneficiary",
+              style: "tableHeader",
+            },
+          ]]
+        //console.log('res',residuary)
+        for(let i = 0; i< alternate.length; i++){
+            if (alternate[i].altDetails !== ''){
+                alt.push(
+                    [
+                        {text:i+1},
+                     {text:alternate[i].assesType},
+                    {text:alternate[i].details},
+                    {text:alternate[i].altDetails},
+                    ]
+                )
+            }
+        }
+        const ress = [
+            [
+                { text: "List of Beneficiaries", style: "tableHeader" },
+                { text: "Percentage of bequeath", style: "tableHeader" },
+              ]
+        ]
+        for(let i=0; i< residuary.length; i++){
+            ress.push([
+                {text:i+1},
+                {text:residuary[i].name + ' '+ residuary[i].value+'%. '}
+            ])
+        }
+        //console.log('ben', beneficiaries)
+
 // PDF Maker
 var dd = {
     content: [
@@ -596,26 +710,13 @@ var dd = {
     text: `3. I got married to my wife ${spouse} in the year ${yom}.I have ${noOfChilderen} children. The name/s of my children are as under:.`,
     style: "subheader",
   },
+ 
   {
     style: "tableExample",
 
     table: {
       widths: ["*", "*"],
-      body: [
-        [
-          { text: "Name", style: "tableHeader" },
-          { text: "Age (years)", style: "tableHeader" },
-        ],
-
-        [
-          { text: `${childeren[0].childName}`, style: "tableHeader" },
-          { text: `${childeren[0].childAge}`, style: "tableHeader" },
-        ],
-        [
-          { text: `${childeren[1].childName}`, style: "tableHeader" },
-          { text: `${childeren[1].childAge}`, style: "tableHeader" },
-        ],
-      ],
+      body: child,
     },
   },
   {
@@ -624,40 +725,8 @@ var dd = {
   },
   {
     style: "tableExample",
-    table: {
-      body: [
-        [
-          { text: "Sr. No.", style: "tableHeader" },
-          { text: "Name of Asset", style: "tableHeader" },
-          { text: "Description Asset and Address", style: "tableHeader" },
-          {
-            text: "Beneficiaries & percentage to beneficiary",
-            style: "tableHeader",
-          },
-          { text: "Relation with the Testaor", style: "tableHeader" },
-        ],
-        [
-          "1",
-          "Flat",
-          "Solely owned, Area 600 sq.ft. Address: F-302, Palms Apartments,Whitefield, Bangalore – 560 066",
-          "Nikhil 100%",
-          "Son",
-        ],
-        [
-          "2",
-          "Flat",
-          "Solely owned, Area 600 sq.ft. Address: F-302, Palms Apartments,Whitefield, Bangalore – 560 066",
-          "Naina 100%",
-          "Daughter",
-        ],
-        [
-          "3",
-          "Flat",
-          "Solely owned, Area 600 sq.ft. Address: F-302, Palms Apartments,Whitefield, Bangalore – 560 066",
-          "Naina 100%",
-          "Daughter",
-        ],
-      ],
+    table: {    
+      body: immov,
     },
   },
   {
@@ -667,39 +736,7 @@ var dd = {
   {
     style: "tableExample",
     table: {
-      body: [
-        [
-          { text: "Sr. No.", style: "tableHeader" },
-          { text: "Name of Asset", style: "tableHeader" },
-          { text: "Description Asset and Address", style: "tableHeader" },
-          {
-            text: "Beneficiaries & percentage to beneficiary",
-            style: "tableHeader",
-          },
-          { text: "Relation with the Testaor", style: "tableHeader" },
-        ],
-        [
-          "1",
-          "Bank account",
-          "Kotak Mahindra Bank, having Account No. 1234567890, Savings Account Address: Old Madras Road, Bangalore Branch",
-          "Nikhil 100%",
-          "Son",
-        ],
-        [
-          "2",
-          "Safe Deposit Locker",
-          "Kotak Mahindra Bank, having Account No. 1234567890, Savings Account Address: Old Madras Road, Bangalore Branch",
-          "Naina 100%",
-          "Daughter",
-        ],
-        [
-          "3",
-          "Flat",
-          "Solely owned, Area 600 sq.ft. Address: F-302, Palms Apartments,Whitefield, Bangalore – 560 066",
-          "Naina 100%",
-          "Daughter",
-        ],
-      ],
+      body: movv,
     },
   },
   {
@@ -709,42 +746,7 @@ var dd = {
   {
     style: "tableExample",
     table: {
-      body: [
-        [
-          { text: "Sr. No.", style: "tableHeader" },
-          { text: "Name of Asset", style: "tableHeader" },
-          { text: "Description Asset and Address", style: "tableHeader" },
-          {
-            text: "Beneficiaries & percentage to beneficiary",
-            style: "tableHeader",
-          },
-          { text: "Relation with the Testaor", style: "tableHeader" },
-        ],
-        //{immovableAssets.map((iA,index) => {
-        //   [index+1, iA['description']]
-        //})},
-        [
-          "1",
-          "Bank account",
-          "Kotak Mahindra Bank, having Account No. 1234567890, Savings Account Address: Old Madras Road, Bangalore Branch",
-          "Nikhil 100%",
-          "Son",
-        ],
-        [
-          "2",
-          "Safe Deposit Locker",
-          "Kotak Mahindra Bank, having Account No. 1234567890, Savings Account Address: Old Madras Road, Bangalore Branch",
-          "Naina 100%",
-          "Daughter",
-        ],
-        [
-          "3",
-          "Flat",
-          "Solely owned, Area 600 sq.ft. Address: F-302, Palms Apartments,Whitefield, Bangalore – 560 066",
-          "Naina 100%",
-          "Daughter",
-        ],
-      ],
+      body: alt,
     },
   },
   {
@@ -756,60 +758,64 @@ var dd = {
 
     table: {
       widths: ["*", "*"],
-      body: [
-        [
-          { text: "List of Beneficiaries", style: "tableHeader" },
-          { text: "Percentage of bequeath", style: "tableHeader" },
-        ],
-        ["Nikhil", "50%"],
-        ["Naina", "50%"],
-      ],
+      body: ress,
     },
-  },
+  }, { text: '8. I wish to appoint _______ as a guardian for the minor/minors who are the beneficiaries in the Will, till the time they turn major.', style: 'subheader' },
+  { text: '9. I have made this Will out of my free will and while I am in sound health and in good understanding and in witness hereof I have put my signature hereunder in the presence of witnesses on this day of June, 2021', style: 'subheader' },
+  { text: 'Signed by the within named Testator Mr. Rahul Sharma In our presence and we the undersigned Witnesses have, at the request of the Testator, in his presence and in the presence of each other, put our signatures as Witnesses ', style: 'subheader' },
   {
-    text: "8. I wish to appoint _______ as a guardian for the minor/minors who are the beneficiaries in the Will, till the time they turn major.",
-    style: "subheader",
+      style: 'tableExample',
+
+      table: {
+          widths: ['*', '*'],
+          heights: 40,
+          body: [
+              [{ text: 'WITNESS 1', style: 'tableHeader' }, { text: 'WITNESS 2', style: 'tableHeader' }],
+              [{ border: [true, false, true, false], alignment: 'left', text: 'Signature:' }, { border: [true, false, true, false], alignment: 'left', text: 'Signature:' }],
+              [{ border: [true, false, true, false], alignment: 'left', text: 'Name:' }, { border: [true, false, true, false], alignment: 'left', text: 'Name:' }],
+              [{ border: [true, false, true, false], alignment: 'left', text: 'Address:' }, { border: [true, false, true, false], alignment: 'left', text: 'Address:' }],
+              [{ border: [true, false, true, true], alignment: 'left', text: 'Date:' }, { border: [true, false, true, true], alignment: 'left', text: 'Date:' }],
+          ]
+      }
   },
-  {
-    text: "9. I have made this Will out of my free will and while I am in sound health and in good understanding and in witness hereof I have put my signature hereunder in the presence of witnesses on this day of June, 2021",
-    style: "subheader",
+  { text: 'DTD THIS DAY OF JUNE, 2021', style: 'header' },
+  { text: 'MR. RAHUL SHARMA', style: 'header' },
+  { text: '.. TESTATOR', style: 'header' },
+  { text: 'WILL', style: 'header' },
+  { text: 'WILL made through WILL CREATOR by BAJAJ ALLIANZ powered by LawTarazoo', style: 'footer' },
+  { text: 'For any legal queries contact on +91-9619792288 or mail on experts@lawtarazoo.com', style: 'footer' },
+],
+styles: {
+  header: {
+      fontSize: 18,
+      bold: true,
+      margin: [0, 0, 0, 10],
+      alignment: 'center'
   },
-  {
-    text: `Signed by the within named Testator ${sal}. ${name} In our presence and we the undersigned Witnesses have, at the request of the Testator, in his presence and in the presence of each other, put our signatures as Witnesses `,
-    style: "subheader",
+  subheader: {
+      fontSize: 14,
+      margin: [0, 10, 0, 5]
   },
-    ],
-    styles: {
-        header: {
-            fontSize: 18,
-            bold: true,
-            margin: [0, 0, 0, 10],
-            alignment: 'center'
-        },
-        subheader: {
-            fontSize: 14,
-            margin: [0, 10, 0, 5]
-        },
-        tableExample: {
-            margin: [0, 5, 0, 15],
-            alignment: 'center',
-        },
-        tableHeader: {
-            bold: true,
-            fontSize: 14,
-            color: 'black'
-        },
-        footer: {
-            bold: true,
-            fontSize: 12,
-            color: 'black',
-            alignment: 'center',
-            margin: [40, 20, 40, 10],
-        }
-    },
-    defaultStyle: {
-        // alignment: 'justify'
-    }
+  tableExample: {
+      margin: [0, 5, 0, 15],
+      alignment: 'center',
+  },
+  tableHeader: {
+      bold: true,
+      fontSize: 14,
+      color: 'black'
+  },
+  footer: {
+      bold: true,
+      fontSize: 12,
+      color: 'black',
+      alignment: 'center',
+      margin: [40, 20, 40, 10],
+  }
+},
+defaultStyle: {
+  // alignment: 'justify'
+}
     };
     window.pdfMake.createPdf(dd).download('myWill');
     };
@@ -858,6 +864,7 @@ var dd = {
     }
     return (
         <div className="content">
+            
             <div className="content-sub">
                 <Tabs selectedIndex={tabIndex} >
                     <TabList>
