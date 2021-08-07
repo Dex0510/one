@@ -567,7 +567,84 @@ function Content() {
             
             //console.log('temp2', temp2)
             //console.log('temp1', temp1)
-            
+        //{ text: '8. I wish to appoint _______ as a guardian for the minor/minors who are the beneficiaries in the Will, till the time they turn major.', style: 'subheader' }
+        // {
+        //     text: `3. I got married to my spouse ${spouse} in the year ${yom}.I have ${noOfChilderen} children. The name/s of my children are as under:.`,
+        //     style: "subheader",
+        //   }
+        // {
+        //     style: "tableExample",
+        
+        //     table: {
+        //       widths: ["*", "*"],
+        //       body: child,
+        //     },
+        //   }
+
+        console.log('gn',guardianName)
+        let cls3 ={}
+        let chl = {}
+        if (maritalStatus === 'Single'){
+            cls3={text:'I am single', style:"subheader"}
+        }
+        if( maritalStatus === 'Widowed'){
+            if(haveChilderen === 'No'){
+            cls3 ={text:'I am widowed', style:"subheader"}}
+            else{
+                cls3 ={text:`I am widowed. I have ${noOfChilderen} children. The name/s of my children are as under:`, style:"subheader"}
+                const child = [[
+                    { text: "Name", style: "tableHeader" },
+                    { text: "Age (years)", style: "tableHeader" },
+                  ]];
+                for(let i =0; i< childeren.length; i++){
+                    child.push([
+                  { text: `${childeren[i].childName}`, style: "tableHeader" },
+                  { text: `${childeren[i].childAge}`, style: "tableHeader" },
+                ]);
+                chl = { style:'tableExample', table:{widths:["*","*"],body:child}}
+      }
+            }
+        }
+        if(maritalStatus ==='Divorced'){
+            if(haveChilderen === 'No'){
+                cls3 ={text:'3.I am divorced', style:"subheader"}}
+                else{
+                    cls3 ={text:`3.I am divorced. I have ${noOfChilderen} children. The name/s of my children are as under:`, style:"subheader"}
+                    const child = [[
+                        { text: "Name", style: "tableHeader" },
+                        { text: "Age (years)", style: "tableHeader" },
+                      ]];
+                    for(let i =0; i< childeren.length; i++){
+                        child.push([
+                      { text: `${childeren[i].childName}`, style: "tableHeader" },
+                      { text: `${childeren[i].childAge}`, style: "tableHeader" },
+                    ]);
+                    chl = { style:'tableExample', table:{widths:["*","*"],body:child}}
+          }
+                }}
+        if(maritalStatus ==='Married'){
+                    if(haveChilderen === 'No'){
+                        cls3 ={text:`3.I got married to my spouse ${spouse} in the year ${yom}`, style:"subheader"}}
+                        else{
+                            cls3 ={text:`I got married to my spouse ${spouse} in the year ${yom}. I have ${noOfChilderen} children. The name/s of my children are as under:`, style:"subheader"}
+                            const child = [[
+                                { text: "Name", style: "tableHeader" },
+                                { text: "Age (years)", style: "tableHeader" },
+                              ]];
+                            for(let i =0; i< childeren.length; i++){
+                                child.push([
+                              { text: `${childeren[i].childName}`, style: "tableHeader" },
+                              { text: `${childeren[i].childAge}`, style: "tableHeader" },
+                            ]);
+                            chl = { style:'tableExample', table:{widths:["*","*"],body:child}}
+                  }
+                        }}
+        let idx =8;
+        let cls8 = {}
+        if (guardianName.length >0){
+            cls8 = {text:`${idx}. I wish to appoint ${guardianName} as a guardian for the minor/minors who are the beneficiaries in the Will, till the time they turn major.`,style: "subheader"}
+            idx +=1
+        }
         
         const child = [[
                       { text: "Name", style: "tableHeader" },
@@ -682,13 +759,13 @@ function Content() {
             ])
         }
         //console.log('ben', beneficiaries)
-
+        
 // PDF Maker
 var dd = {
     content: [
         {
     // deleted the undefined component which was getting printed as undefined
-    text: `WILL THAT IS STATEMENT OF ${sal} ${name.toUpperCase()} 
+    text: `WILL THAT IS TESTAMENT OF ${sal} ${name.toUpperCase()} 
     EXECUTED ON ${date}`,
     style: "header",
   },
@@ -699,26 +776,15 @@ var dd = {
     style: "subheader",
   },
   {
-    text: "1. I have not made any will but if any made, I hereby revoke the same and declare this to be my last will and testament in India.",
+    text: `1. I have not made any will but if any made, I hereby revoke the same and declare this to be my last will and testament in India.`,
     style: "subheader",
   },
   {
     text: `2. Under this Will, I appoint my ${executors[0].relation} ${executors[0].sal}. ${executors[0].name} as the Executor of this Will and Trustees of my estate. They may act as executors either jointly or severally. The abovenamed executors shall take charge of my assets and properties after my death and procure Probate from the Competent Court to my Will having effect over all my assets and properties in India.`,
     style: "subheader",
   },
-  {
-    text: `3. I got married to my wife ${spouse} in the year ${yom}.I have ${noOfChilderen} children. The name/s of my children are as under:.`,
-    style: "subheader",
-  },
- 
-  {
-    style: "tableExample",
-
-    table: {
-      widths: ["*", "*"],
-      body: child,
-    },
-  },
+  cls3,
+    chl,
   {
     text: "4. My immovable assets and properties consist of following and after my death, I wish to bequeath my share in the below mentioned immovable properties to the persons mentioned in the table below:.",
     style: "subheader",
@@ -760,9 +826,23 @@ var dd = {
       widths: ["*", "*"],
       body: ress,
     },
-  }, { text: '8. I wish to appoint _______ as a guardian for the minor/minors who are the beneficiaries in the Will, till the time they turn major.', style: 'subheader' },
-  { text: '9. I have made this Will out of my free will and while I am in sound health and in good understanding and in witness hereof I have put my signature hereunder in the presence of witnesses on this day of June, 2021', style: 'subheader' },
-  { text: 'Signed by the within named Testator Mr. Rahul Sharma In our presence and we the undersigned Witnesses have, at the request of the Testator, in his presence and in the presence of each other, put our signatures as Witnesses ', style: 'subheader' },
+  }, cls8,
+  { text: `${idx}. I have made this Will out of my free will and while I am in sound health and in good understanding and in witness hereof I have put my signature hereunder in the presence of witnesses on this day of June, 2021`, style: 'subheader' },
+  { text: `Signed by the within named Testator  ${sal} ${name} In our presence and we the undersigned Witnesses have, at the request of the Testator, in his presence and in the presence of each other, put our signatures as Witnesses `, style: 'subheader' },
+  {
+    style: 'tableExample',
+
+    table: {
+        widths: ['*', '*'],
+        heights: 40,
+        body: [
+            [{ text: 'Testator Name', style: 'tableHeader' }, { text: 'Signature', style: 'tableHeader' }],
+            [{text:` ${sal} ${name.toUpperCase()}`}, {text:' '}],
+            
+        ]
+    }
+},
+  
   {
       style: 'tableExample',
 
@@ -778,8 +858,8 @@ var dd = {
           ]
       }
   },
-  { text: 'DTD THIS DAY OF JUNE, 2021', style: 'header' },
-  { text: 'MR. RAHUL SHARMA', style: 'header' },
+  { text: `DTD THIS DAY OF ${date}`, style: 'header' },
+  { text: `MR.  ${sal} ${name.toUpperCase()}`, style: 'header' },
   { text: '.. TESTATOR', style: 'header' },
   { text: 'WILL', style: 'header' },
   { text: 'WILL made through WILL CREATOR by BAJAJ ALLIANZ powered by LawTarazoo', style: 'footer' },
@@ -864,7 +944,7 @@ defaultStyle: {
     }
     return (
         <div className="content">
-            
+            {/* <button onClick={handleExportWithComponent}> Download</button> */}
             <div className="content-sub">
                 <Tabs selectedIndex={tabIndex} >
                     <TabList>
