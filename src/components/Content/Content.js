@@ -12,6 +12,7 @@ import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import Will from '../Will/Will';
 import emailjs from 'emailjs-com';
 import Logo from '../Banner/logo.png';
+import { ContactSupportOutlined, RvHookupSharp } from '@material-ui/icons';
 
 // Create styles
 
@@ -166,6 +167,7 @@ function Content() {
     const [benRelation, setBenRelation] = useState();
     const [guardianSal, setGuardianSal] = useState('Mr');
     const [guardianName, setGuardianName] = useState('');
+    const [guardianList, setGuardianList] = useState([]);
     const [guardianDOB, setGuardianDOB] = useState('');
     const [guardianRelation, setGuardianRelation] = useState('');
     const [beneficiary, setBeneficiary] = useState([]);
@@ -191,10 +193,14 @@ function Content() {
                         beneficiary.push(guardianName)
                         beneficiary.push(guardianDOB)
                         beneficiary.push(guardianRelation)
-                        setGuardianDOB('')
-                        setGuardianName('');
-                        setGuardianRelation('')
-                        setGuardianSal('Mr')
+                        setGuardianDOB(guardianDOB)
+                        setGuardianName(guardianName);
+                        setGuardianRelation(guardianRelation)
+                        setGuardianSal(guardianSal)
+
+                        var temp = guardianList
+                        temp.push = [guardianSal,guardianName,guardianRelation]
+                        setGuardianList(temp)
                     }
                     else {
                         alert.show('Guardian cannot be a minor!')
@@ -464,6 +470,7 @@ function Content() {
                 localStorage.setItem("movableAssets", JSON.stringify(movableAssets));
             }
             alert.show('Asset Added Succesfully')
+            setAllownext(true)
         }
         else {
             if (totalShare < 100)
@@ -510,6 +517,7 @@ function Content() {
     }
     const [alternate, setAlternate] = useState([])
     function initializeAlternate() {
+
         var tempAlt = []
 
         immovableAssets?.map((asset, index) => {
@@ -559,6 +567,8 @@ function Content() {
             setTabIndex1(2)
         }
     }
+
+
     const handleExportWithComponent = (event) => {
                 // PDF Downloading Code
                 
@@ -580,16 +590,17 @@ function Content() {
         //       body: child,
         //     },
         //   }
-
-        console.log('gn',guardianName)
+       
+        
+        //console.log('gn',share)
         let cls3 ={}
         let chl = {}
         if (maritalStatus === 'Single'){
-            cls3={text:'I am single', style:"subheader"}
+            cls3={text:'I am single.', style:"subheader"}
         }
         if( maritalStatus === 'Widowed'){
             if(haveChilderen === 'No'){
-            cls3 ={text:'I am widowed', style:"subheader"}}
+            cls3 ={text:'I am widowed. I have no children.', style:"subheader"}}
             else{
                 cls3 ={text:`I am widowed. I have ${noOfChilderen} children. The name/s of my children are as under:`, style:"subheader"}
                 const child = [[
@@ -607,7 +618,7 @@ function Content() {
         }
         if(maritalStatus ==='Divorced'){
             if(haveChilderen === 'No'){
-                cls3 ={text:'3.I am divorced', style:"subheader"}}
+                cls3 ={text:'3.I am divorced. I have no children.', style:"subheader"}}
                 else{
                     cls3 ={text:`3.I am divorced. I have ${noOfChilderen} children. The name/s of my children are as under:`, style:"subheader"}
                     const child = [[
@@ -624,9 +635,9 @@ function Content() {
                 }}
         if(maritalStatus ==='Married'){
                     if(haveChilderen === 'No'){
-                        cls3 ={text:`3.I got married to my spouse ${spouse} in the year ${yom}`, style:"subheader"}}
+                        cls3 ={text:`3.I got married to my spouse ${spouse} in the year ${yom}. I have no children.`, style:"subheader"}}
                         else{
-                            cls3 ={text:`I got married to my spouse ${spouse} in the year ${yom}. I have ${noOfChilderen} children. The name/s of my children are as under:`, style:"subheader"}
+                            cls3 ={text:`3.I got married to my spouse ${spouse} in the year ${yom}. I have ${noOfChilderen} children. The name/s of my children are as under:`, style:"subheader"}
                             const child = [[
                                 { text: "Name", style: "tableHeader" },
                                 { text: "Age (years)", style: "tableHeader" },
@@ -641,8 +652,16 @@ function Content() {
                         }}
         let idx =8;
         let cls8 = {}
+        let g =''
         if (guardianName.length >0){
-            cls8 = {text:`${idx}. I wish to appoint ${guardianName} as a guardian for the minor/minors who are the beneficiaries in the Will, till the time they turn major.`,style: "subheader"}
+            for(let i =0 ; i< beneficiaries.length; i++){
+                if( beneficiaries[i].length >4){
+                    g += beneficiaries[i][5] + ' and '
+                }
+            }
+            g= g.substring(0,g.length -4)
+            console.log(g)
+            cls8 = {text:`${idx}. I wish to appoint ${g} as a guardian for the minor/minors who are the beneficiaries in the Will, till the time they turn major.`,style: "subheader"}
             idx +=1
         }
         
@@ -752,10 +771,10 @@ function Content() {
                 { text: "Percentage of bequeath", style: "tableHeader" },
               ]
         ]
-        for(let i=0; i< residuary.length; i++){
+        for(let i=0; i< share.length; i++){
             ress.push([
                 {text:i+1},
-                {text:residuary[i].name + ' '+ residuary[i].value+'%. '}
+                {text:share[i].name + ' '+ share[i].value+'%. '}
             ])
         }
         //console.log('ben', beneficiaries)
@@ -765,14 +784,14 @@ var dd = {
     content: [
         {
     // deleted the undefined component which was getting printed as undefined
-    text: `WILL THAT IS TESTAMENT OF ${sal} ${name.toUpperCase()} 
+    text: `WILL AND TESTAMENT OF ${sal} ${name.toUpperCase()} 
     EXECUTED ON ${date}`,
     style: "header",
   },
   {
     text: `I, ${sal} ${name} , age ${getAge(
       dob
-    )} years, ${religion} by religion, occupation ${occupation}, ${presentCountry} Citizen , having residential address as ${present1}, ${present2}, ${presentCity} – ${presentPin}, do make this my last Will and Testament.`,
+    )} years, ${religion} by religion, occupation ${occupation}, ${presentCountry}n Citizen , having residential address as ${present1}, ${present2}, ${presentCity} – ${presentPin}, do make this my last Will and Testament.`,
     style: "subheader",
   },
   {
@@ -780,7 +799,7 @@ var dd = {
     style: "subheader",
   },
   {
-    text: `2. Under this Will, I appoint my ${executors[0].relation} ${executors[0].sal}. ${executors[0].name} as the Executor of this Will and Trustees of my estate. They may act as executors either jointly or severally. The abovenamed executors shall take charge of my assets and properties after my death and procure Probate from the Competent Court to my Will having effect over all my assets and properties in India.`,
+    text: `2. Under this Will, I appoint my ${executors[0].relation} ${executors[0].sal}. ${executors[0].name} as the Executor/s of this Will and Trustees of my estate. They may act as executor/s either jointly or severally. The abovenamed executors shall take charge of my assets and properties after my death and procure Probate from the Competent Court to my Will having effect over all my assets and properties in India.`,
     style: "subheader",
   },
   cls3,
@@ -827,7 +846,7 @@ var dd = {
       body: ress,
     },
   }, cls8,
-  { text: `${idx}. I have made this Will out of my free will and while I am in sound health and in good understanding and in witness hereof I have put my signature hereunder in the presence of witnesses on this day of June, 2021`, style: 'subheader' },
+  { text: `${idx}. I have made this Will out of my free will and while I am in sound health and in good understanding and in witness hereof I have put my signature hereunder in the presence of witnesses on this day of _______________ .`, style: 'subheader' },
   { text: `Signed by the within named Testator  ${sal} ${name} In our presence and we the undersigned Witnesses have, at the request of the Testator, in his presence and in the presence of each other, put our signatures as Witnesses `, style: 'subheader' },
   {
     style: 'tableExample',
@@ -923,8 +942,9 @@ defaultStyle: {
         setAlternate(tempAlt);
     }
     const [tabIndex1, setTabIndex1] = useState(0)
-    const [residuary, setResiduary] = useState('');
+    const [residuary, setResiduary] = useState([]);
     function setResiduary1() {
+        //console.log('share', share)
         var totalShare = 0;
         share.map((temp) => {
             totalShare = totalShare + Number(temp['value']);
@@ -932,16 +952,27 @@ defaultStyle: {
         if (totalShare === 100) {
             setResiduary(share);
             localStorage.setItem('residuary', JSON.stringify(share));
+            setTabIndex(3);
             handleExportWithComponent();
-            setTabIndex(3)
+
+           
         }
         else {
             if (totalShare < 100)
                 alert.show('Assign 100% of the residuary properties')
-            else
-                alert.show("More Than 100% Residuary Property Assigned")
+            else{
+
+                console.log(totalShare)
+                alert.show("More Than 100% Residuary Property Assigned")}
         }
     }
+    
+   
+    
+
+ 
+
+
     return (
         <div className="content">
             {/* <button onClick={handleExportWithComponent}> Download</button> */}
@@ -1653,7 +1684,7 @@ kind of investment apart from the list mentioned above' value={description} onCh
                                     </table> : ''}
                                 <div style={{ justifyContent: "right", marginTop: '20px' }} className='form-row'>
                                     <a onClick={() => { setTabIndex1(1) }} id="next-btn">Previous</a>
-                                    <a onClick={() => { setResiduary1() }} id="next-btn">Next: Residuary Clause</a>
+                                    <a onClick={setResiduary1 } id="next-btn">Next: Residuary Clause</a>
                                 </div>
                             </TabPanel>
                         </Tabs>
