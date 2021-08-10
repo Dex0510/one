@@ -595,14 +595,86 @@ function Content() {
         //console.log('gn',share)
         let cls3 ={}
         let chl = {}
+        const alt = [[
+            { text: "Sr. No.", style: "tableHeader" },
+            { text: "Name of Asset", style: "tableHeader" },
+            { text: "Description Asset and Address", style: "tableHeader" },
+            {
+              text: "Beneficiaries & percentage to beneficiary",
+              style: "tableHeader",
+            },
+          ]]
+        //console.log('res',residuary)
+        for(let i = 0; i< alternate.length; i++){
+            if (alternate[i].altDetails !== ''){
+                alt.push(
+                    [
+                        {text:i+1},
+                     {text:alternate[i].assesType},
+                    {text:alternate[i].details},
+                    {text:alternate[i].altDetails},
+                    ]
+                )
+            }
+        }
+        let id =6
+        let cls6 ={}
+        let cls62 = {}
+        for(let i = 0; i< alternate.length; i++){
+            if(alternate[i].altDetails !== '' ){
+             cls6 = {
+                text: `${id}. It is also my wish that, in case any of the above stated beneficiaries predecease me then the share of that beneficiary under this WILL shall devolve upon:`,
+                style: "subheader",
+              }
+             cls62 = {
+                style: "tableExample",
+                table: {
+                  body: alt,
+                }}
+            id +=1
+            break;
+        }}
+        const resididx=id;
+        console.log('altfin',id)
+        let gid = resididx +1
+        let cls8 = {}
+        let g =''
+        if (guardianName.length >0){
+            for(let i =0 ; i< beneficiaries.length; i++){
+                if( beneficiaries[i].length >4){
+                    g += beneficiaries[i][5] + ' and '
+                }
+            }
+            g= g.substring(0,g.length -4)
+            console.log(g)
+            cls8 = {text:`${gid}. I wish to appoint ${g} as a guardian for the minor/minors who are the beneficiaries in the Will, till the time they turn major.`,style: "subheader"}
+             gid +=1
+        }
+        console.log('guardfin' , gid)
+        const ress = [
+            [
+                { text: "List of Beneficiaries", style: "tableHeader" },
+                { text: "Percentage of bequeath", style: "tableHeader" },
+              ]
+        ]
+        for(let i=0; i< share.length; i++){
+            ress.push([
+                {text:i+1},
+                {text:share[i].name + ' '+ share[i].value+'%. '}
+            ])
+        }
+       
+        
+        const clsidx = gid;
+        console.log(resididx)
         if (maritalStatus === 'Single'){
-            cls3={text:'I am single.', style:"subheader"}
+            cls3={text:'3.I am single.', style:"subheader"}
         }
         if( maritalStatus === 'Widowed'){
             if(haveChilderen === 'No'){
-            cls3 ={text:'I am widowed. I have no children.', style:"subheader"}}
+            cls3 ={text:'3.I am widowed. I have no children.', style:"subheader"}}
             else{
-                cls3 ={text:`I am widowed. I have ${noOfChilderen} children. The name/s of my children are as under:`, style:"subheader"}
+                cls3 ={text:`3.I am widowed. I have ${noOfChilderen} children. The name/s of my children are as under:`, style:"subheader"}
                 const child = [[
                     { text: "Name", style: "tableHeader" },
                     { text: "Age (years)", style: "tableHeader" },
@@ -650,20 +722,8 @@ function Content() {
                             chl = { style:'tableExample', table:{widths:["*","*"],body:child}}
                   }
                         }}
-        let idx =8;
-        let cls8 = {}
-        let g =''
-        if (guardianName.length >0){
-            for(let i =0 ; i< beneficiaries.length; i++){
-                if( beneficiaries[i].length >4){
-                    g += beneficiaries[i][5] + ' and '
-                }
-            }
-            g= g.substring(0,g.length -4)
-            console.log(g)
-            cls8 = {text:`${idx}. I wish to appoint ${g} as a guardian for the minor/minors who are the beneficiaries in the Will, till the time they turn major.`,style: "subheader"}
-            idx +=1
-        }
+        
+        
         
         const child = [[
                       { text: "Name", style: "tableHeader" },
@@ -743,41 +803,63 @@ function Content() {
                   ]
             )
         }
-        const alt = [[
-            { text: "Sr. No.", style: "tableHeader" },
-            { text: "Name of Asset", style: "tableHeader" },
-            { text: "Description Asset and Address", style: "tableHeader" },
-            {
-              text: "Beneficiaries & percentage to beneficiary",
-              style: "tableHeader",
-            },
-          ]]
-        //console.log('res',residuary)
-        for(let i = 0; i< alternate.length; i++){
-            if (alternate[i].altDetails !== ''){
-                alt.push(
-                    [
-                        {text:i+1},
-                     {text:alternate[i].assesType},
-                    {text:alternate[i].details},
-                    {text:alternate[i].altDetails},
-                    ]
-                )
-            }
+        
+  
+        let day = ''
+        day = date.substring(date.length-4,date.length)
+        let mon = date.substring(date.length-7, date.length -5)
+        switch(mon){
+            case '-1':
+                day = " January, " + day;
+                break;
+            case '-2':
+                day = " February, " + day;
+                break;
+            case '-3':
+                day = " March, " + day;
+                break;
+            case '-4':
+                day = " April, " + day;
+                break;
+            case '-5':
+                day = " May, " + day;
+                break;
+            case '-6':
+                day = " June, " + day;
+                break;
+            case '-7':
+                day = " July, " + day;
+                break;
+            case '-8':
+                day = " August, " + day;
+                break;
+            case '-9':
+                day = " September, " + day;
+                break;
+            case '10':
+                day = " October, " + day;
+                break;
+            case '11':
+                day = " November, " + day;
+                break;
+            case '12':
+                day = " December, " + day;
+                break;
+            
+
         }
-        const ress = [
-            [
-                { text: "List of Beneficiaries", style: "tableHeader" },
-                { text: "Percentage of bequeath", style: "tableHeader" },
-              ]
-        ]
-        for(let i=0; i< share.length; i++){
-            ress.push([
-                {text:i+1},
-                {text:share[i].name + ' '+ share[i].value+'%. '}
-            ])
-        }
+        
+
+        
+        
         //console.log('ben', beneficiaries)
+        var exec = ''
+        for(let i = 0; i < executors.length ; i++){
+            if(executors[i].name !==''){
+            var temp = ` ${executors[i].relation} ${executors[i].sal}. ${executors[i].name} and`
+            exec += temp
+        }}
+        exec = exec.substring(0,exec.length-3)
         
 // PDF Maker
 var dd = {
@@ -799,7 +881,7 @@ var dd = {
     style: "subheader",
   },
   {
-    text: `2. Under this Will, I appoint my ${executors[0].relation} ${executors[0].sal}. ${executors[0].name} as the Executor/s of this Will and Trustees of my estate. They may act as executor/s either jointly or severally. The abovenamed executors shall take charge of my assets and properties after my death and procure Probate from the Competent Court to my Will having effect over all my assets and properties in India.`,
+    text: `2. Under this Will, I appoint my ${exec} as the Executor/s of this Will and Trustees of my estate. They may act as executor/s either jointly or severally. The abovenamed executor/s shall take charge of my assets and properties after my death and procure Probate from the Competent Court to my Will having effect over all my assets and properties in India.`,
     style: "subheader",
   },
   cls3,
@@ -824,30 +906,21 @@ var dd = {
       body: movv,
     },
   },
+  cls6,
+  cls62,
   {
-    text: "6. It is also my wish that, in case any of the above stated beneficiaries predecease me then the share of that beneficiary under this WILL shall devolve upon:",
+    text: `${resididx}. I believe that for the aforesaid properties I do not possess any other movable or immovable properties. However in case it is found that I have missed or forgotten to mention any of the properties held by me as on date or if I acquire or become entitled to any moveable or immovable properties other than mentioned herein above at the time of my death, I bequeath all such properties to the following persons:`,
     style: "subheader",
   },
   {
     style: "tableExample",
-    table: {
-      body: alt,
-    },
-  },
-  {
-    text: "7. I believe that for the aforesaid properties I do not possess any other movable or immovable properties. However in case it is found that I have missed or forgotten to mention any of the properties held by me as on date or if I acquire or become entitled to any moveable or immovable properties other than mentioned herein above at the time of my death, I bequeath all such properties to the following persons:",
-    style: "subheader",
-  },
-  {
-    style: "tableExample",
-
     table: {
       widths: ["*", "*"],
       body: ress,
     },
   }, cls8,
-  { text: `${idx}. I have made this Will out of my free will and while I am in sound health and in good understanding and in witness hereof I have put my signature hereunder in the presence of witnesses on this day of _______________ .`, style: 'subheader' },
-  { text: `Signed by the within named Testator  ${sal} ${name} In our presence and we the undersigned Witnesses have, at the request of the Testator, in his presence and in the presence of each other, put our signatures as Witnesses `, style: 'subheader' },
+  { text: `${clsidx}. I have made this Will out of my free will and while I am in sound health and in good understanding and in witness hereof I have put my signature hereunder in the presence of witnesses on _________ this day of ${day}.`, style: 'subheader' },
+  { text: `Signed by the within named Testator  ${sal}. ${name} In our presence and we the undersigned Witnesses have, at the request of the Testator, in his presence and in the presence of each other, put our signatures as Witnesses `, style: 'subheader' },
   {
     style: 'tableExample',
 
@@ -878,7 +951,7 @@ var dd = {
       }
   },
   { text: `DTD THIS DAY OF ${date}`, style: 'header' },
-  { text: `MR.  ${sal} ${name.toUpperCase()}`, style: 'header' },
+  { text: `${sal}. ${name.toUpperCase()}`, style: 'header' },
   { text: '.. TESTATOR', style: 'header' },
   { text: 'WILL', style: 'header' },
   { text: 'WILL made through WILL CREATOR by BAJAJ ALLIANZ powered by LawTarazoo', style: 'footer' },
@@ -1684,7 +1757,7 @@ kind of investment apart from the list mentioned above' value={description} onCh
                                     </table> : ''}
                                 <div style={{ justifyContent: "right", marginTop: '20px' }} className='form-row'>
                                     <a onClick={() => { setTabIndex1(1) }} id="next-btn">Previous</a>
-                                    <a onClick={setResiduary1 } id="next-btn">Next: Residuary Clause</a>
+                                    <a onClick={setResiduary1 } id="next-btn">Next: Will</a>
                                 </div>
                             </TabPanel>
                         </Tabs>
