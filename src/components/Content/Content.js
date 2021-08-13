@@ -919,7 +919,7 @@ var dd = {
       body: ress,
     },
   }, cls8,
-  { text: `${clsidx}. I have made this Will out of my free will and while I am in sound health and in good understanding and in witness hereof I have put my signature hereunder in the presence of witnesses on _________ this day of ${day}.`, style: 'subheader' },
+  { text: `${clsidx}. I have made this Will out of my free will and while I am in sound health and in good understanding and in witness hereof I have put my signature hereunder in the presence of witnesses on this __________ day of ${day}.`, style: 'subheader' },
   { text: `Signed by the within named Testator  ${sal}. ${name} In our presence and we the undersigned Witnesses have, at the request of the Testator, in his presence and in the presence of each other, put our signatures as Witnesses `, style: 'subheader' },
   {
     style: 'tableExample',
