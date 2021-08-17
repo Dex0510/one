@@ -92,6 +92,7 @@ function Content() {
     function initializeChildren(e) {
         var number = e.target.value;
         if (number >3){
+            alert.show('Maximum Allowed Children are 3')
             number =3
         }
         setNoOfChilderen(number)
@@ -101,15 +102,37 @@ function Content() {
         }
         setChilderen(temp);
     }
+
+    const [childnameerr, setChildnameerr] = useState(['','','']);
     function setChildName(e, index) {
         const tempchild = childeren.splice(0)
         tempchild[index]['childName'] = e.target.value
+        if (!tempchild[index]['childName'].match(/^[a-zA-Z]+ [a-zA-Z]+$/)){
+
+            childnameerr[index] = 'Please Enter Full Name for child eg. Ankit Verma'
+            setChildnameerr(childnameerr)
+        }
+        else{
+            childnameerr[index] = ''
+            setChildnameerr(childnameerr)
+        }
         //console.log('child',tempchild)
         setChilderen(tempchild)
     }
+    const [childageerr,setChildageerr] = useState(['','',''])
     function setChildAge(e, index) {
         const tempchild = childeren.splice(0)
         tempchild[index]['childAge'] = e.target.value
+            console.log('check',typeof tempchild[index]['childAge'],tempchild[index]['childAge'],tempchild[index]['childAge'].match(/^\d*$/))
+       
+            if (!tempchild[index]['childAge'].match(/^\d*$/)){
+                childageerr[index] = 'Enter Valid Child age'
+                setChildageerr(childageerr)
+            }
+            else {
+                childageerr[index] = ''
+                setChildageerr(childageerr)
+            }
         setChilderen(tempchild)
     }
     function remChild(e,index){
@@ -139,6 +162,7 @@ function Content() {
     }
     function submitPersonal(e) {
         e.preventDefault();
+        console.log(yom.length === 0)
         if ((maritalStatus === 'Married' && spouse && yom) || maritalStatus !== 'Married') {
             if (sal &&
                 name &&
@@ -160,11 +184,19 @@ function Content() {
                     noOfChilderen: noOfChilderen,
                     childeren: childeren
                 }
+                for(var i=0; i<=childeren.length; i ++){
+                    if(childeren[i].childName.length ===0 || childeren[i].childAge.length ===0){
+                        alert.show('Please Complete the Children/s details')
+                        return 
+                    }
+                }
+                
                 if(getAge(dob) < 18 ){
                     alert.show('You need to be at least 18 years old to make will')
                     setDob('')
                     return
                 }
+                
                 
                 if (present1 && presentCity && presentState && presentPin && presentCountry) {
                     const address = {
@@ -187,6 +219,10 @@ function Content() {
             else {
                 alert.show('All personal information fields are required')
             }
+        }
+        else if(yom.length === 0){
+            alert.show('Please Enter Year of Marriage')
+            return
         }
         else {
             alert.show('Please enter spouse name!')
@@ -923,7 +959,7 @@ var dd = {
     style: "subheader",
   },
   {
-    text: `1. I have not made any will but if any made, I hereby revoke the same and declare this to be my last will and testament in India.`,
+    text: `1. I hereby revoke all my Wills, codicils and testamentary documents, made by me and this is my last Will.`,
     style: "subheader",
   },
   {
@@ -1102,17 +1138,18 @@ defaultStyle: {
     }
 
     
-    const [execerr, setExecerr] = useState('')
+    const [execerr, setExecerr] = useState(['','',''])
     function validNameExec(e, index){
         e.preventDefault();
         const name = e.target.value
          setExecName(e,index)
          if ( !name.match( /^[a-zA-Z]+ [a-zA-Z]+$/)){
-             setExecerr(" Please Enter Valid  Full Name")
+             execerr[index] = " Please Enter Valid  Full Name"
+             setExecerr(execerr)
          }
          else{
-            
-             setExecerr("")
+            execerr[index] = ""
+             setExecerr(execerr)
          }
      }
 
@@ -1185,6 +1222,31 @@ defaultStyle: {
             setImaStateerr('')
         }
      }
+
+     const [yomerr,setYomerr] = useState('')
+     function validYom(e){
+         e.preventDefault();
+        const str = e.target.value
+        setYom(str)
+        const pp =dob.substring(0,4)
+         if (!str.match(/^\d{4}$/)){
+             setYomerr('Enter Valid Year of marraige')
+             
+         }
+         
+         else{
+            if (parseInt(str) < parseInt(pp)){
+                setYomerr( `Year of marraige entered is ${str} while DOB is ${pp}`)
+            }
+            else if(parseInt(str) > parseInt('2021')){
+                setYomerr( `Enter Valid year of marraige`)
+            }
+            else{
+                setYomerr('')
+            }
+            
+            
+     }}
      
 
 
@@ -1280,7 +1342,12 @@ defaultStyle: {
                                         </div>
                                         <div className='form-item'>
                                             <label>Year of Marriage</label>
-                                            <input value={yom} onChange={(e) => setYom(e.target.value)}></input>
+                                            <input type = 'number' min='1900' max= '2024'  value={yom} onChange={validYom}></input>
+                                            {yomerr && (
+                                                <span className = 'text-danger'> {yomerr} </span>
+                                            )
+
+                                            }
                                         </div>
                                     </> : ""}
                                 {maritalStatus === "Married" || maritalStatus === "Widowed" || maritalStatus === "Divorced" ?
@@ -1304,10 +1371,12 @@ defaultStyle: {
                                         <div className="form-item">
                                             <label>{index + 1}. Child Name</label>
                                             <input value={child['childName']} onChange={(e) => setChildName(e, index)}></input>
+                                            {childnameerr[index] && (<span className= 'text-danger'> {childnameerr[index]}</span>)}
                                         </div>
                                         <div className="form-item">
                                             <label>Child Age</label>
-                                            <input value={child['childAge']} onChange={(e) => setChildAge(e, index)}></input>
+                                            <input  value={child['childAge']} onChange={(e) => setChildAge(e, index)}></input>
+                                            {childageerr[index] && (<span className ='text-danger'> {childageerr[index]}</span>)}
                                         </div>
                                         <div className="remove-btn"><CancelIcon onClick={(e) => remChild(e,index)}></CancelIcon></div>
                                     </div>)} </div> :
@@ -1377,8 +1446,8 @@ defaultStyle: {
                                     <div className='form-item'>
                                         <label> Full Name*</label>
                                         <input value={executor['name']} onChange={(e) => {validNameExec(e,index)}}></input>
-                                        {execerr && (
-                    <span className="text-danger">{execerr}</span>
+                                        {execerr[index] && (
+                    <span className="text-danger">{execerr[index]}</span>
                   )}
                                     </div>
                                     <div className="form-item">
