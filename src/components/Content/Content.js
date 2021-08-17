@@ -13,11 +13,30 @@ import Will from '../Will/Will';
 import emailjs from 'emailjs-com';
 import Logo from '../Banner/logo.png';
 import { ContactSupportOutlined, RvHookupSharp } from '@material-ui/icons';
+import useForm from "./useForm";
+import validate from './Validationrules';
 
 // Create styles
 
 
 function Content() {
+
+    const {
+        values,
+        errors,
+        handleChange,
+        handleSubmit,
+      } = useForm(login, validate);
+    
+      function login() {
+        console.log('No errors, submit callback called!')
+         }
+    
+
+
+
+
+
     // added new date object which help in rendering date in correct format
   const current = new Date();
   const date = `${current.getDate()}-${
@@ -58,6 +77,7 @@ function Content() {
             setHaveChilderen(tempPersonal['haveChilderen'])
             setNoOfChilderen(tempPersonal['noOfChilderen'])
             setChilderen(tempPersonal['childeren'])
+            
         }
         const tempAddress = JSON.parse(localStorage.getItem('address'));
         if (tempAddress) {
@@ -71,9 +91,12 @@ function Content() {
     }, [])
     function initializeChildren(e) {
         var number = e.target.value;
+        if (number >3){
+            number =3
+        }
         setNoOfChilderen(number)
         const temp = [];
-        for (var i = 0; i < e.target.value; i++) {
+        for (var i = 0; i < number; i++) {
             temp.push({ index: i, childName: '', childAge: '' })
         }
         setChilderen(temp);
@@ -81,12 +104,23 @@ function Content() {
     function setChildName(e, index) {
         const tempchild = childeren.splice(0)
         tempchild[index]['childName'] = e.target.value
+        //console.log('child',tempchild)
         setChilderen(tempchild)
     }
     function setChildAge(e, index) {
         const tempchild = childeren.splice(0)
         tempchild[index]['childAge'] = e.target.value
         setChilderen(tempchild)
+    }
+    function remChild(e,index){
+        const tempChild = childeren.splice(0)
+        tempChild.splice(index,1)
+        const temp = noOfChilderen-1
+        setNoOfChilderen(temp)
+        setChilderen(tempChild)
+        if (temp ===0){
+            setHaveChilderen(false)
+        }
     }
     function setExecSal(e, index) {
         const tempchild = executors.splice(0)
@@ -121,12 +155,17 @@ function Content() {
                     executors: executors,
                     spouse: spouse,
                     maritalStatus: maritalStatus,
-                    spouse: spouse,
                     yom: yom,
                     haveChilderen: haveChilderen,
                     noOfChilderen: noOfChilderen,
                     childeren: childeren
                 }
+                if(getAge(dob) < 18 ){
+                    alert.show('You need to be at least 18 years old to make will')
+                    setDob('')
+                    return
+                }
+                
                 if (present1 && presentCity && presentState && presentPin && presentCountry) {
                     const address = {
                         present1: present1,
@@ -157,6 +196,12 @@ function Content() {
         e.preventDefault();
         const tempExec = executors.splice(0);
         tempExec.push({ sal: 'Mr', name: '', relation: '' })
+        setExecutors(tempExec)
+    }
+    function removeExecutor(e) {
+        e.preventDefault();
+        const tempExec = executors.splice(0);
+        tempExec.pop()
         setExecutors(tempExec)
     }
 
@@ -845,7 +890,8 @@ function Content() {
             case '12':
                 day = " December, " + day;
                 break;
-            
+            default:
+                break;
 
         }
         
@@ -1016,6 +1062,8 @@ defaultStyle: {
     }
     const [tabIndex1, setTabIndex1] = useState(0)
     const [residuary, setResiduary] = useState([]);
+    const [err,setErr] = useState({fullname:'', pincode:'',})
+
     function setResiduary1() {
         //console.log('share', share)
         var totalShare = 0;
@@ -1040,10 +1088,104 @@ defaultStyle: {
         }
     }
     
-   
-    
+    function validName(e){
+       e.preventDefault();
+        setName(e.target.value)
+        if ( !name.match( /^[a-zA-Z]+ [a-zA-Z]+$/)){
+            err.fullname= " Please Enter Valid  Full Name"
+            setErr(err)
+        }
+        else{
+            err.fullname= ""
+            setErr(err)
+        }
+    }
 
- 
+    
+    const [execerr, setExecerr] = useState('')
+    function validNameExec(e, index){
+        e.preventDefault();
+        const name = e.target.value
+         setExecName(e,index)
+         if ( !name.match( /^[a-zA-Z]+ [a-zA-Z]+$/)){
+             setExecerr(" Please Enter Valid  Full Name")
+         }
+         else{
+            
+             setExecerr("")
+         }
+     }
+
+     const [pinerr, setPinerr] = useState('')
+     function validPin(e){
+        e.preventDefault();
+        setPresentPin(e.target.value)
+        if ( !presentPin.match(/^\d{5}$/)){
+            setPinerr(" Please Enter Valid Pin Code")
+        }
+        else{
+            setPinerr('')
+        }
+     }
+    
+     const [cityerr, setCityerr] = useState('')
+     function validCity(e){
+        e.preventDefault();
+        setpresentCity(e.target.value)
+        if ( !presentCity.match(/^[a-zA-Z][a-zA-Z\s-]+[a-zA-Z]$/)){
+            setCityerr(" Please Enter Valid City Name")
+        }
+        else{
+            setCityerr('')
+        }
+     }
+     const [stateerr, setStateerr] = useState('')
+     function validState(e){
+        e.preventDefault();
+        setPresentState(e.target.value)
+        if ( !presentState.match(/^[a-zA-Z][a-zA-Z\s-]+[a-zA-Z]$/)){
+            setStateerr(" Please Enter Valid State Name")
+        }
+        else{
+            setStateerr('')
+        }
+     }
+
+     const [imaerr, setimaerr] = useState('')
+     function validPin1(e){
+        e.preventDefault();
+        setAssetPin(e.target.value)
+        if ( !assetPin.match(/^\d{5}$/)){
+            setimaerr(" Please Enter Valid Pin Code")
+        }
+        else{
+            setimaerr('')
+        }
+     }
+    
+     const [imacityerr, setImaCityerr] = useState('')
+     function validCity1(e){
+        e.preventDefault();
+        setAssetCity(e.target.value)
+        if ( !assetCity.match(/^[a-zA-Z][a-zA-Z\s-]+[a-zA-Z]$/)){
+            setImaCityerr(" Please Enter Valid City Name")
+        }
+        else{
+            setImaCityerr('')
+        }
+     }
+     const [imastateerr, setImaStateerr] = useState('')
+     function validState1(e){
+        e.preventDefault();
+        setAssetState(e.target.value)
+        if ( !assetState.match(/^[a-zA-Z][a-zA-Z\s-]+[a-zA-Z]$/)){
+            setImaStateerr(" Please Enter Valid State Name")
+        }
+        else{
+            setImaStateerr('')
+        }
+     }
+     
 
 
     return (
@@ -1078,7 +1220,10 @@ defaultStyle: {
                                 </div>
                                 <div className='form-item' style={{ width: '23%' }}>
                                     <label> Full Name</label>
-                                    <input required value={name ? name : ''} onChange={(e) => { setName(e.target.value) }}></input>
+                                    <input required value={name ? name : ''} onChange={validName}></input>
+                                    {err.fullname && (
+                    <span className="text-danger">{err.fullname}</span>
+                  )}
                                 </div>
                                 <div className='form-item' style={{ width: '30%', marginLeft: '180px' }}>
                                     <label>DOB</label>
@@ -1149,7 +1294,7 @@ defaultStyle: {
                                 {haveChilderen === 'Yes' ?
                                     <div className='form-item'>
                                         <label>Number of Children</label>
-                                        <input type="number" min='1' max='10' value={noOfChilderen} onChange={(e) => initializeChildren(e)}></input>
+                                        <input type="number" min='1' max='3' value={noOfChilderen} onChange={(e) => initializeChildren(e)}></input>
                                     </div>
                                     : ''}
                             </div>
@@ -1164,6 +1309,7 @@ defaultStyle: {
                                             <label>Child Age</label>
                                             <input value={child['childAge']} onChange={(e) => setChildAge(e, index)}></input>
                                         </div>
+                                        <div className="remove-btn"><CancelIcon onClick={(e) => remChild(e,index)}></CancelIcon></div>
                                     </div>)} </div> :
                                 ''}
 
@@ -1185,18 +1331,27 @@ defaultStyle: {
                             <div className="form-row">
                                 <div className='form-item'>
                                     <label>City/Town*</label>
-                                    <input value={presentCity ? presentCity : ''} onChange={(e) => { setpresentCity(e.target.value) }}></input>
+                                    <input value={presentCity ? presentCity : ''} onChange={validCity}></input>
+                                    {cityerr && (
+                    <span className="text-danger">{cityerr}</span>
+                  )}
                                 </div>
                                 <div className='form-item'>
                                     <label>State*</label>
-                                    <input value={presentState ? presentState : ''} onChange={(e) => { setPresentState(e.target.value) }}></input>
+                                    <input value={presentState ? presentState : ''} onChange={validState}></input>
+                                    {stateerr && (
+                    <span className="text-danger">{stateerr}</span>)}
                                 </div>
 
 
 
                                 <div className='form-item'>
                                     <label>Pin*</label>
-                                    <input value={presentPin ? presentPin : ''} onChange={(e) => { setPresentPin(e.target.value) }}></input>
+                                    
+                                    <input autoComplete="off" class="form-control" name="pincode" onChange={validPin} value={presentPin ? presentPin : ''} required />
+                  {pinerr && (
+                    <span className="text-danger">{pinerr}</span>
+                  )}
                                 </div>
                                 <div className='form-item'>
                                     <label>Country*</label>
@@ -1221,20 +1376,37 @@ defaultStyle: {
                                     </div>
                                     <div className='form-item'>
                                         <label> Full Name*</label>
-                                        <input value={executor['name']} onChange={(e) => setExecName(e, index)}></input>
+                                        <input value={executor['name']} onChange={(e) => {validNameExec(e,index)}}></input>
+                                        {execerr && (
+                    <span className="text-danger">{execerr}</span>
+                  )}
                                     </div>
                                     <div className="form-item">
                                         <label>Relation*</label>
                                         <input value={executor['relation']} onChange={(e) => setExecRelation(e, index)}></input>
                                     </div>
-                                    {executors.length === 1 || (executors.length === 2 && executors.length === index + 1) ?
+                                    {executors.length === 1 ?
+                                    <div style={{ marginLeft:'30px',justifyContent: "right" }} className='form-row'>
+                                    <button disabled={executors.length >= 3} onClick={(e) => addExecutor(e)} id="next-btn">Add Executor</button>
+                                    
+                                </div> : '' 
+                                    }
+                                    {(executors.length === 2 && executors.length === index + 1) ?
                                         <div style={{ marginLeft:'30px',justifyContent: "right" }} className='form-row'>
                                             <button disabled={executors.length >= 3} onClick={(e) => addExecutor(e)} id="next-btn">Add Executor</button>
+                                            <button disabled={executors.length === 1} onClick={(e) => removeExecutor(e)} id="next-btn">Remove Executor</button>
                                         </div> : ''}
+                                        {executors.length === 3 ?
+                                    <div style={{ marginLeft:'30px',justifyContent: "right" }} className='form-row'>
+                                   
+                                    <button disabled={executors.length === 1} onClick={(e) => removeExecutor(e)} id="next-btn">Remove Executor</button>
+                                </div> : '' 
+                                    }
+                                        
                                 </div>)}
 
 
-                            <div style={{ justifyContent: "right" }} className='form-row'></div>
+                            <div style={{ justifyContent: "center" }} className='form-row'></div>
 
                             
                             <div style={{ justifyContent: "right" , paddingTop:'50px'}} className='form-row'>
@@ -1411,18 +1583,24 @@ defaultStyle: {
                                                 <div className="form-row">
                                                     <div className='form-item'>
                                                         <label>City/Town*</label>
-                                                        <input value={assetCity} onChange={(e) => setAssetCity(e.target.value)}></input>
+                                                        <input value={assetCity} onChange={validCity1}></input>
+                                                        {assetCity && (
+                    <span className="text-danger">{imacityerr}</span>)}
                                                     </div>
                                                     <div className='form-item'>
                                                         <label>State*</label>
-                                                        <input value={assetState} onChange={(e) => setAssetState(e.target.value)}></input>
+                                                        <input value={assetState} onChange={validState1}></input>
+                                                        {assetState && (
+                    <span className="text-danger">{imastateerr}</span>)}
                                                     </div>
 
                                                 </div>
                                                 <div className="form-row">
                                                     <div className='form-item'>
                                                         <label>Pin*</label>
-                                                        <input value={assetPin} onChange={(e) => setAssetPin(e.target.value)}></input>
+                                                        <input value={assetPin} onChange={validPin1}></input>
+                                                        {assetPin && (
+                    <span className="text-danger">{imaerr}</span>)}
                                                     </div>
                                                     <div className='form-item'>
                                                         <label>Country*</label>

@@ -5,6 +5,8 @@ import { Link, Redirect, Route } from 'react-router-dom';
 import { useHistory } from 'react-router';
 import Button from 'react-bootstrap/Button'
 import Index from '../../static/index.jpg'
+import useForm from "./useForm";
+import validate from './Validationrules';
 // import  {Link} from 'react-router-dom'
 
 function MyVerticallyCenteredModal(props) {
@@ -34,94 +36,27 @@ function MyVerticallyCenteredModal(props) {
 
 
 const Home = () => {
+  const {
+    values,
+    errors,
+    handleChange,
+    handleSubmit,
+  } = useForm(login, validate);
 
-  function isEmail(email) {
-    var mailformat = /^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/;
-    if (email.match(mailformat)) {
+  function login() {
+    console.log('No errors, submit callback called!')
+    setSubmitted(true)
+     }
 
-      setEmailvalid(true)
-      return true;
-    }
-    else {
-      setEmailvalid(false)
-      return false;
-    }
-  }
-
-
-
-  function handleSubmit(e) {
-    //e.preventDefault();
-
-    setSubmitted(true);
-
-    if ((submitted && values.fullname) && (isEmail(values.email) && values.phone)) {
-      setValid(true);
-      //checkvalid();
-    }
-
-  }
-  // const [phone, setPhone] = useState('');
-  // const [fullname, setFullname] = useState('')
-  // const [email, setEmail] = useState('')
-  const [values, setValues] = useState({
-    phone: "",
-    fullname: "",
-    email: "",
-  });
-
-  // function checkvalid(){
-
-
-  //   if(isEmail(values.email.toLowerCase())){
-  //     setEmailvalid(true);
-  //   }
-
-
-  //   if(isNaN(values.fullname)){
-  //     setNamevalid(true);
-  //   }
-  //   else{
-  //     setNamevalid(false);
-  //   }
-  //   if (Number(values.phone) >100000000){
-  //     setPhonevalid(true);
-  //   }
-  //   else{
-  //     setPhonevalid(false)
-  //   }
-  //   let t = phonevalid && namevalid && phonevalid
-  //   setAllgood(t);
-  // }
-  const [allgood, setAllgood] = useState(true)
-  const [namevalid, setNamevalid] = useState(false)
-  const [phonevalid, setPhonevalid] = useState(false);
-  const [emailvalid, setEmailvalid] = useState(false);
-  const [check, setCheck] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+  const [ticked, setTicked] = useState(false);
   const [modalShow, setModalShow] = useState(false);
-  const [valid, setValid] = useState(false);
-  const [ticked, setTicked] = useState(false)
-
-  const handleFullname = (event) => {
-    setValues({ ...values, fullname: event.target.value })
-
-  }
-
-  const handlePhone = (event) => {
-    setValues({ ...values, phone: event.target.value })
-  }
-
-  const handleEmail = (event) => {
-    isEmail(values.email);
-    setValues({ ...values, email: event.target.value })
-  }
+  const [submitted, setSubmitted] = useState(false);
   const toggleTick = (event) => {
     let t = !ticked
     setTicked(t);
+    values.ticked = t;
   }
-
-
+  
 
   return (
     <>
@@ -145,49 +80,55 @@ const Home = () => {
                   <form onSubmit={handleSubmit} style={{ paddingTop: '40px' }}>
                     <div class="mb-3">
                       <label class="form-label">Full Name <span className='required' style={{ color: '#db2f23' }}>*</span></label>
-                      <input type="text" class="form-control" value={values.fullname}
-                        onChange={handleFullname}
-                      />
-                      {submitted && !values.fullname ? <span className="text-danger">please enter the fullname</span> : null}
+                      <input autoComplete="off" class="form-control"type="name" name="fullname" onChange={handleChange} value={values.fullname || ''} required />
+                  {errors.fullname && (
+                    <span className="text-danger">{errors.fullname}</span>
+                  )}
+                      {/* {submitted && !values.fullname ? <span className="text-danger">please enter the fullname</span> : null} */}
                       {/* {submitted && !namevalid ?  <span className="text-danger">please enter only characters</span> : null} */}
                     </div>
                     <div class="mb-3">
                       <label for="phoneNo" class="form-label">Contact No. <span className='required' style={{ color: '#db2f23' }}>*</span></label>
-                      <input type="tel " class="form-control required" value={values.phone}
-                        onChange={handlePhone}
-                      />
-                      {submitted && !values.phone ? <span className="text-danger">please enter the phone number</span> : null}
-                      {submitted && phonevalid ? <span className="text-danger">please enter the valid phone number</span> : null}
+                      <input autoComplete="off" class="form-control"type="phoneno" name="phoneno" onChange={handleChange} value={values.phoneno || ''} required />
+                  {errors.phoneno && (
+                    <span className="text-danger">{errors.phoneno}</span>
+                  )}
+                      {/* {submitted && !values.phone ? <span className="text-danger">please enter the phone number</span> : null}
+                      {submitted && phonevalid ? <span className="text-danger">please enter the valid phone number</span> : null} */}
                     </div>
                     <div class="mb-3">
                       <label for="email" class="form-label ">Email address <span className='required' style={{ color: '#db2f23' }}>*</span></label>
-                      <input type='email' id='email' name='email' class="form-control" value={values.email}
-                        onChange={handleEmail}
-                      />
+                      <input autoComplete="off" class="form-control"type="email" name="email" onChange={handleChange} value={values.email || ''} required />
+                  {errors.email && (
+                    <span className="text-danger">{errors.email}</span>
+                  )}
+                      {/* <input type='email' id='email' name='email' className={`input ${errors.email && 'is-danger'}`}  class="form-control" name = 'email'
+                        onChange={handleChange}
+                      /> */}
 
-                      {(submitted && !emailvalid) ? <span className="text-danger">please enter the valid email</span> : null}
+                      {/* {(submitted && !emailvalid) ? <span className="text-danger">please enter the valid email</span> : null} */}
 
 
                     </div>
 
                     <div class="mb-3 form-check">
-                      <input type="checkbox" class="form-check-input" id="exampleCheck1" onClick={() => { setTicked(true) }} />
-                      <label class="form-check-label" for="exampleCheck1"> I accept all <a className='button' style={{ textDecoration: 'none', cursor: 'pointer' }} onClick={() => setModalShow(true)} >Terms and Conditions</a></label>
+                      <input type="checkbox" class="form-check-input" id="exampleCheck1" onClick={toggleTick} value={values.ticked} required />
+                      <p class="form-check-label" for="exampleCheck1"> I accept all <a className='button' style={{ textDecoration: 'none', cursor: 'pointer' }} onClick={() => setModalShow(true)} >Terms and Conditions</a></p>
                       <MyVerticallyCenteredModal
                         show={modalShow}
                         onHide={() => setModalShow(false)}
-                      />
-                      <div>
-                        {submitted && !ticked ? <span className="text-danger">please accept terms and conditions</span> : null}
-                      </div>
+                      /> 
+                      {errors.ticked && (
+                    <span className="text-danger" style = {{display:'inline-block'}}>{errors.ticked}</span>
+                  )} 
                     </div>
-
+                    
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
 
-                      <button type="submit" id="next-btn" style={{ justifyContent: 'center' }} onClick={handleSubmit}>
+                      <button type="submit" id="next-btn" style={{ justifyContent: 'center' }}  >
                         Create Will
 
-                        {valid && ticked ? <Redirect to='/will-creator-tool'></Redirect> : null}
+                        {submitted ? <Redirect to='/will-creator-tool'></Redirect> : null}
                       </button>
                     </div>
                   </form>
