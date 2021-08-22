@@ -6,9 +6,9 @@ const Disclaimer = () => {
        <MDBFooter color="blue" className="font-small pt-4 mt-4">
       <MDBContainer fluid className="text-center text-md-left">
         <MDBRow style = {{justifyContent:'center'}}>
-          <MDBCol md="10" >
+          <MDBCol md="10"  style={{color:'grey' , marginTop:'-50px'}} >
             <h3 className="title">Disclaimer</h3>
-            <p>
+            <p >  <h6>
             Bajaj Allianz Life Insurance Company Ltd. has taken an initiative to provide Will
 writing services for general users. Bajaj Allianz Life Insurance Company Ltd. provides services
 for making a WILL through a tie up with a third-party expert. Users may avail Will writing
@@ -19,7 +19,7 @@ third party expert without Bajaj Allianz Life Insurance Company Ltd’s interven
 Life Insurance Company Ltd. may modify/suspend/withdraw this arrangement offered at its
 sole discretion. Bajaj Allianz Life Insurance Company Ltd. shall not be responsible for user’s
 decision to buy/opt for the third party expert&#39;s services or for any deficiency in this
-arrangement.
+arrangement.</h6>
             </p>
           </MDBCol>
          

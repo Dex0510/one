@@ -32,7 +32,7 @@ function App() {
             </header>
           </Route>
           <Route path={["/will-creator", "/"]}>
-            <MediaQuery maxWidth={1980}>
+            <MediaQuery minWidth={1280}>
               <Fullscreen />
             </MediaQuery>
             <MediaQuery maxWidth={1000}>

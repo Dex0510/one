@@ -1,29 +1,43 @@
 import React from 'react'
+import {Link} from 'react-router-dom';
 import Customersupport from '../../static/customersupport1.jpg'
 import {MdEmail} from 'react-icons/md';
 import {FiPhoneCall} from 'react-icons/fi';
+import Group from '../../static/group.png';
 
 const Mobilecontact = () => {
     return (
-        <div>
-            <div className = 'row' style={{height:'30%'}}>
-                <div className = 'col-12'>
-                    <img src={Customersupport} alt = '' style = {{justifyContent:'center',objectFit:'contain'}}></img>
-                </div>
+        <>
+        <div className = 'container-fluid' style={{overflow:'hidden', boxShadow:'none', borderBottom:'2px solid grey',}}>
+        <div class="row margin-top  content">
+        <h1 style={{color:'#0072bc', textAlign:'center', fontSize:'24px'}}>  Customer Support  </h1>
 
-            </div>
-            <div className = 'row' style={{height:'40%'}}>
-                <div className = 'col-12'>
-                <h4 style = {{marginTop:'40px',width:'100%', textAlign:'center' ,borderBottom:'2px solid grey'}}> For any assistance, you can connect with the Customer Support at :</h4>
-                    <div className = 'content' style = {{marginTop:'55px' , textAlign:'left', justifyContent:'center',borderBottom:'2px solid grey'}}>
-                         
-                    <p style = {{fontSize:'25px',textAlign:'center'}}><MdEmail size = {30}/> experts@lawtarazoo.com</p>
-                    <p style = {{fontSize:'25px',textAlign:'center', marginRight:'40px', marginTop:'30px' }}><FiPhoneCall size = {25}/> +91-9619792288</p>
- </div>
-                </div>
+  <img src={Group} alt='' style={{transform:'scale(0.9)',marginLeft:'22%',width:'50%'}}></img>
+  
+</div>
+<div class="col-sm-8">
+<div class="row">
+    <div class="col-sm-12 block2 " >
+    <h2 style={{ marginTop: '10%',marginLeft:'10%', textAlign:'center', fontSize:'19px', color:'grey' , marginRight:'10%'}}> For any assistance, you can connect with the Customer Support at :</h2>
+        <div className='col-md-10' style={{ marginTop: '10px', textAlign: 'left' }}>
 
-            </div>
+            <p style={{ fontSize: '18px', textAlign: 'center'  ,color:'#0072bc', marginRight:'20px' }}><MdEmail size={50} /> <Link to= 'experts@lawtarazoo.com'>experts@lawtarazoo.com</Link></p>
+            <p style={{ fontSize: '19px', textAlign: 'center', marginTop: '30px' ,  color:'#0072bc',marginRight:'75px'}}><FiPhoneCall size={40} /> +91-9619792288</p>
         </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 hidden-xs empty-block">
+    </div>
+  </div>
+  
+</div>
+
+</div>
+
+
+
+    </>
     )
 }
 

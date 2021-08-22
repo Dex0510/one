@@ -13,26 +13,17 @@ import Will from '../Will/Will';
 import emailjs from 'emailjs-com';
 import Logo from '../Banner/logo.png';
 import { ContactSupportOutlined, RvHookupSharp } from '@material-ui/icons';
-import useForm from "./useForm";
-import validate from './Validationrules';
-
+import axios from 'axios'
+import GetApi from './GetApi'
+import FadeIn from 'react-fade-in';
+import DatePicker from 'react-date-picker';
+import header from './header.png'
 // Create styles
 
 
 function Content() {
 
-    const {
-        values,
-        errors,
-        handleChange,
-        handleSubmit,
-      } = useForm(login, validate);
-    
-      function login() {
-        console.log('No errors, submit callback called!')
-         }
-    
-
+   
 
 
 
@@ -47,11 +38,11 @@ function Content() {
     const alert = useAlert()
     const [name, setName] = useState('');
     const [sal, setSal] = useState('Mr');
-    const [dob, setDob] = useState();
+    const [dob, setDob] = useState(new Date());
     const [spouse, setSpouse] = useState('');
     const [yom, setYom] = useState('');
     const [haveChilderen, setHaveChilderen] = useState('No')
-    const [noOfChilderen, setNoOfChilderen] = useState(0);
+    const [noOfChilderen, setNoOfChilderen] = useState(1);
     const [childeren, setChilderen] = useState([]);
     const [maritalStatus, setMaritalStatus] = useState('')
     const [occupation, setOccupation] = useState('Salaried');
@@ -64,6 +55,10 @@ function Content() {
     const [presentPin, setPresentPin] = useState('');
     const [executors, setExecutors] = useState([{ sal: 'Mr', name: '', relation: '' }])
     useEffect(() => {
+
+    
+
+
         const tempPersonal = JSON.parse(localStorage.getItem('personalDetails'));
         if (tempPersonal) {
             setSal(tempPersonal['sal'])
@@ -103,6 +98,7 @@ function Content() {
         setChilderen(temp);
     }
 
+
     const [childnameerr, setChildnameerr] = useState(['','','']);
     function setChildName(e, index) {
         const tempchild = childeren.splice(0)
@@ -126,6 +122,10 @@ function Content() {
             console.log('check',typeof tempchild[index]['childAge'],tempchild[index]['childAge'],tempchild[index]['childAge'].match(/^\d*$/))
        
             if (!tempchild[index]['childAge'].match(/^\d*$/)){
+                childageerr[index] = 'Enter Valid Child age'
+                setChildageerr(childageerr)
+            }
+            else if(parseInt(tempchild[index]['childAge']) >= parseInt(getAge(dob))) {
                 childageerr[index] = 'Enter Valid Child age'
                 setChildageerr(childageerr)
             }
@@ -162,8 +162,26 @@ function Content() {
     }
     function submitPersonal(e) {
         e.preventDefault();
-        console.log(yom.length === 0)
+        if(otherRel !== ''){
+            setReligion(otherRel)
+        }
+        console.log(valid)
+        if(!valid){
+            alert.show('enter valid year of marriage')
+            return
+        }
+        if (maritalStatus=== 'Single'){
+            setHaveChilderen('No')
+        }
         if ((maritalStatus === 'Married' && spouse && yom) || maritalStatus !== 'Married') {
+            if(haveChilderen){
+                for(let i = 0; i < childeren.length; i++){
+                    if (childeren[i].childName === '' || childeren[i].childAge === ''){
+                        alert.show('Please Fill all the child details')
+                        return
+                    }
+                }
+            }
             if (sal &&
                 name &&
                 dob &&
@@ -184,20 +202,21 @@ function Content() {
                     noOfChilderen: noOfChilderen,
                     childeren: childeren
                 }
-                for(var i=0; i<=childeren.length; i ++){
-                    if(childeren[i].childName.length ===0 || childeren[i].childAge.length ===0){
-                        alert.show('Please Complete the Children/s details')
-                        return 
-                    }
-                }
                 
                 if(getAge(dob) < 18 ){
                     alert.show('You need to be at least 18 years old to make will')
                     setDob('')
                     return
                 }
-                
-                
+                // console.log('c')
+                // if (childeren !== []){
+                //     for(var i=0; i<=childeren.length; i ++){
+                //         if(childeren[i].childName.length ===0 || childeren[i].childAge.length ===0){
+                //             alert.show('Please Complete the Children/s details')
+                //             return 
+                //         }
+                //     }
+                // }
                 if (present1 && presentCity && presentState && presentPin && presentCountry) {
                     const address = {
                         present1: present1,
@@ -241,6 +260,8 @@ function Content() {
         setExecutors(tempExec)
     }
 
+    
+
     //Beneficiary details State variables
     const [benName, setBenName] = useState('')
     const [benSal, setBenSal] = useState('Mr')
@@ -258,6 +279,11 @@ function Content() {
 
     function addBeneficiary(e) {
         e.preventDefault();
+        console.log('err', bennamer,benrelerr)
+        if (bennamer.length >2 || benrelerr.length > 2){
+            alert.show('Please Fill Valid Details')
+            return
+        }
         if (benSal && benName && benDOB && benRelation) {
             beneficiary.push(benSal);
             setBenSal('Mr');
@@ -346,6 +372,7 @@ function Content() {
         alert.show('Beneficiary Removed Succesfully')
     }
     //assets State variables
+    const [updated,setUpdated] = useState(1)
     const [assetType, setAssetType] = useState("Bank Account");
     const [assetType1, setAssetType1] = useState("Flat");
     const [share, setShare] = useState([0]);
@@ -416,6 +443,16 @@ function Content() {
         //         alert.show("More Than 100% Residuary Property Assigned")
         // }
     }
+    // useEffect(() => {
+    //     async function fetchapi(){
+    //   const result = await axios(
+    //     'https://api.postalpincode.in/pincode/440027',
+    //   );
+   
+    //   console.log('ppppp',result.data[0].PostOffice[0].Region)
+    // } fetchapi()},[]);   
+
+
     useEffect(() => {
         const localImmovableAssets = JSON.parse(localStorage.getItem('immovableAssets'));
         const localMovableAssets = JSON.parse(localStorage.getItem('movableAssets'));
@@ -624,7 +661,6 @@ function Content() {
         }
         if(allownext){
             setTabIndex1(1);
-            return
         }
         else {
             
@@ -698,7 +734,7 @@ function Content() {
                 )
             }
         }
-        let id =6
+        let id =7
         let cls6 ={}
         let cls62 = {}
         for(let i = 0; i< alternate.length; i++){
@@ -749,13 +785,13 @@ function Content() {
         const clsidx = gid;
         console.log(resididx)
         if (maritalStatus === 'Single'){
-            cls3={text:'3.I am single.', style:"subheader"}
+            cls3={text:'4.I am single.', style:"subheader"}
         }
         if( maritalStatus === 'Widowed'){
             if(haveChilderen === 'No'){
-            cls3 ={text:'3.I am widowed. I have no children.', style:"subheader"}}
+            cls3 ={text:'4.I am widowed. I have no children.', style:"subheader"}}
             else{
-                cls3 ={text:`3.I am widowed. I have ${noOfChilderen} children. The name/s of my children are as under:`, style:"subheader"}
+                cls3 ={text:`4.I am widowed. I have ${noOfChilderen} children. The name/s of my children are as under:`, style:"subheader"}
                 const child = [[
                     { text: "Name", style: "tableHeader" },
                     { text: "Age (years)", style: "tableHeader" },
@@ -771,9 +807,9 @@ function Content() {
         }
         if(maritalStatus ==='Divorced'){
             if(haveChilderen === 'No'){
-                cls3 ={text:'3.I am divorced. I have no children.', style:"subheader"}}
+                cls3 ={text:'4.I am divorced. I have no children.', style:"subheader"}}
                 else{
-                    cls3 ={text:`3.I am divorced. I have ${noOfChilderen} children. The name/s of my children are as under:`, style:"subheader"}
+                    cls3 ={text:`4.I am divorced. I have ${noOfChilderen} children. The name/s of my children are as under:`, style:"subheader"}
                     const child = [[
                         { text: "Name", style: "tableHeader" },
                         { text: "Age (years)", style: "tableHeader" },
@@ -788,9 +824,9 @@ function Content() {
                 }}
         if(maritalStatus ==='Married'){
                     if(haveChilderen === 'No'){
-                        cls3 ={text:`3.I got married to my spouse ${spouse} in the year ${yom}. I have no children.`, style:"subheader"}}
+                        cls3 ={text:`4.I got married to my spouse ${spouse} in the year ${yom}. I have no children.`, style:"subheader"}}
                         else{
-                            cls3 ={text:`3.I got married to my spouse ${spouse} in the year ${yom}. I have ${noOfChilderen} children. The name/s of my children are as under:`, style:"subheader"}
+                            cls3 ={text:`4.I got married to my spouse ${spouse} in the year ${yom}. I have ${noOfChilderen} children. The name/s of my children are as under:`, style:"subheader"}
                             const child = [[
                                 { text: "Name", style: "tableHeader" },
                                 { text: "Age (years)", style: "tableHeader" },
@@ -942,10 +978,48 @@ function Content() {
             exec += temp
         }}
         exec = exec.substring(0,exec.length-3)
+
+        // {
+        //     pageMargins: 70,
+        //   footer: {
+        //     columns: [
+        //       { text: 'Signature of Testator', alignment: 'left', style: 'testatorSign' },
+        //       { text: 'Signature of Witness no.1', alignment: 'center' , style: 'whitness1Sign' },
+        //       { text: 'Signature of Witness no.2', alignment: 'right' , style: 'whitness2Sign' }
+        //     ]
+        //   },
+            // styles: {
+            //     testatorSign: {
+            //         margin: [40, 30, 0, 0],
+            //     },
+            //     whitness1Sign: {
+            //         margin: [0, 30, 0, 0],
+            //     },
+            //     whitness2Sign: {
+            //         margin: [0, 30, 40, 0],
+            //     }
+            // }
+            
+        // }
         
 // PDF Maker
 var dd = {
+    header:[
+        {
+            image:header
+        },
+    ],
     content: [
+        {
+			style: 'tableExample',
+			table: {
+				body: [
+					['Column 1'],
+					['One value goes here']
+					],
+				
+			}
+		},
         {
     // deleted the undefined component which was getting printed as undefined
     text: `WILL AND TESTAMENT OF ${sal} ${name.toUpperCase()} 
@@ -964,12 +1038,16 @@ var dd = {
   },
   {
     text: `2. Under this Will, I appoint my ${exec} as the Executor/s of this Will and Trustees of my estate. They may act as executor/s either jointly or severally. The abovenamed executor/s shall take charge of my assets and properties after my death and procure Probate from the Competent Court to my Will having effect over all my assets and properties in India.`,
+    style: "subheader", 
+  },
+  {
+    text: "3. I am possessed of and absolutely entitled to movable and immovable properties which are described in this Will hereunder. Any mistake in the description or any omission there from will not affect the dispositions hereby made and this will deed shall apply to all my properties of whatsoever nature and wherever situated and whether standing in my name alone and jointly with anybody else, if any name is first mentioned.",
     style: "subheader",
   },
   cls3,
     chl,
   {
-    text: "4. My immovable assets and properties consist of following and after my death, I wish to bequeath my share in the below mentioned immovable properties to the persons mentioned in the table below:.",
+    text: "5. My immovable assets and properties consist of following and after my death, I wish to bequeath my share in the below mentioned immovable properties to the persons mentioned in the table below:.",
     style: "subheader",
   },
   {
@@ -979,7 +1057,7 @@ var dd = {
     },
   },
   {
-    text: "5. My movable assets and properties consist of following and after my death, I wish to bequeath my share in the below mentioned movable properties to the persons mentioned below:",
+    text: "6. My movable assets and properties consist of following and after my death, I wish to bequeath my share in the below mentioned movable properties to the persons mentioned below:",
     style: "subheader",
   },
   {
@@ -1037,9 +1115,62 @@ var dd = {
   { text: '.. TESTATOR', style: 'header' },
   { text: 'WILL', style: 'header' },
   { text: 'WILL made through WILL CREATOR by BAJAJ ALLIANZ powered by LawTarazoo', style: 'footer' },
-  { text: 'For any legal queries contact on +91-9619792288 or mail on experts@lawtarazoo.com', style: 'footer' },
+  { text: 'For any legal queries contact on +91-9619792288 or mail on experts@lawtarazoo.com', style: 'footer'},
+  {text: 'Notes for author of the Will :',style:'subheader1'},
+  {text:'1. All pages of the will should be signed in full.' , style:'subheader2'}, 
+  {text:'2. Signatures of two witnesses are must.' , style:'subheader'}, 
+  {text:'3. This is applicable for self- acquired properties.' , style:'subheader'} ,
+  {text:'4. The will can be registered or unregistered. The advantage of registered will is that it can be proved easily in case of dispute.' , style:'subheader'} ,
+  {text:'5.  The Will deed can be made out on plain paper.' , style:'subheader'} ,
+  {text:'6. The original copy of executed Will can be kept is Safe deposit Locker or entrusted to legal heirs or with the executor.' , style:'subheader'} ,
+  {text:'' , style:'subheader'} ,
+  {text:'7. Codicil means an instrument made in relation to a Will and explains, alters or adds to the dispositions and is deemed to form part of Will' , style:'subheader'} ,
+  {
+    
+  },
+
 ],
+footer: {
+    
+    columns: [
+      { text: 'Signature of Testator', alignment: 'left', style: 'testatorSign' },
+      { text: 'Signature of Witness no.1', alignment: 'center' , style: 'whitness1Sign' },
+      { text: 'Signature of Witness no.2', alignment: 'right' , style: 'whitness2Sign' },
+      
+    ],
+    image:header
+
+  },
+// footer:{
+//     table: {
+        
+//         body: [
+//              [
+//                 { text: 'Signature of Testator', alignment: 'left', style: 'testatorSign' },
+//                 { text: 'Signature of Witness no.1', alignment: 'center' , style: 'whitness1Sign' },
+//                 { text: 'Signature of Witness no.2', alignment: 'right' , style: 'whitness2Sign' },
+//                 { image: header, alignment: 'center', width: 200 },
+//               ],
+            
+//         ]
+//     },
+//     layout: 'noBorders'
+// },
+
+  
+  pageMargins:65,
 styles: {
+        
+        testatorSign: {
+            margin: [80, 30, 0, 0],
+        },
+        whitness1Sign: {
+            margin: [0, 30, 0, 0],
+        },
+        whitness2Sign: {
+            margin: [0, 30, 40, 0],
+        },
+    
   header: {
       fontSize: 18,
       bold: true,
@@ -1050,6 +1181,16 @@ styles: {
       fontSize: 14,
       margin: [0, 10, 0, 5]
   },
+  subheader1: {
+    fontSize: 14,
+    margin: [0, 100, 0, 5],
+    pageBreak: 'after'
+},
+subheader2: {
+    fontSize: 14,
+    margin: [0, 100, 0, 5],
+    pageBreak: 'before',
+},
   tableExample: {
       margin: [0, 5, 0, 15],
       alignment: 'center',
@@ -1065,6 +1206,7 @@ styles: {
       color: 'black',
       alignment: 'center',
       margin: [40, 20, 40, 10],
+     
   }
 },
 defaultStyle: {
@@ -1124,7 +1266,7 @@ defaultStyle: {
         }
     }
     
-    function validName(e){
+    const validName = (e) => {
        e.preventDefault();
         setName(e.target.value)
         if ( !name.match( /^[a-zA-Z]+ [a-zA-Z]+$/)){
@@ -1145,28 +1287,212 @@ defaultStyle: {
          setExecName(e,index)
          if ( !name.match( /^[a-zA-Z]+ [a-zA-Z]+$/)){
              execerr[index] = " Please Enter Valid  Full Name"
-             setExecerr(execerr)
+             setExecerr([...execerr])
          }
          else{
             execerr[index] = ""
              setExecerr(execerr)
          }
      }
+     
 
-     const [pinerr, setPinerr] = useState('')
-     function validPin(e){
+     const [execreler,setExecreler] = useState(['','',''])
+     function validrelExec(e, index){
         e.preventDefault();
-        setPresentPin(e.target.value)
-        if ( !presentPin.match(/^\d{5}$/)){
-            setPinerr(" Please Enter Valid Pin Code")
+        const name = e.target.value
+         setExecRelation(e,index)
+         if (! name.match( /^[a-zA-Z]+[a-zA-Z]+$/)){
+             execreler[index] = " Please Enter Valid Relation"
+             setExecreler([...execreler])
+         }
+         else{
+            execreler[index] = ""
+             setExecreler([...execreler])
+         }
+     }
+     useEffect( () => {
+         if(! presentPin.match(/^\d{6}$/)){
+            setPinerr(" Please Enter Valid Pin Code");
+            setPinn('');
+           
+         }
+         else{
+            setPinn(presentPin)
+            setPinerr('');
+            
+         };
+     } 
+     
+     ,[presentPin])
+
+     useEffect( () => {
+        if(! assetPin.match(/^\d{6}$/)){
+           setimaerr(" Please Enter Valid Pin Code");
+           
         }
         else{
-            setPinerr('')
-        }
-     }
+           setPinn(assetPin)
+           setimaerr('');
+        };
+    } 
     
+    ,[assetPin])
+    useEffect( () => {
+        if(! guardianName.match(/^[a-zA-Z]+ [a-zA-Z]+$/)){
+            setGuardnamerr(' Enter Valid Guardian Name')
+        }
+        else{
+            setGuardnamerr('')
+        }
+    },[guardianName])
+    // useEffect( () => {
+    //     let valid =true
+    //     Object.values(childeren).forEach(
+    //         (val) => {val.length > 0 && (valid = false);
+    //             val.length >0 && (valid = false)}
+    //     )
+    //         if (!valid){
+    //             setInvchild(false)
+    //         }
+    //         else{
+    //             setInvchild(true)
+    //         } 
+    //     }   
+     
+    
+    // ,[childeren])
+
+    // useEffect( () => {
+    //     if (Number(dob.substring(0,4)) < 1899){
+    //         let s = '1900' + dob.substring(4,dob.length)
+    //         setDob(s)
+    //     }
+    //     if (Number(dob.substring(0,4)) < 2100){
+    //         let s = '2100' + dob.substring(4,dob.length)
+    //         setDob(s)
+    //     }
+    // },[dob])
+     
+    const [invchild , setInvchild] = useState(false)
+    //  useEffect(() => {
+    //     const localbenef = JSON.parse(localStorage.getItem('beneficiaries'));
+    //     console.log(localbenef)
+    //     if (localbenef) {
+    //         setbeneficiaries(localbenef);
+    //     }
+    // }, [benState]);
+
+
+    async function GettApi( pin) {  
+        try{ 
+        axios.get(`https://api.postalpincode.in/pincode/${pin}`).then(
+            (response) => {setPresentState(response.data[0].PostOffice[0].State); setpresentCity(response.data[0].PostOffice[0].Block)}
+        ) }
+        catch(err){
+            console.log('error')
+        }
+    }
+        // try{
+        //   const result = await axios(
+        //     `https://api.postalpincode.in/pincode/${pin}`,
+        //   );
+        //   if (pin !== ''){
+        //     console.log('child',pin)
+        //     const city = result.data[0].PostOffice[0].Block
+        //     const state = (result.data[0].PostOffice[0].State)
+        //     return {city ,state}
+        //   }
+        // }
+        // catch(err){
+        //     console.error(err);
+        // };
+        async function GettApi1( pin) {  
+            try{ 
+            axios.get(`https://api.postalpincode.in/pincode/${pinn}`).then(
+                (response) => {setAssetState(response.data[0].PostOffice[0].State); setAssetCity(response.data[0].PostOffice[0].Block)}
+            ) }
+            catch(err){
+                console.log('error')
+            }
+       
+        
+      }
+
+     const [pinn, setPinn] = useState('')
+     const [pinerr, setPinerr] = useState('')
+     let validPin = (e) => {
+        var str = e.target.value 
+        console.log(str)
+        setPresentPin(str)
+        if (str.length ===6){
+            GettApi(str).then(
+                (c,s) => {console.log(c,s,'eeeeee')} 
+            );
+        }
+        // if ( str.match(/^\d{6}$/)){
+        //     setPinerr(" Please Enter Valid Pin Code")
+        //     setPinn('')
+        // }
+        // else{
+        //    setPinn(presentPin)
+        //     setPinerr('')
+        // }
+     }
+     useEffect( () => {
+        if (maritalStatus === 'Widowed'||maritalStatus === 'Married'||maritalStatus === 'Divorced'){
+            if (haveChilderen === 'Yes'){
+                setNoOfChilderen(1)
+            }
+        }
+     },[maritalStatus, haveChilderen])
+     useEffect( () => {
+         if (presentCity.match( /\d/)){
+             setCityerr('Please Enter Valid City Name')
+         }
+         else{
+             setCityerr()
+         }
+     }, [presentCity])  
+     useEffect( () => {
+        if ( !assetPin.match(/^\d{6}$/)){
+            setimaerr(" Please Enter Valid Pin Code")
+        }
+        else{
+            if (assetPin.length === 6){
+                GettApi1(assetPin)
+            }
+            setimaerr('')
+        }
+     },[assetPin])
+
+     const [yomerr,setYomerr] = useState('');
+    useEffect(() => {
+        if (yomerr.length > 1){
+            setValid(false)
+        }
+        else{
+            setValid(true)
+        }
+    }, [yomerr]);
+    const[valid, setValid] = useState(false)
+     const [imaerr, setimaerr] = useState('')
+     function validPin1(e){
+        e.preventDefault();
+        setAssetPin(e.target.value)
+        
+     }
+
+     useEffect(() => {
+        if ( !presentState.match(/^[a-zA-Z][a-zA-Z\s-]+[a-zA-Z]$/)){
+            setStateerr(" Please Enter Valid State Name")
+        }
+        else{
+            setStateerr('')
+        }
+
+     }, [presentState])
      const [cityerr, setCityerr] = useState('')
-     function validCity(e){
+     const validCity = (e) =>{
         e.preventDefault();
         setpresentCity(e.target.value)
         if ( !presentCity.match(/^[a-zA-Z][a-zA-Z\s-]+[a-zA-Z]$/)){
@@ -1180,50 +1506,53 @@ defaultStyle: {
      function validState(e){
         e.preventDefault();
         setPresentState(e.target.value)
-        if ( !presentState.match(/^[a-zA-Z][a-zA-Z\s-]+[a-zA-Z]$/)){
-            setStateerr(" Please Enter Valid State Name")
-        }
-        else{
-            setStateerr('')
-        }
+        
      }
 
-     const [imaerr, setimaerr] = useState('')
-     function validPin1(e){
-        e.preventDefault();
-        setAssetPin(e.target.value)
-        if ( !assetPin.match(/^\d{5}$/)){
-            setimaerr(" Please Enter Valid Pin Code")
-        }
-        else{
-            setimaerr('')
-        }
-     }
+    //  useEffect( () => {
+    //     if(! assetPin.match(/^\d{6}$/)){
+    //        set(" Please Enter Valid Pin Code");
+    //        setPinn('');
+    //     }
+    //     else{
+    //        setPinn(assetPin)
+    //        set('');
+           
+    //     };
+    // }, [assetPin])}
     
-     const [imacityerr, setImaCityerr] = useState('')
-     function validCity1(e){
-        e.preventDefault();
-        setAssetCity(e.target.value)
+    useEffect(() => {
         if ( !assetCity.match(/^[a-zA-Z][a-zA-Z\s-]+[a-zA-Z]$/)){
             setImaCityerr(" Please Enter Valid City Name")
         }
         else{
             setImaCityerr('')
         }
-     }
-     const [imastateerr, setImaStateerr] = useState('')
-     function validState1(e){
-        e.preventDefault();
-        setAssetState(e.target.value)
+    },[assetCity]) 
+    
+    useEffect( () => {
         if ( !assetState.match(/^[a-zA-Z][a-zA-Z\s-]+[a-zA-Z]$/)){
             setImaStateerr(" Please Enter Valid State Name")
         }
         else{
             setImaStateerr('')
         }
+    }, [assetState])
+
+     const [imacityerr, setImaCityerr] = useState('')
+     function validCity1(e){
+        e.preventDefault();
+        setAssetCity(e.target.value)
+        
+     }
+     const [imastateerr, setImaStateerr] = useState('')
+     function validState1(e){
+        e.preventDefault();
+        setAssetState(e.target.value)
+        
      }
 
-     const [yomerr,setYomerr] = useState('')
+    
      function validYom(e){
          e.preventDefault();
         const str = e.target.value
@@ -1243,16 +1572,140 @@ defaultStyle: {
             }
             else{
                 setYomerr('')
-            }
-            
-            
+            }       
      }}
-     
 
+    const [pinstate, setPinstate] = useState('')
+    useState(() => {
+        if (pinstate.length === 0){
+            setPresentState(pinstate)
+        }
+    },[pinstate])
+    const [otherRel, setOtherRel] = useState('')
+    const [relerr,setRelerr] = useState('')
+    function reloth(e){
+        e.preventDefault();
+        const str = e.target.value
+        let rel =''
+        setOtherRel(str)
+        if (!str.match(/^[a-zA-Z]+$/)){
+            rel = ' Invalid Religion Name'
+            setRelerr(rel)
+        }
+        else{
+            rel=''
+            setRelerr(rel)
+        }
+
+    }
+    const [spouseerr, setSpouseerr] =useState('')
+    function validspouse(e){
+        e.preventDefault();
+        const str = e.target.value
+        let rel =''
+        
+        if (! spouse.match(/^[a-zA-Z]+ [a-zA-Z]+$/)){
+            rel= 'Please Enter Full Name'
+            setSpouseerr(rel)
+        }
+        else{
+            rel=''
+            setSpouseerr(rel)
+        }
+        setSpouse(str);
+    }
+    const [flatarea, setFlatarea] = useState('')
+    useState(() => {
+        if (isNaN(area)){
+           
+            setFlatarea('Invalid Value')
+        }
+        else{
+            setFlatarea('')
+        }
+    },[area]);
+    
+    function validflatarea(e) {
+        e.preventDefault();
+        const str = e.target.value
+        setArea(str)
+        if (isNaN(area)){
+           
+            setFlatarea('Invalid Value')
+        }
+        else{
+            setFlatarea('')
+        }
+    }
+
+    const [bennamer, setBennamerr] = useState('')
+    function validbenName(e){
+        e.preventDefault();
+        const str = e.target.value
+        let rel =''
+        setBenName(str)
+        if (!benName.match(/^[a-zA-Z]+ [a-zA-Z]+$/) ){
+            rel = 'Invalid Value'
+            setBennamerr(rel)
+        }
+        else{
+            setBennamerr('')
+        }
+        
+    }
+
+    const [benrelerr, setBenrelerr] = useState('')
+    function validbenRelation(e){
+        e.preventDefault();
+        const str = e.target.value
+        let rel =''
+        setBenRelation(str)
+        if (!benRelation.match(/^[a-zA-Z]+$/) ){
+            rel = 'Invalid Relation'
+            setBenrelerr(rel)
+        }
+        else{
+            setBenrelerr('')
+        }
+        
+    }
+    const [guardnameerr,setGuardnamerr] = useState('')
+    function validguardName(e){
+        e.preventDefault()
+        setGuardianName(e.target.value)
+        if (guardianName.match(/^[a-zA-Z]+ [a-zA-Z]+$/)){
+            setGuardnamerr('Please input Full name')
+        }
+        else{
+            setGuardnamerr("")
+        }
+    }
+    const [guardrelerr,setGuardrelerr] = useState('')
+    function validguardrel(e){
+        e.preventDefault()
+        setGuardianRelation(e.target.value)
+        if( guardianRelation.match(/^[a-zA-Z]+ [a-zA-Z]+$/)){
+            setGuardrelerr('Please input valid relation')
+        }
+        else{
+            setGuardrelerr('')
+        }
+    }
+
+    function validDate(e){
+        e.preventDefault();
+        setDob(e.target.value, validDate)
+        console.log(dob)
+        setUpdated(!updated)
+    }
+    const mindate = new Date()
+    mindate.setFullYear(1900)
+    const [newD,setNewD] = useState(new Date());
 
     return (
         <div className="content">
-            {/* <button onClick={handleExportWithComponent}> Download</button> */}
+            {/* {pinn.length ===6 && <GetApi setPresentCity ={setpresentCity} setPresentState= {setPresentState} pin ={pinn}/>} */}
+            <button onClick={handleExportWithComponent}> Download</button>
             <div className="content-sub">
                 <Tabs selectedIndex={tabIndex} >
                     <TabList>
@@ -1289,7 +1742,13 @@ defaultStyle: {
                                 </div>
                                 <div className='form-item' style={{ width: '30%', marginLeft: '180px' }}>
                                     <label>DOB</label>
-                                    <input type='date' value={dob ? dob : ''} onChange={(e) => { setDob(e.target.value) }}></input>
+                                    {/* <div><Calendar onChange ={setDob} value = {dob}></Calendar></div> */}
+                                    <DatePicker
+        onChange={(value) => setDob(value)}
+        value={dob }
+        minDate = {mindate}
+         maxDate = {new Date()}/>
+                                    {/* <input type='date' min='1900' max = '2031' value={dob ? dob : ''} onChange={(e)=>(validDate(e))}></input> */}
                                 </div>
 
                             </div>
@@ -1320,8 +1779,21 @@ defaultStyle: {
                                         <option value="Jain">Jain</option>
                                         <option value="Buddhist">Buddhist</option>
                                         <option value="Sikh">Sikh</option>
+                                        <option value="Other">Other</option>
                                     </select>
                                 </div>
+                                {religion==='Other'? 
+                                    <>
+                                    
+                                    <div className="form-item" style={{ paddingTop: '60px' }} >
+                                            <label>Please Specify </label>
+                                            <input value={otherRel} onChange={reloth}></input>
+                                        </div>
+                                        {relerr && 
+                                        <span className = 'text-danger'> {relerr}</span>
+                                        }
+                                      
+                                    </>:''}
                             </div>
                             <div className="form-row" style={{ marginTop: '70px' }}>
                                 <div className="form-item" >
@@ -1338,7 +1810,10 @@ defaultStyle: {
                                     <>
                                         <div className="form-item">
                                             <label>Spouse's Name  </label>
-                                            <input value={spouse} onChange={(e) => setSpouse(e.target.value)}></input>
+                                            <input value={spouse} onChange={validspouse}></input>
+                                            {spouseerr && 
+                                        <span className = 'text-danger'> {spouseerr}</span>
+                                        }
                                         </div>
                                         <div className='form-item'>
                                             <label>Year of Marriage</label>
@@ -1452,7 +1927,8 @@ defaultStyle: {
                                     </div>
                                     <div className="form-item">
                                         <label>Relation*</label>
-                                        <input value={executor['relation']} onChange={(e) => setExecRelation(e, index)}></input>
+                                        <input value={executor['relation']} onChange={(e) => {validrelExec(e,index)}}></input>
+                                        {execreler[index] && (<span className = 'textdanger'>{execreler[index]}</span>)}
                                     </div>
                                     {executors.length === 1 ?
                                     <div style={{ marginLeft:'30px',justifyContent: "right" }} className='form-row'>
@@ -1500,16 +1976,23 @@ defaultStyle: {
                                 </div>
                                 <div className='form-item'>
                                     <label> Full Name</label>
-                                    <input value={benName} onChange={(e) => setBenName(e.target.value)}></input>
+                                    <input value={benName} onChange={validbenName}></input>
+                                    {bennamer && <span className = 'text-danger'>{bennamer}</span>  }
                                 </div>
                                 <div className='form-item'>
                                     <label>DOB</label>
-                                    <input value={benDOB} onChange={(e) => setBenDOB(e.target.value)} type='date'></input>
+                                    {/* <input value={benDOB} onChange={(e) => setBenDOB(e.target.value)} type='date'></input> */}
+                                    <DatePicker
+        onChange={(value) => setBenDOB(value)}
+        value={benDOB }
+        minDate = {mindate}
+         maxDate = {new Date()}/>
                                 </div>
                                 <div className='form-item' style={{ width: '300px' }}>
                                     <label>Relation with Author of Will: </label>
                                     {/* <p style={{ width: '275px', fontSize: '16px' }} className="note-para">(eg. friend, son, sister, etc.)</p> */}
-                                    <input value={benRelation} onChange={(e) => setBenRelation(e.target.value)} placeholder='eg.  friend, son, sister, etc. '></input>
+                                    <input value={benRelation} onChange={validbenRelation} placeholder='eg.  friend, son, sister, etc. '></input>
+                                    { benrelerr.length >0 && <span className = 'text-danger'> {benrelerr}</span>}
                                 </div>
                                 {!(getAge(benDOB) < 18) ? <><div style={{ justifyContent: "right", paddingTop:'25px' }} className='form-row'>
                                     <button type='submit' onClick={addBeneficiary} id="add-beneficiary"><AddIcon /> Add Beneficiary</button>
@@ -1535,15 +2018,23 @@ defaultStyle: {
                                             </div>
                                             <div className='form-item'>
                                                 <label> Full Name</label>
-                                                <input value={guardianName} onChange={(e) => setGuardianName(e.target.value)}></input>
+                                                <input value={guardianName} onChange={validguardName}></input>
                                             </div>
                                             <div className='form-item'>
                                                 <label>DOB</label>
-                                                <input value={guardianDOB} onChange={(e) => setGuardianDOB(e.target.value)} type='date'></input>
+                                                <DatePicker
+        onChange={(value) => setGuardianDOB(value)}
+        value={guardianDOB }
+        minDate = {mindate}
+         maxDate = {new Date()}/>
+                                                {/* <input value={guardianDOB} onChange={(e) => setGuardianDOB(e.target.value)} type='date'></input> */}
+                                                {guardnameerr.length >0 && <span className ='text-danger'> {guardnameerr}</span>}
                                             </div>
                                             <div className='form-item'>
                                                 <label>Relation with Minor: </label>
-                                                <input value={guardianRelation} onChange={(e) => setGuardianRelation(e.target.value)}></input>
+                                                <input value={guardianRelation} onChange={validguardrel}></input>
+                                                
+                                                {guardrelerr.length >0  && <span className = 'text-danger'>{guardrelerr} </span> }
                                             </div>
                                             {(getAge(benDOB) < 18) ? <><div style={{ justifyContent: "right", marginLeft: 'auto' }} className='form-row'>
                                                 <button type='submit' onClick={addBeneficiary} id="add-beneficiary"><AddIcon /> Add Beneficiary</button>
@@ -1556,7 +2047,7 @@ defaultStyle: {
 
                             <div style={{ justifyContent: "right", marginTop: '20px' }} className='form-row'>
                                 <a onClick={() => { setTabIndex(0) }} id="next-btn">Previous</a>
-                                <a onClick={() => { initializeShare() }} id="next-btn">Next: Asset Details</a>
+                                <a onClick={initializeShare} id="next-btn">Next: Asset Details</a>
                             </div>
                         </form>
                         {beneficiaries.length !== 0 ?
@@ -1591,6 +2082,7 @@ defaultStyle: {
                             </TabList>
 
                             <TabPanel>
+                            {/* {assetPin.length ===6 && <GetApi setPresentCity ={setAssetCity} setPresentState= {setAssetState} pin ={assetPin}/>} */}
                                 <h2>Distribution of your Assets</h2>
                                 <h3 onClick={() => setImmovVisible(immovVisible === "none" ? 'block' : 'none')} style={{ display: 'flex', justifyContent: 'space-between', cursor: 'pointer' }} className="asset-tab">My Immovable Property<ArrowDropDownIcon /></h3>
                                 <div style={{ display: immovVisible }}>
@@ -1610,7 +2102,8 @@ defaultStyle: {
                                                 <div className='form-row'>
                                                     <div className='form-item'>
                                                         <label>Area of {assetType1} </label>
-                                                        <input value={area} onChange={(e) => setArea(e.target.value)} ></input>
+                                                        <input value={area} onChange={validflatarea} ></input>
+                                                        { flatarea && <span className='text-danger'>{flatarea}</span>}
                                                     </div>
                                                     <div className='form-item'>
                                                         <label>Area Unit</label>
@@ -1700,7 +2193,7 @@ defaultStyle: {
                                                 </tbody>
                                             </table> : ''}
                                         <div style={{ justifyContent: "right", marginTop: '20px' }} className='form-row'>
-                                            <button type='submit' onClick={(e) => addImmovableAsset(e)} id="add-beneficiary"><AddIcon /> ADD ASSET</button>
+                                            <button type='button' onClick={(e) => addImmovableAsset(e)} id="add-beneficiary"><AddIcon /> ADD ASSET</button>
                                         </div>
                                     </form>
                                     {immovableAssets.length !== 0 ? <h3>Immovable Assets Allocation</h3> : ''}
@@ -2012,15 +2505,15 @@ kind of investment apart from the list mentioned above' value={description} onCh
                     <TabPanel>
 
                         
-                        
+          <FadeIn delay='100'>            
     <div class="bts-container" style={{width:'350px', height:'350px', backgroundColor:'#ffffff',overflow:'hidden'}}>
       <img src={Logo} alt="" width="75%" style={{alignSelf:'center'}} />
       	<p style={{color:'#f27317', marginTop:'20px',textAlign:'center', fontSize:'20px', transitionDelay:'2s'}}>Email has been sent to the User!</p>
         
-        
+         
     
     
-</div><div style={{ justifyContent: "right", marginTop: '20px' }} className='form-row'>
+</div> </FadeIn>  <div style={{ justifyContent: "right", marginTop: '20px' }} className='form-row'>
                             <a onClick={() => { setTabIndex(2) }} id="next-btn">Previous</a>
                     
                         </div>
