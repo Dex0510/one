@@ -1721,6 +1721,7 @@ defaultStyle: {
                     </TabList>
 
                     <TabPanel>
+                        <div className ='personal-full'>
                         <h2>Personal Information</h2>
                         <form id='personal-form'>
                             <div className='form-row' >
@@ -1950,7 +1951,7 @@ defaultStyle: {
                                         
                                 </div>)}
 
-
+                               
                             <div style={{ justifyContent: "center" }} className='form-row'></div>
 
                             
@@ -1960,11 +1961,255 @@ defaultStyle: {
                             </div>
 
                         </form>
+                        </div>
+                    <div className= 'personal-mob'>
+                    <h2>Personal Information</h2>
+                        <form id='personal-form'>
+                            <div className='form-row' >
+                                <div className='form-item'>
+                                    <label>Title: </label>
+                                    <select value={sal ? sal : "Mr."} onChange={(e) => { setSal(e.target.value) }}>
+                                        <option value="Mr">Mr.</option>
+                                        <option value="Ms">Ms.</option>
+                                        <option value="Mrs">Mrs.</option>
+                                        <option value="">N/A</option>
+                                    </select>
+                                </div>
+                                <div className='form-item' style={{ width: '23%' }}>
+                                    <label> Full Name</label>
+                                    <input required value={name ? name : ''} onChange={validName}></input>
+                                    {err.fullname && (
+                    <span className="text-danger">{err.fullname}</span>
+                  )}
+                                </div>
+                                <div className='form-item' style={{ width: '30%', marginLeft: '180px' }}>
+                                    <label>DOB</label>
+                                    {/* <div><Calendar onChange ={setDob} value = {dob}></Calendar></div> */}
+                                    <DatePicker
+        onChange={(value) => setDob(value)}
+        value={dob }
+        minDate = {mindate}
+         maxDate = {new Date()}/>
+                                    {/* <input type='date' min='1900' max = '2031' value={dob ? dob : ''} onChange={(e)=>(validDate(e))}></input> */}
+                                </div>
+
+                            </div>
+                            <div className="form-row" style={{ marginTop: '20px' }}>
+                                <div className='form-item' style={{ width: '30%' }}>
+                                    <label>Occupation: </label>
+                                    <p style={{ color: 'white' }}>(Note:Muslim religion followers shall require a customized Will due to distinctive Islamic
+                                        laws. )</p>
+                                    <select value={occupation ? occupation : 'Salaried'} onChange={(e) => { setOccupation(e.target.value); console.log(dob) }}>
+                                        <option value="Salaried">Salaried</option>
+                                        <option value="Professional">Professional</option>
+                                        <option value="Business Owner">Business Owner</option>
+                                        <option value="Agriculturist">Agriculturist</option>
+                                        <option value="Retired">Retired</option>
+                                        <option value="Homemaker">Homemaker</option>
+                                        <option value="Student">Student</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                <div className='form-item' style={{ width: '30%', marginLeft: '170px' }}>
+                                    <label>Religion:</label>
+                                    <p>(Note:Muslim religion followers shall require a customized Will due to distinctive Islamic
+                                        laws. To know more contact us at experts@lawtarazoo.com)</p>
+                                    <select value={religion ? religion : 'Hindu'} onChange={(e) => { setReligion(e.target.value) }}>
+                                        <option value="Hindu">Hindu</option>
+                                        <option value="Indian Christian">Indian Christian</option>
+                                        <option value="Parsi">Parsi</option>
+                                        <option value="Jain">Jain</option>
+                                        <option value="Buddhist">Buddhist</option>
+                                        <option value="Sikh">Sikh</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                {religion==='Other'? 
+                                    <>
+                                    
+                                    <div className="form-item" style={{ paddingTop: '60px' }} >
+                                            <label>Please Specify </label>
+                                            <input value={otherRel} onChange={reloth}></input>
+                                        </div>
+                                        {relerr && 
+                                        <span className = 'text-danger'> {relerr}</span>
+                                        }
+                                      
+                                    </>:''}
+                            </div>
+                            <div className="form-row" style={{ marginTop: '70px' }}>
+                                <div className="form-item" >
+                                    <label>Marital Status</label>
+                                    <select value={maritalStatus} onChange={(e) => setMaritalStatus(e.target.value)}>
+                                        <option value="">-Select Marital Status-</option>
+                                        <option value="Single">Single</option>
+                                        <option value="Married">Married</option>
+                                        <option value="Widowed">Widowed</option>
+                                        <option value="Divorced">Divorced</option>
+                                    </select>
+                                </div>
+                                {maritalStatus === "Married" ?
+                                    <>
+                                        <div className="form-item">
+                                            <label>Spouse's Name  </label>
+                                            <input value={spouse} onChange={validspouse}></input>
+                                            {spouseerr && 
+                                        <span className = 'text-danger'> {spouseerr}</span>
+                                        }
+                                        </div>
+                                        <div className='form-item'>
+                                            <label>Year of Marriage</label>
+                                            <input type = 'number' min='1900' max= '2024'  value={yom} onChange={validYom}></input>
+                                            {yomerr && (
+                                                <span className = 'text-danger'> {yomerr} </span>
+                                            )
+
+                                            }
+                                        </div>
+                                    </> : ""}
+                                {maritalStatus === "Married" || maritalStatus === "Widowed" || maritalStatus === "Divorced" ?
+                                    <div className="form-item">
+                                        <label>Do you have childeren?</label>
+                                        <select value={haveChilderen} onChange={(e) => setHaveChilderen(e.target.value)}>
+                                            <option value="No">No</option>
+                                            <option value="Yes">Yes</option>
+                                        </select>
+                                    </div> : ""}
+                                {haveChilderen === 'Yes' ?
+                                    <div className='form-item'>
+                                        <label>Number of Children</label>
+                                        <input type="number" min='1' max='3' value={noOfChilderen} onChange={(e) => initializeChildren(e)}></input>
+                                    </div>
+                                    : ''}
+                            </div>
+                            {haveChilderen === 'Yes' && maritalStatus !== 'Single' ?
+                                <div>{childeren?.map((child, index) =>
+                                    <div className='form-row'>
+                                        <div className="form-item">
+                                            <label>{index + 1}. Child Name</label>
+                                            <input value={child['childName']} onChange={(e) => setChildName(e, index)}></input>
+                                            {childnameerr[index] && (<span className= 'text-danger'> {childnameerr[index]}</span>)}
+                                        </div>
+                                        <div className="form-item">
+                                            <label>Child Age</label>
+                                            <input  value={child['childAge']} onChange={(e) => setChildAge(e, index)}></input>
+                                            {childageerr[index] && (<span className ='text-danger'> {childageerr[index]}</span>)}
+                                        </div>
+                                        <div className="remove-btn"><CancelIcon onClick={(e) => remChild(e,index)}></CancelIcon></div>
+                                    </div>)} </div> :
+                                ''}
+
+                            <h3>Present Address</h3>
+                            <div className="form-row address-row">
+                                <div className='form-item'>
+                                    <div className="form-row"> <label>Address Line 1* </label><p style={{ marginLeft: '10px' }}> (House Number, Building Name, Etc)</p></div>
+                                    <input style={{ width: '380px' }} value={present1 ? present1 : ''} onChange={(e) => { setpresent1(e.target.value) }}></input>
+                                </div>
+
+
+                                <div className='form-item'>
+                                    <div className="form-row"> <label>Address Line 2 </label><p style={{ marginLeft: '10px' }}> (Street, Society, Colony Name)</p></div>
+
+                                    <input style={{ width: '380px' }} value={present2 ? present2 : ''} onChange={(e) => { setpresent2(e.target.value) }}></input>
+                                </div>
+
+                            </div>
+                            <div className="form-row">
+                                <div className='form-item'>
+                                    <label>City/Town*</label>
+                                    <input value={presentCity ? presentCity : ''} onChange={validCity}></input>
+                                    {cityerr && (
+                    <span className="text-danger">{cityerr}</span>
+                  )}
+                                </div>
+                                <div className='form-item'>
+                                    <label>State*</label>
+                                    <input value={presentState ? presentState : ''} onChange={validState}></input>
+                                    {stateerr && (
+                    <span className="text-danger">{stateerr}</span>)}
+                                </div>
+
+
+
+                                <div className='form-item'>
+                                    <label>Pin*</label>
+                                    
+                                    <input autoComplete="off" class="form-control" name="pincode" onChange={validPin} value={presentPin ? presentPin : ''} required />
+                  {pinerr && (
+                    <span className="text-danger">{pinerr}</span>
+                  )}
+                                </div>
+                                <div className='form-item'>
+                                    <label>Country*</label>
+                                    <input value={presentCountry ? presentCountry : ''} onChange={(e) => { setPresentCountry(e.target.value) }}></input>
+                                </div>
+                            </div>
+
+                            <h3>Executor</h3>
+                            <p className="note-para">(NOTE- An executor can be any person whom you trust e.g.
+                                Beneficiary, friend, relative, etc. The responsibility of an executor is to
+                                distribute the assets as mentioned by the author of the WILL.)</p>
+                            {executors?.map((executor, index) =>
+                                <div className="form-row">
+                                    <div className='form-item'>
+                                        <label>Title: </label>
+                                        <select value={executor['sal']} onChange={(e) => setExecSal(e, index)}>
+                                            <option value="Mr">Mr.</option>
+                                            <option value="Ms">Ms.</option>
+                                            <option value="Mrs">Mrs.</option>
+                                            <option value="">N/A</option>
+                                        </select>
+                                    </div>
+                                    <div className='form-item'>
+                                        <label> Full Name*</label>
+                                        <input value={executor['name']} onChange={(e) => {validNameExec(e,index)}}></input>
+                                        {execerr[index] && (
+                    <span className="text-danger">{execerr[index]}</span>
+                  )}
+                                    </div>
+                                    <div className="form-item">
+                                        <label>Relation*</label>
+                                        <input value={executor['relation']} onChange={(e) => {validrelExec(e,index)}}></input>
+                                        {execreler[index] && (<span className = 'textdanger'>{execreler[index]}</span>)}
+                                    </div>
+                                    {executors.length === 1 ?
+                                    <div style={{ marginLeft:'30px',justifyContent: "right" }} className='form-row'>
+                                    <button disabled={executors.length >= 3} onClick={(e) => addExecutor(e)} id="next-btn">Add Executor</button>
+                                    
+                                </div> : '' 
+                                    }
+                                    {(executors.length === 2 && executors.length === index + 1) ?
+                                        <div style={{ marginLeft:'30px',justifyContent: "right" }} className='form-row'>
+                                            <button disabled={executors.length >= 3} onClick={(e) => addExecutor(e)} id="next-btn">Add Executor</button>
+                                            <button disabled={executors.length === 1} onClick={(e) => removeExecutor(e)} id="next-btn">Remove Executor</button>
+                                        </div> : ''}
+                                        {executors.length === 3 ?
+                                    <div style={{ marginLeft:'30px',justifyContent: "right" }} className='form-row'>
+                                   
+                                    <button disabled={executors.length === 1} onClick={(e) => removeExecutor(e)} id="next-btn">Remove Executor</button>
+                                </div> : '' 
+                                    }
+                                        
+                                </div>)}
+
+                               
+                            <div style={{ justifyContent: "center" }} className='form-row'></div>
+
+                            
+                            <div style={{ justifyContent: "right" , paddingTop:'50px'}} className='form-row'>
+
+                                <button type='submit' onClick={(e) => submitPersonal(e)} id="next-btn">Next: Add Beneficiary</button>
+                            </div>
+
+                        </form>
+                    </div>
+
                     </TabPanel>
                     <TabPanel>
-                        <h2>Beneficiary Details</h2>
-                        <form id='beneficiary-form' style={{ marginTop: '60px' }}>
-                            <div className='form-row'>
+                        <div className = 'fullscreen-ben'>
+                        <h2 >Beneficiary Details</h2>
+                        <form id='beneficiary-form' style={{ marginTop: '30px' }}>
+                            <div className='form-row responsive'>
                                 <div className='form-item'>
                                     <label>Title: </label>
                                     <select value={benSal} onChange={(e) => setBenSal(e.target.value)}>
@@ -1979,6 +2224,7 @@ defaultStyle: {
                                     <input value={benName} onChange={validbenName}></input>
                                     {bennamer && <span className = 'text-danger'>{bennamer}</span>  }
                                 </div>
+                            
                                 <div className='form-item'>
                                     <label>DOB</label>
                                     {/* <input value={benDOB} onChange={(e) => setBenDOB(e.target.value)} type='date'></input> */}
@@ -2019,6 +2265,7 @@ defaultStyle: {
                                             <div className='form-item'>
                                                 <label> Full Name</label>
                                                 <input value={guardianName} onChange={validguardName}></input>
+                                                {guardnameerr.length >0 && <span className ='text-danger'> {guardnameerr}</span>}
                                             </div>
                                             <div className='form-item'>
                                                 <label>DOB</label>
@@ -2028,7 +2275,7 @@ defaultStyle: {
         minDate = {mindate}
          maxDate = {new Date()}/>
                                                 {/* <input value={guardianDOB} onChange={(e) => setGuardianDOB(e.target.value)} type='date'></input> */}
-                                                {guardnameerr.length >0 && <span className ='text-danger'> {guardnameerr}</span>}
+                                                
                                             </div>
                                             <div className='form-item'>
                                                 <label>Relation with Minor: </label>
@@ -2072,6 +2319,135 @@ defaultStyle: {
                                         </tr>)}
                                 </tbody>
                             </table> : ''}
+                            </div>
+                            <div className = 'mobilebene'>
+                            <div className ='mobile-ben'>
+
+                            <form id='beneficiary-form' style={{ marginTop: '30px' }}>
+                            <div className='form-row responsive'>
+                                <div className='form-item'>
+                                    <label>Title: </label>
+                                    <select value={benSal} onChange={(e) => setBenSal(e.target.value)}>
+                                        <option value="Mr">Mr.</option>
+                                        <option value="Ms">Ms.</option>
+                                        <option value="Mrs">Mrs.</option>
+                                        <option value="">N/A</option>
+                                    </select>
+                                </div>
+                                <div className='form-item'>
+                                    <label> Full Name</label>
+                                    <input value={benName} onChange={validbenName}></input>
+                                    {bennamer && <span className = 'text-danger'>{bennamer}</span>  }
+                                </div>
+                                </div>
+                                <div className='form-row responsive'>
+                                <div className='form-item'>
+                                    <label>DOB</label>
+                                    {/* <input value={benDOB} onChange={(e) => setBenDOB(e.target.value)} type='date'></input> */}
+                                    <DatePicker
+        onChange={(value) => setBenDOB(value)}
+        value={benDOB }
+        minDate = {mindate}
+         maxDate = {new Date()}/>
+                                </div>
+                                </div>
+                                <div className='form-row responsive'>
+                                <div className='form-item' style={{ width: '300px' }}>
+                                    <label>Relation with Author of Will: </label>
+                                    {/* <p style={{ width: '275px', fontSize: '16px' }} className="note-para">(eg. friend, son, sister, etc.)</p> */}
+                                    <input value={benRelation} onChange={validbenRelation} placeholder='eg.  friend, son, sister, etc. '></input>
+                                    { benrelerr.length >0 && <span className = 'text-danger'> {benrelerr}</span>}
+                                </div>
+                                </div>
+                                <div className='form-row responsive'>
+                                {!(getAge(benDOB) < 18) ? <><div style={{ justifyContent: "center", paddingTop:'25px', paddingLeft:'22%' }} className='form-row'>
+                                    <button type='submit' onClick={addBeneficiary} id="add-beneficiary"><AddIcon /> Add Beneficiary</button>
+
+                                </div></> : ''}
+                            </div>
+                            {
+                                getAge(benDOB) < 18 ?
+                                    <div>
+                                        <h3>Guardian details</h3>
+                                        <p className="note-para">As the listed beneficiary is Minor, kindly appoint a Guardian*<br />
+                                            (Note: Guardian should be such a person who will act as a trustee and whatever assets are being receivable by a Minor under WILL be maintained by a Guardian on behalf of a minor till the time he turns 18 years of age.)
+                                        </p>
+                                        <div className='form-row'>
+                                            <div className='form-item'>
+                                                <label>Title: </label>
+                                                <select value={guardianSal} onChange={(e) => setGuardianSal(e.target.value)}>
+                                                    <option value="Mr">Mr.</option>
+                                                    <option value="Ms">Ms.</option>
+                                                    <option value="Mrs">Mrs.</option>
+                                                    <option value="">N/A</option>
+                                                </select>
+                                            </div>
+                                            <div className='form-item'>
+                                                <label> Full Name</label>
+                                                <input value={guardianName} onChange={validguardName}></input>
+                                            </div>
+                                        </div>
+                                        <div className = 'form-row'>
+                                            <div className='form-item'>
+                                                <label>DOB</label>
+                                                <DatePicker
+        onChange={(value) => setGuardianDOB(value)}
+        value={guardianDOB }
+        minDate = {mindate}
+         maxDate = {new Date()}/>
+                                                {/* <input value={guardianDOB} onChange={(e) => setGuardianDOB(e.target.value)} type='date'></input> */}
+                                                {guardnameerr.length >0 && <span className ='text-danger'> {guardnameerr}</span>}
+                                            </div>
+                                            </div>
+                                            <div className = 'form-row'>
+                                            <div className='form-item'>
+                                                <label>Relation with Minor: </label>
+                                                <input value={guardianRelation} onChange={validguardrel}></input>
+                                                
+                                                {guardrelerr.length >0  && <span className = 'text-danger'>{guardrelerr} </span> }
+                                            </div>
+                                            </div>
+                                            <div className = 'form-row'>
+                                            {(getAge(benDOB) < 18) ? <><div style={{ justifyContent: "right", paddingTop:'25px', paddingLeft:'20%' }} className='form-row'>
+                                                <button type='submit' onClick={addBeneficiary} id="add-beneficiary"><AddIcon /> Add Beneficiary</button>
+
+                                            </div></> : ''}
+                                        </div>
+                                    </div>
+                                    : ''
+                            }
+
+                            <div style={{ justifyContent: "center", marginTop: '20px' , marginLeft:'15%' }} className='form-row'>
+                                <button onClick={() => { setTabIndex(0) }} id="next-btn" style ={{justifySelf:'right'}}>Previous</button>
+                                <button onClick={initializeShare} id="next-btn">Next</button>
+                            </div>
+                        </form>
+                        {beneficiaries.length !== 0 ?
+                            <table className="styled-table">
+                                <thead>
+                                    <tr>
+                                        <th>No.</th>
+                                        <th>Name</th>
+                                        <th>Age</th>
+                                        <th>Relation</th>
+                                        <th>Delete</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {beneficiaries.map((ben, index) =>
+                                        <tr>
+                                            <td>{index + 1}</td>
+                                            <td>{ben[1]}</td>
+                                            <td>{getAge(ben[2])}</td>
+                                            <td>{ben[3]}</td>
+                                            <td className="remove-btn"><CancelIcon onClick={() => removeBeneficiary(index)}></CancelIcon></td>
+                                        </tr>)}
+                                </tbody>
+                            </table> : ''}
+                            </div>
+                            </div>
+
+
                     </TabPanel>
                     <TabPanel>
                         <Tabs selectedIndex={tabIndex1}>
@@ -2083,9 +2459,11 @@ defaultStyle: {
 
                             <TabPanel>
                             {/* {assetPin.length ===6 && <GetApi setPresentCity ={setAssetCity} setPresentState= {setAssetState} pin ={assetPin}/>} */}
+                            
                                 <h2>Distribution of your Assets</h2>
                                 <h3 onClick={() => setImmovVisible(immovVisible === "none" ? 'block' : 'none')} style={{ display: 'flex', justifyContent: 'space-between', cursor: 'pointer' }} className="asset-tab">My Immovable Property<ArrowDropDownIcon /></h3>
                                 <div style={{ display: immovVisible }}>
+                                <div className = 'fullscreen-assets'>
                                     <form style={{ width: '100%' }}>
                                         <div className='form-row'>
                                             <div className='form-item'>
@@ -2192,10 +2570,126 @@ defaultStyle: {
                                                         </tr>)}
                                                 </tbody>
                                             </table> : ''}
-                                        <div style={{ justifyContent: "right", marginTop: '20px' }} className='form-row'>
+                                        <div style={{ justifyContent: "center", marginTop: '20px' }} className='form-row'>
                                             <button type='button' onClick={(e) => addImmovableAsset(e)} id="add-beneficiary"><AddIcon /> ADD ASSET</button>
                                         </div>
                                     </form>
+                                    </div>
+                                    <div className = 'mobile-asset'>
+                                    <form style={{ width: '100%' }}>
+                                        <div className='form-row'>
+                                            <div className='form-item'>
+                                                <label>Asset Type: </label>
+                                                <select value={assetType1} onChange={(e) => setAssetType1(e.target.value)}>
+                                                    <option value="Flat">Flat</option>
+                                                    <option value="Land">Land</option>
+                                                    <option value="House">House</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        {(assetType1 === "Flat" || assetType1 === "Land" || assetType1 === "House") ?
+                                            <div>
+                                                <div className='form-row'>
+                                                    <div className='form-item' style= {{width:'30%'}}>
+                                                        <label>Area of {assetType1} </label>
+                                                        <input value={area} onChange={validflatarea} ></input>
+                                                        { flatarea && <span className='text-danger'>{flatarea}</span>}
+                                                    </div>
+                                                    <div className='form-item'>
+                                                        <label>Area Unit</label>
+                                                        <select value={assetAreaUnit} onChange={(e) => setAssetAreaUnit(e.target.value)}>
+                                                            <option value=''>-Select Area Unit-</option>
+                                                            <option value='Acres'>Acres</option>
+                                                            <option value='Gunthas'>Gunthas</option>
+                                                            <option value='Sq. Metres'>Sq. Metres</option>
+                                                            <option value="Sq. Feet">Sq. Feet</option>
+                                                            <option value="Sq. Yards">Sq. Yards</option>
+                                                            <option value="Hectare">Hectare</option>
+                                                        </select>
+                                                    </div>
+                                                    </div>
+                                                    <div className='form-row'>
+                                                    <div className='form-item'>
+                                                        <label>Ownership</label>
+                                                        <div style={{ marginTop: "10px" }}>
+                                                            <input type="radio" value="Solely Owned" checked={ownership === 'Solely Owned'} onClick={(e) => setOwnership(e.target.value)}></input>
+                                                            <label>Solely Owned</label>
+                                                            <input style={{ marginLeft: '15px' }} type="radio" value="Jointly Owned" checked={ownership === 'Jointly Owned'} onClick={(e) => setOwnership(e.target.value)}></input>
+                                                            <label>Jointly Owned</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <h3>Detailed Address</h3>
+                                                <div className="form-row address-row">
+                                                    <div className='form-item' >
+
+                                                        <div className="form-row"> <label>Address Line 1* </label><p style={{ marginLeft: '10px' }}> (House Number, Building Name, Etc)</p></div>
+                                                        <input style={{ width: '100%' }} value={assetAddress1} onChange={(e) => setAssetAddress1(e.target.value)}></input>
+                                                    </div>
+                                                </div>
+                                                <div className='form-row address-row'>
+                                                    <div className='form-item'>
+                                                        <div className="form-row"> <label>Address Line 2 </label><p style={{ marginLeft: '10px' }}> (Street, Society, Colony Name)</p></div>
+
+                                                        <input style={{ width: '100%' }} value={assetAddress2} onChange={(e) => setAssetAddress2(e.target.value)}></input>
+                                                    </div>
+                                                </div>
+                                                <div className="form-row" >
+                                                    <div className='form-item' style= {{width:'30%'}}>
+                                                        <label>City/Town*</label>
+                                                        <input value={assetCity} onChange={validCity1}></input>
+                                                        {assetCity && (
+                    <span className="text-danger">{imacityerr}</span>)}
+                                                    </div>
+                                                    <div className='form-item'style= {{width:'38%'}}>
+                                                        <label>State*</label>
+                                                        <input value={assetState} onChange={validState1}></input>
+                                                        {assetState && (
+                    <span className="text-danger">{imastateerr}</span>)}
+                                                    </div>
+
+                                                </div>
+                                                <div className="form-row">
+                                                    <div className='form-item' style= {{width:'30%'}}>
+                                                        <label>Pin*</label>
+                                                        <input value={assetPin} onChange={validPin1}></input>
+                                                        {assetPin && (
+                    <span className="text-danger">{imaerr}</span>)}
+                                                    </div>
+                                                    <div className='form-item' style= {{width:'30%'}}>
+                                                        <label>Country*</label>
+                                                        <input value={assetCountry} onChange={(e) => setAssetCountry(e.target.value)}></input>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            : ''
+                                        }
+                                        <h3>Allocate to: </h3>
+                                        {beneficiaries.length !== 0 ?
+                                            <table className="styled-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>No.</th>
+                                                        <th>Name</th>
+                                                        <th>% Share</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {beneficiaries.map((ben, index) =>
+                                                        <tr key={index}>
+                                                            <td>{index + 1}</td>
+                                                            <td>{ben[1]}</td>
+                                        
+                                                            <td><input value={share[index]? share[index]['value'] : 0} onChange={(e) => handleShareChange(e, ben[1], ben[2], index)} type="number" min="0" max="100"></input>%</td>
+                                                        </tr>)}
+                                                </tbody>
+                                            </table> : ''}
+                                        <div style={{ justifyContent: "center", marginTop: '20px' }} className='form-row'>
+                                            <button type='button' onClick={(e) => addImmovableAsset(e)} id="add-beneficiary" ><AddIcon /> ADD ASSET</button>
+                                        </div>
+                                    </form>
+                                    </div>
+
                                     {immovableAssets.length !== 0 ? <h3>Immovable Assets Allocation</h3> : ''}
                                     {immovableAssets.length !== 0 ?
                                         <table className="styled-table">
@@ -2224,6 +2718,7 @@ defaultStyle: {
                                 <h3 onClick={() => setMovVisible(movVisible === "none" ? 'flex' : 'none')} style={{ display: 'flex', justifyContent: 'space-between', cursor: 'pointer' }} className="asset-tab">My Movable Property<ArrowDropDownIcon /></h3>
 
                                 <div style={{ display: movVisible, transition: '0.3s' }}>
+                                    <div className = 'immovasefull'>
                                     <form style={{ width: '100%' }}>
                                         <div className='form-row'>
                                             <div className='form-item'>
@@ -2322,25 +2817,31 @@ kind of investment apart from the list mentioned above' value={description} onCh
                                         }
 
                                         {(assetType === 'Income & Pension Accounts' || assetType === 'Public Provident Fund (PPF)/ Gratuity' || assetType === 'Bank Account' || assetType === "Fixed Deposit" || assetType === "Safe Deposit Locker" || assetType === 'Shares and Demat Account') ?
+                                            <div >
                                             < div className="form-row">
                                                 <div className="form-item">
                                                     <label>Bank{assetType === 'Shares and Demat Account' ? '/Company' : ''} Name</label>
                                                     <input value={bankName ? bankName : ''} onChange={(e) => setBankName(e.target.value)}></input>
-                                                </div>
+                                             
+                                               
                                                 <div className="form-item">
                                                     <label>{assetType === 'Shares and Demat Account' ? 'DMAT ' : ''}{assetType === 'Bank Account' || assetType === 'Safe Deposit Locker' || assetType === 'Shares and Demat Account' || assetType === 'Public Provident Fund (PPF)/ Gratuity' || assetType === 'Income & Pension Accounts' ? "Account" : ''}{assetType === 'Fixed Deposit' ? "FD" : ''} Number</label>
                                                     <input value={bankNumber ? bankNumber : ''} onChange={(e) => setBankNumber(e.target.value)}></input>
                                                 </div>
+                                                </div>
+                                                
                                                 <div className="form-item">
                                                     <label>Branch{assetType === 'Shares and Demat Account' ? '/Address ' : ''}</label>
                                                     <input value={bankBranch ? bankBranch : ''} onChange={(e) => setBankBranch(e.target.value)}></input>
                                                 </div>
+                                      
                                                 {assetType === 'Safe Deposit Locker' || assetType === 'Public Provident Fund (PPF)/ Gratuity' ?
                                                     <div className="form-item">
                                                         <label>{assetType === 'Public Provident Fund (PPF)/ Gratuity' ? 'PPF Number' : 'Locker Number'}</label>
                                                         <input value={bankLocker ? bankLocker : ''} onChange={(e) => setBankLocker(e.target.value)}></input>
                                                     </div>
                                                     : ''}
+                                            </div>
                                             </div>
                                             : ''}
                                         {assetType === "Postal Recurring" || assetType === 'National Savings Certificate(NSC)' ?
@@ -2435,11 +2936,235 @@ kind of investment apart from the list mentioned above' value={description} onCh
                                             </table> : ''}
 
                                     </form>
+                                    </div>
+
+                                   
                                 </div>
+                                <div className = 'immovassmob'>
+                                    <form style={{ width: '100%' }}>
+                                        <div className='form-row'>
+                                            <div className='form-item'>
+                                                <label>Asset Type: </label>
+                                                <select value={assetType} onChange={(e) => setAssetType(e.target.value)}>
+                                                    <option value="Bank Account">Bank Account</option>
+                                                    <option value="Fixed Deposit">Fixed Deposit</option>
+                                                    <option value="Safe Deposit Locker">Safe Deposit Locker</option>
+                                                    <option value="Shares and Demat Account">Shares and Demat Account</option>
+                                                    <option value="Mutual Funds">Mutual Funds</option>
+                                                    <option value="Postal Recurring">Postal Recurring</option>
+                                                    <option value="National Savings Certificate(NSC)">National Savings Certificate(NSC)</option>
+                                                    <option value="Public Provident Fund (PPF)/ Gratuity">Public Provident Fund (PPF)/ Gratuity</option>
+                                                    <option value="Insurance Policies">Insurance Policies</option>
+                                                    <option value="Bond Debentures">Bond Debentures</option>
+                                                    <option value="Income & Pension Accounts">Income & Pension Accounts</option>
+                                                    <option value="Business Asset">Business Assets</option>
+                                                    <option value="Digital Asset">Digital Assets</option>
+                                                    <option value="Electronics and Appliances">Electronics and Appliances</option>
+                                                    <option value="Vehicles">Vehicles</option>
+                                                    <option value="Jewellery">Jewellery</option>
+                                                    <option value="Any other Investments">Any other Investments</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        {(assetType === "Mutual Funds") ?
+                                            < div className="form-row">
+                                                <div className="form-item">
+                                                    <label>Description of {assetType}</label>
+                                                    <p>(*Note- Specify the
+                                                        mutual funds held by you on present date and any change
+                                                        subsequently is taken care of by the residuary clause in
+                                                        the Will.)</p>
+                                                    <textarea style={{ width: '600px', height: '250px' }} value={description} onChange={(e) => setDescription(e.target.value)} ></textarea>
+                                                </div>
+                                            </div>
+                                            : ''
+                                        }
+                                        {(assetType === "Jewellery") ?
+                                            < div className="form-row">
+                                                <div className="form-item">
+                                                    <label>Description of {assetType}</label>
+
+                                                    <textarea style={{ width: '600px', height: '250px' }}  value={description} onChange={(e) => setDescription(e.target.value)} placeholder='e.g.
+Gold bangles, necklaces, silver ornaments,silver utensils, etc '></textarea>
+
+                                                </div>
+                                            </div>
+                                            : ''
+                                        }
+                                        {(assetType === "Business Asset") ?
+                                            < div className="form-row">
+                                                <div className="form-item">
+                                                    <label>Description of {assetType}</label>
+
+                                                    <textarea style={{ width: '600px', height: '250px' }} placeholder='e.g.Share in the Partnership Firm XYZ, Proprietorship, or any business venture, etc.' value={description} onChange={(e) => setDescription(e.target.value)}></textarea>
+
+                                                </div>
+                                            </div>
+                                            : ''
+                                        }
+                                        {(assetType === "Digital Asset") ?
+                                            < div className="form-row">
+                                                <div className="form-item">
+                                                    <label>Description of {assetType}</label>
+
+                                                    <textarea style={{ width: '600px', height: '250px' }} placeholder='e.g. E-mail accounts, Website urls, Bitcoins, etc' value={description} onChange={(e) => setDescription(e.target.value)}></textarea>
+                                                </div>
+                                            </div>
+                                            : ''
+                                        }
+                                        {(assetType === "Electronics and Appliances") ?
+                                            < div className="form-row">
+                                                <div className="form-item">
+                                                    <label>Description of {assetType}</label>
+
+                                                    <textarea style={{ width: '600px', height: '250px' }} placeholder='(e.g.
+Laptops, Mobiles, Tablets, ipad, etc)' value={description} onChange={(e) => setDescription(e.target.value)}></textarea>
+                                                </div>
+                                            </div>
+                                            : ''
+
+                                        }
+                                        {(assetType === "Any other Investments") ?
+                                            < div className="form-row">
+                                                <div className="form-item">
+                                                    <label>Description of {assetType}</label>
+
+                                                    <textarea style={{ width: '600px', height: '250px' }} placeholder='any
+kind of investment apart from the list mentioned above' value={description} onChange={(e) => setDescription(e.target.value)}></textarea>
+                                                </div>
+                                            </div>
+                                            : ''
+
+
+                                        }
+
+                                        {(assetType === 'Income & Pension Accounts' || assetType === 'Public Provident Fund (PPF)/ Gratuity' || assetType === 'Bank Account' || assetType === "Fixed Deposit" || assetType === "Safe Deposit Locker" || assetType === 'Shares and Demat Account') ?
+                                            <div>
+                                            < div className="form-row">
+                                                <div className="form-item">
+                                                    <label>Bank{assetType === 'Shares and Demat Account' ? '/Company' : ''} Name</label>
+                                                    <input value={bankName ? bankName : ''} onChange={(e) => setBankName(e.target.value)}></input>
+                                                </div>
+                                                </div>
+                                                < div className="form-row">
+                                                <div className="form-item">
+                                                    <label>{assetType === 'Shares and Demat Account' ? 'DMAT ' : ''}{assetType === 'Bank Account' || assetType === 'Safe Deposit Locker' || assetType === 'Shares and Demat Account' || assetType === 'Public Provident Fund (PPF)/ Gratuity' || assetType === 'Income & Pension Accounts' ? "Account" : ''}{assetType === 'Fixed Deposit' ? "FD" : ''} Number</label>
+                                                    <input value={bankNumber ? bankNumber : ''} onChange={(e) => setBankNumber(e.target.value)}></input>
+                                                </div>
+                                                </div>
+                                                < div className="form-row">
+                                                <div className="form-item">
+                                                    <label>Branch{assetType === 'Shares and Demat Account' ? '/Address ' : ''}</label>
+                                                    <input value={bankBranch ? bankBranch : ''} onChange={(e) => setBankBranch(e.target.value)}></input>
+                                                </div>
+                                                {assetType === 'Safe Deposit Locker' || assetType === 'Public Provident Fund (PPF)/ Gratuity' ?
+                                                    <div className="form-item">
+                                                        <label>{assetType === 'Public Provident Fund (PPF)/ Gratuity' ? 'PPF Number' : 'Locker Number'}</label>
+                                                        <input value={bankLocker ? bankLocker : ''} onChange={(e) => setBankLocker(e.target.value)}></input>
+                                                    </div>
+                                                    : ''}
+                                            </div>
+                                            </div>
+                                            
+                                            : ''}
+                                        {assetType === "Postal Recurring" || assetType === 'National Savings Certificate(NSC)' ?
+                                            <div className="form-row">
+                                                <div className='form-item'>
+                                                    <label>Name of the Bank/Post Office/Company</label>
+                                                    <input value={bankName ? bankName : ''} onChange={(e) => setBankName(e.target.value)}></input>
+                                                </div>
+                                                <div className="form-item">
+                                                    <label>{assetType === 'National Savings Certificate(NSC)' ? 'NSC ' : "Account "}Number</label>
+                                                    <input value={bankNumber ? bankNumber : ''} onChange={(e) => setBankNumber(e.target.value)}></input>
+                                                </div>
+                                            </div>
+                                            : ''}
+                                        {assetType === 'Insurance Policies' || assetType === 'Bond Debentures' ?
+                                            < div className="form-row">
+                                                <div className="form-item">
+                                                    <label>Name of {assetType === 'Insurance Policies' ? 'Insurance' : 'the Bond'}</label>
+                                                    <input value={assetName ? assetName : ''} onChange={(e) => setAssetName(e.target.value)}></input>
+                                                </div>
+                                                <div className="form-item">
+                                                    <label>{assetType === 'Insurance Policies' ? 'Policy ' : 'Bond '}Number</label>
+                                                    <input value={policyNumber ? policyNumber : ''} onChange={(e) => setPolicyNumber(e.target.value)}></input>
+                                                </div>
+                                                {assetType === 'Insurance Policies' ?
+                                                    <div className="form-item">
+                                                        <label>Policy Name</label>
+                                                        <input value={policyName ? policyName : ''} onChange={(e) => setPolicyName(e.target.value)}></input>
+                                                    </div>
+                                                    : ''}
+                                            </div> : ''}
+                                        {assetType === 'Vehicles' ?
+                                            < div className="form-row">
+                                                <div className="form-item">
+                                                    <label>Vehicle Brand</label>
+                                                    <input value={brand ? brand : ''} onChange={(e) => setBrand(e.target.value)}></input>
+                                                </div>
+                                                <div className="form-item">
+                                                    <label>Model</label>
+                                                    <input value={model ? model : ''} onChange={(e) => setModel(e.target.value)}></input>
+                                                </div>
+                                                <div className="form-item">
+                                                    <label>Registration Number</label>
+                                                    <input value={vehicleNumber ? vehicleNumber : ''} onChange={(e) => setVehicleNumber(e.target.value)}></input>
+                                                </div>
+                                            </div> : ''}
+                                        <h3>Allocate to: </h3>
+                                        {beneficiaries.length !== 0 ?
+                                            <table className="styled-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>No.</th>
+                                                        <th>Name</th>
+                                                        <th>% Share</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {beneficiaries.map((ben, index) =>
+                                                        <tr key={index}>
+                                                            <td>{index + 1}</td>
+                                                            <td>{ben[1]}</td>
+                                                            <td><input value={share[index] ? share[index]['value'] : 0} onChange={(e) => handleShareChange(e, ben[1], ben[2], index)} type="number" min="0" max="100"></input>%</td>
+                                                        </tr>)}
+                                                </tbody>
+                                            </table> : ''}
+                                        <div style={{ justifyContent: "right", marginTop: '20px' }} className='form-row'>
+                                            <button type='submit' onClick={(e) => addAsset(e)} id="add-beneficiary"><AddIcon /> ADD ASSET</button>
+                                        </div>
+                                        {movableAssets.length !== 0 ? <h3>Movable Assets Allocation</h3> : ''}
+                                        {movableAssets.length !== 0 ?
+                                            <table className="styled-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>No.</th>
+                                                        <th>Type</th>
+                                                        <th>Details</th>
+                                                        <th>Successors</th>
+                                                        <th>Modify/Delete</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {movableAssets.map((iA, index) =>
+                                                        <tr>
+                                                            <td>{index + 1}</td>
+                                                            <td>{iA['assetType']}</td>
+                                                            <td>{iA['description']}</td>
+                                                            <td><ul>{iA["share"].map((share) => <li> {share['value'] !== '0' ? <span>{share["name"]} {share["value"]}% </span> : ''}</li>
+                                                            )}</ul></td>
+                                                            <td className="remove-btn"><CancelIcon onClick={() => removeMovable(index)}></CancelIcon></td>
+                                                        </tr>)}
+                                                </tbody>
+                                            </table> : ''}
+
+                                    </form>
+                            
                                 <div style={{ justifyContent: "right", marginTop: '20px' }} className='form-row'>
                                     <a onClick={() => { setTabIndex(1) }} id="next-btn">Previous</a>
                                     <a onClick={() => { initializeAlternate() }} id="next-btn">Next: Alternate Beneficiary</a>
                                 </div>
+                            </div>
                             </TabPanel>
                             <TabPanel>
                                 
@@ -2471,6 +3196,7 @@ kind of investment apart from the list mentioned above' value={description} onCh
                                     <a onClick={() => { setTabIndex1(0) }} id="next-btn">Previous</a>
                                     <a onClick={() => { storeAlternate() }} id="next-btn">Next: Residuary Clause</a>
                                 </div>
+                            
                             </TabPanel>
                             <TabPanel>
                                 <h2>Residuary Clause</h2>
@@ -2506,7 +3232,7 @@ kind of investment apart from the list mentioned above' value={description} onCh
 
                         
           <FadeIn delay='100'>            
-    <div class="bts-container" style={{width:'350px', height:'350px', backgroundColor:'#ffffff',overflow:'hidden'}}>
+    <div class="content-last" style={{width:'350px', height:'350px', backgroundColor:'#ffffff',overflow:'hidden'}}>
       <img src={Logo} alt="" width="75%" style={{alignSelf:'center'}} />
       	<p style={{color:'#f27317', marginTop:'20px',textAlign:'center', fontSize:'20px', transitionDelay:'2s'}}>Email has been sent to the User!</p>
         

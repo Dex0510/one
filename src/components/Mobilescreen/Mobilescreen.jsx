@@ -5,6 +5,7 @@ import Mobileinfo from './Mobileinfo'
 import Faq from './Faq'
 import Disclaimer from './Disclaimer'
 import Mobileservice from './Mobileservice'
+
 const Mobilescreen = () => {
     return (
         <div>
@@ -14,6 +15,7 @@ const Mobilescreen = () => {
             <Faq/>
             <Mobilecontact/>
             <Disclaimer/>
+          
         </div>
     )
 }
