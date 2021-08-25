@@ -83,6 +83,9 @@ const Mobilehome = () => {
         errors.email = value.match(/\S+@\S+\.\S+/)? '': 'Enter Valid Email id ';
         break
       case 'phoneno':
+        if(value.length=== 11){
+          break
+        }
         setPhone(value)
         errors.phoneno = value.match(/^\d{10}$/) ? '':'Enter Valid Phone no.';
         setErr(errors)
@@ -118,6 +121,7 @@ const Mobilehome = () => {
   }
 
     return (
+     
         <div>
             <main class="header" style={{marginTop:'80px'}}>
 
@@ -128,37 +132,7 @@ const Mobilehome = () => {
      
   </header>
   
-  {/* <section class="todo">
-  <div className = 'col-lg-4 order-2 order-lg-2 d-flex flex-column justify-content-center' style= {{backgroundColor:'pink', padding:'10px 50px 50px 50px',borderRadius:'13px'}}>
-                    <form>
-                    <div class="mb-3">
-    <label for="exampleInputPassword1" class="form-label">Full Name </label>
-    <input type="password" class="form-control" id="exampleInputPassword1"/>
-  </div>
-  <div class="mb-3">
-    <label for="exampleInputPassword1" class="form-label">Phone No.</label>
-    <input type="password " class="form-control required" id="exampleInputPassword1" />
-  </div>
-  <div class="mb-3">
-    <label for="exampleInputEmail1" class="form-label ">Email address</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"/>
-    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-  </div>
-  
-  <div class="mb-3 form-check">
-    <input type="checkbox" class="form-check-input" id="exampleCheck1"/>
-    <label class="form-check-label" for="exampleCheck1"> I Agree to all <a className= 'button' onClick ={() => setModalShow(true)} >Terms and Conditions</a></label>
-    <MyVerticallyCenteredModal
-        show={modalShow}
-        onHide={() => setModalShow(false)}
-      />
-  </div>
-  <div style={{display:'flex'}}>
-  <button type="button" class="btn btn-primary btn-lg btn-block" style={{justifyContent:'center'}} >Create Will</button>
-  </div>
-</form>
-                    </div>
-  </section> */}
+ 
 </main>
 <div className='col-lg-4 order-2 order-lg-2 d-flex flex-column justify-content-center content' style={{ backgroundColor: 'white', marginTop:'50px', borderRadius: '13px' ,padding:'10px 16px' }}>
                   <form onSubmit={handleSubmit} style={{ paddingTop: '40px' }}>
@@ -218,6 +192,7 @@ const Mobilehome = () => {
                   </form>
                 </div>
         </div>
+   
     )
 }
 

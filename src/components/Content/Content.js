@@ -671,7 +671,8 @@ function Content() {
         //     else
         //         alert.show("You have over allocated property: Share % total for one asset should be 100%")
         // }
-        if (immovableAssets.length ===0 || movableAssets.length ===0){
+        console.log(immovableAssets.length ===0)
+        if (immovableAssets.length ===0 && movableAssets.length ===0){
             alert.show('Please Fill in Asset Details')
         }
         else{
@@ -1703,15 +1704,22 @@ defaultStyle: {
 
 
     const [init,setInit] = useState(0)
-    useEffect(() => {
-     if (init === 0){
-        const temp = JSON.parse(localStorage.getItem('personalDetails'))
-        temp.dob = new Date()
-        localStorage.setItem('personalDetails', JSON.stringify(temp));
-        setInit(1)
-     }
-    }, [init])
+    // useEffect(() => {
+    //  if (init === 0){
+    //     const temp = JSON.parse(localStorage.getItem('personalDetails'))
+    //     temp.dob = new Date().toDateString()
+    //     localStorage.setItem('personalDetails', JSON.stringify(temp));
+    //     setInit(1)
+    //  }
+    // }, [init])
+    const [dobt , setDobt] = useState(new Date())
+    useEffect( () => {
+        setDob(dobt)   
+        console.log(dobt)
+    }
 
+    ,[dobt])
+   
     return (
         <div className="content">
             {/* {pinn.length ===6 && <GetApi setPresentCity ={setpresentCity} setPresentState= {setPresentState} pin ={pinn}/>} */}
@@ -1756,8 +1764,8 @@ defaultStyle: {
                                     <label>DOB</label>
                                     {/* <div><Calendar onChange ={setDob} value = {dob}></Calendar></div> */}
                                     <DatePicker
-        onChange={(value) => setDob(value)}
-        value={dob }
+        onChange={setDobt}
+        value={dobt }
         minDate = {mindate}
          maxDate = {new Date()}/>
                                     {/* <input type='date' min='1900' max = '2031' value={dob ? dob : ''} onChange={(e)=>(validDate(e))}></input> */}
@@ -3365,9 +3373,10 @@ kind of investment apart from the list mentioned above' value={description} onCh
                         
                     <FadeIn delay='100'>            
     <div class="content-last" style={{backgroundColor:'#ffffff',overflow:'hidden'}}>
-      <img src={Logo} alt="" width="75%"  style={{alignSelf:'center'}} style={{ maxWidth: '100%' ,height: 'auto', marginLeft:'30px', transform: 'none' }}/>
+        <div style ={{display:'block', justifyContent:'center'}}>
+      <img src={Logo} alt="" width="75%"  style={{alignSelf:'center'}} style={{justifyContent:'center', maxWidth: '25%' ,height: 'auto', marginLeft:'37%', transform: 'none' }}/>
       	<p style={{color:'#f27317', marginTop:'20px',textAlign:'center', fontSize:'20px', transitionDelay:'2s'}}>Email has been sent to the User!</p>
-        
+          </div>
     
 </div> </FadeIn>  <div style={{ justifyContent: "right", marginTop: '20px' }} className='form-row'>
                             <a onClick={() => { setTabIndex(2) }} id="next-btn">Previous</a>

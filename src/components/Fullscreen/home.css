@@ -1,6 +1,12 @@
+.mob {
+  display: none;
+}
+
+
 @media screen and (max-width: 992px) {
     img {
       float: none;
       transform: scale(0.1);
     }
+    
   }
