@@ -87,7 +87,11 @@ const Home = () => {
         errors.email = value.match(/\S+@\S+\.\S+/)? '': 'Enter Valid Email id ';
         break
       case 'phoneno':
+        if(value.length=== 11){
+          break
+        }
         setPhone(value)
+
         errors.phoneno = value.match(/^\d{10}$/) ? '':'Enter Valid Phone no.';
         setErr(errors)
         break
@@ -121,7 +125,7 @@ const Home = () => {
     }
   }
 
-
+ 
 
 
 

@@ -398,9 +398,9 @@ ul{
     width: 30px;
     height: 30px;
   }
-  /* .personal-mob{
+  .personal-mob{
     display: none;
-  } */
+  }
   .immovassmob {
     display: none;
   }
@@ -410,17 +410,14 @@ ul{
   }
 
 
-.mob-alt{
+.alt-mob{
   display: none;
 }
 
 .full-alt {
-  display:flex;
+  display:block;
 }
-.personal-mob{
-  display: flex;
-  flex-direction: column;
-}
+
 
 
   @media only screen and (max-width: 1170px) {
@@ -452,7 +449,7 @@ ul{
   }
 
     .content-last{
-      width: 70%;
+      width: auto;
       height: 50%;
 
     }
@@ -472,13 +469,23 @@ ul{
       display:none;
     }
     
-    /* .personal-full {
+    .personal-full {
       display: none;
-    } */
-
+    }
     .personal-mob{
       display: flex;
+      flex-direction: column !important;
+      
+    }
+    .personal-mob .form-row{
+      display: flex;
       flex-direction: column;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 22px;
+      color: #0072BC;
+      align-items: flex-start;
+
     }
 
     .immovassmob {
@@ -493,8 +500,9 @@ ul{
       display:none;
 
     }
-    .mob-alt{
-      display:flex
+
+    .alt-mob{
+      display:block
     }
 
   }

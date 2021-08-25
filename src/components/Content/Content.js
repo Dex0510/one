@@ -6,7 +6,7 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import { useAlert } from 'react-alert'
 import Footer from './Footer';
 // import 'react-tabs/style/react-tabs.css';
-import './Content.css'
+import './7Content.css'
 import { PDFExport, savePDF } from '@progress/kendo-react-pdf';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import Will from '../Will/Will';
@@ -172,6 +172,8 @@ function Content() {
         }
         if (maritalStatus=== 'Single'){
             setHaveChilderen('No')
+            setYomerr()
+
         }
         if ((maritalStatus === 'Married' && spouse && yom) || maritalStatus !== 'Married') {
             if(haveChilderen){
@@ -191,7 +193,7 @@ function Content() {
                 const personalDetails = {
                     sal: sal,
                     name: name,
-                    dob: dob,
+                    dob: new Date(dob),
                     occupation: occupation,
                     religion: religion,
                     executors: executors,
@@ -650,24 +652,30 @@ function Content() {
 
     }
     function checkValid() {
-        var totalShare = 0;
-        share.map((temp) => {
-            totalShare = totalShare + Number(temp['value']);
-        })
-        if (totalShare === 100) {
-            setResiduary(share);
-            localStorage.setItem('residuary', JSON.stringify(share));
-            setTabIndex1(1)
-        }
-        if(allownext){
-            setTabIndex1(1);
-        }
-        else {
+        // var totalShare = 0;
+        // share.map((temp) => {
+        //     totalShare = totalShare + Number(temp['value']);
+        // })
+        // if (totalShare === 100) {
+        //     setResiduary(share);
+        //     localStorage.setItem('residuary', JSON.stringify(share));
+        //     setTabIndex1(1)
+        // }
+        // if(allownext){
+        //     setTabIndex1(1);
+        // }
+        // else {
             
-            if (totalShare < 100)
-                alert.show('Please allocate total 100% to the property')
-            else
-                alert.show("You have over allocated property: Share % total for one asset should be 100%")
+        //     if (totalShare < 100)
+        //         alert.show('Please allocate total 100% to the property')
+        //     else
+        //         alert.show("You have over allocated property: Share % total for one asset should be 100%")
+        // }
+        if (immovableAssets.length ===0 || movableAssets.length ===0){
+            alert.show('Please Fill in Asset Details')
+        }
+        else{
+            setTabIndex1(1)
         }
     }
     function storeAlternate() {
@@ -1548,7 +1556,7 @@ defaultStyle: {
          e.preventDefault();
         const str = e.target.value
         setYom(str)
-        const pp =dob.substring(0,4)
+        const pp =dob.toString().substring(0,4)
          if (!str.match(/^\d{4}$/)){
              setYomerr('Enter Valid Year of marraige')
              
@@ -1693,6 +1701,17 @@ defaultStyle: {
     mindate.setFullYear(1900)
     const [newD,setNewD] = useState(new Date());
 
+
+    const [init,setInit] = useState(0)
+    useEffect(() => {
+     if (init === 0){
+        const temp = JSON.parse(localStorage.getItem('personalDetails'))
+        temp.dob = new Date()
+        localStorage.setItem('personalDetails', JSON.stringify(temp));
+        setInit(1)
+     }
+    }, [init])
+
     return (
         <div className="content">
             {/* {pinn.length ===6 && <GetApi setPresentCity ={setpresentCity} setPresentState= {setPresentState} pin ={pinn}/>} */}
@@ -1712,7 +1731,8 @@ defaultStyle: {
                     </TabList>
 
                     <TabPanel>
-                        <div className ='personal-full'>
+                    
+                    <div className ='personal-full'>
                         <h2>Personal Information</h2>
                         <form id='personal-form'>
                             <div className='form-row' >
@@ -1722,7 +1742,7 @@ defaultStyle: {
                                         <option value="Mr">Mr.</option>
                                         <option value="Ms">Ms.</option>
                                         <option value="Mrs">Mrs.</option>
-                                        <option value="">N/A</option>
+                                        <option value="">N/A</option> 
                                     </select>
                                 </div>
                                 <div className='form-item' style={{ width: '23%' }}>
@@ -1954,8 +1974,7 @@ defaultStyle: {
                         </form>
                         </div>
                     <div className= 'personal-mob'>
-                    <div className= 'personal-mob'>
-                    <h2>Personal Information</h2>
+                    <h2>Personal Information mob</h2>
                         <form id='personal-form'>
                             <div className='form-row' >
                                 <div className='form-item'>
@@ -1974,6 +1993,8 @@ defaultStyle: {
                     <span className="text-danger">{err.fullname}</span>
                   )}
                                 </div>
+                                </div>
+                                <div className='form-row' >
                                 <div className='form-item' style={{ width: '30%', marginLeft: '20px' }}>
                                     <label>DOB</label>
                                     {/* <div><Calendar onChange ={setDob} value = {dob}></Calendar></div> */}
@@ -2002,6 +2023,8 @@ defaultStyle: {
                                         <option value="Other">Other</option>
                                     </select>
                                 </div>
+                                </div>
+                                <div className='form-row' >
                                 <div className='form-item' style={{ width: '80%', marginLeft: '20px', marginTop: '20px' }}>
                                     <label>Religion:</label>
                                     <p>(Note:Muslim religion followers shall require a customized Will due to distinctive Islamic
@@ -2195,7 +2218,7 @@ defaultStyle: {
 
                         </form>
                     </div>
-                    </div>
+
 
                     </TabPanel>
                     <TabPanel>
@@ -2285,9 +2308,11 @@ defaultStyle: {
                                     : ''
                             }
 
-                            <div style={{ justifyContent: "right", marginTop: '20px' }} className='form-row'>
-                                <a onClick={() => { setTabIndex(0) }} id="next-btn">Previous</a>
-                                <a onClick={initializeShare} id="next-btn">Next: Asset Details</a>
+                            <div style={{  marginTop: '20px', flexDirection:'row' }} className='form-row'>
+                               
+                                <a onClick={() => { setTabIndex(0) }} id="next-btn"  style={{justifyContent:'flex-start'}}>Previous</a>
+                                <a onClick={initializeShare} id="next-btn" style={{justifyContent:'flex-end'}}>Next: Asset Details</a>
+                                
                             </div>
                         </form>
                         {beneficiaries.length !== 0 ?
@@ -3216,11 +3241,7 @@ kind of investment apart from the list mentioned above' value={description} onCh
                                                         </tr>)}
                                                 </tbody>
                                             </table> : ''}     
-                                            <div style={{ display:'flex', flexDirection:'row', justifyContent: "right", marginTop: '20px' }} className='form-row'>
-                                    <a onClick={() => { setTabIndex(1) }} id="next-btn">Previous</a>
-                                    <a onClick={() => { initializeAlternate() }} id="next-btn">Next</a>
-                                </div>
-
+                                           
                                         </form>
                                        
 </div>
@@ -3232,7 +3253,11 @@ kind of investment apart from the list mentioned above' value={description} onCh
                                         </div>
                                        
                                 
-                          
+                                        <div style={{ display:'flex', flexDirection:'row', justifyContent: "right", marginTop: '20px' }} className='form-row'>
+                                    <a onClick={() => { setTabIndex(1) }} id="next-btn">Previous</a>
+                                    <a onClick={() => { initializeAlternate() }} id="next-btn">Next</a>
+                                </div>
+
                             </TabPanel>
                             <TabPanel>
                                 <div className= 'full-alt'> 
