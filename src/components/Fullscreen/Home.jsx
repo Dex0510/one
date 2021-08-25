@@ -204,7 +204,7 @@ const Home = () => {
   
   return (
     <>
-      <section id='header' className='d-flex align-items-center' style={{ paddingBottom: '70px', background: `{Index}` }}>
+      <section id='header' className='d-flex align-items-center' style={{ paddingBottom: '70px', background: `{Index}`, marginTop:'80px' }}>
         <div className='container-fluid nav_bg'>
           <div className='row'>
 

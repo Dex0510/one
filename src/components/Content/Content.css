@@ -181,7 +181,7 @@ h3{
 }
 .styled-table th,
 .styled-table td {
-    padding: 12px 15px;
+    padding: 6px 6px;
 }
 .styled-table tbody tr {
     border-bottom: 1px solid #dddddd;
@@ -191,9 +191,13 @@ h3{
     background-color: #f3f3f3;
 }
 
-.styled-table tbody tr:last-of-type {
+/* .styled-table tbody tr:last-of-type {
     border-bottom: 2px solid #F27317;
+} */
+.tr-last  {
+  border-bottom: 2px solid #F27317;
 }
+
 ul{
     list-style-type: none;
 }
@@ -397,6 +401,23 @@ ul{
   .personal-mob{
     display: none;
   }
+  .immovassmob {
+    display: none;
+  }
+
+  .immovasefull {
+    display: flex;
+  }
+
+
+.mob-alt{
+  display: none;
+}
+
+.full-alt {
+  display:flex;
+}
+
 
   @media only screen and (max-width: 1170px) {
     .content{
@@ -453,4 +474,34 @@ ul{
       display: flex;
     }
 
+    .immovassmob {
+      display: flex;
+    }
+
+    .immovasefull {
+      display: none;
+    }
+
+    .full-alt {
+      display:none;
+
+    }
+
+    .mob-alt{
+      display:flex
+    }
+
   }
+
+
+
+
+
+
+
+
+
+
+
+
+  

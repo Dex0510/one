@@ -119,7 +119,7 @@ const Mobilehome = () => {
 
     return (
         <div>
-            <main class="header">
+            <main class="header" style={{marginTop:'80px'}}>
 
   <header class="header" style = {{ paddingTop: '50px', backgroundColor:'#0072bc'}} >
     <h1 style = {{ color:'white' , textAlign:'center' , fontWeight:'bold'}}> Will Creator </h1>
@@ -160,7 +160,7 @@ const Mobilehome = () => {
                     </div>
   </section> */}
 </main>
-<div className='col-lg-4 order-2 order-lg-2 d-flex flex-column justify-content-center content' style={{ backgroundColor: 'white', marginTop:'50px', borderRadius: '13px' }}>
+<div className='col-lg-4 order-2 order-lg-2 d-flex flex-column justify-content-center content' style={{ backgroundColor: 'white', marginTop:'50px', borderRadius: '13px' ,padding:'10px 16px' }}>
                   <form onSubmit={handleSubmit} style={{ paddingTop: '40px' }}>
                     <div class="mb-3">
                       <label class="form-label">Full Name <span className='required' style={{ color: '#db2f23' }}>*</span></label>
