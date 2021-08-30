@@ -261,7 +261,7 @@ function Content() {
   const [benName, setBenName] = useState("");
   const [benSal, setBenSal] = useState("Mr");
   const [benDOB, setBenDOB] = useState();
-  const [benRelation, setBenRelation] = useState();
+  const [benRelation, setBenRelation] = useState('');
   const [guardianSal, setGuardianSal] = useState("Mr");
   const [guardianName, setGuardianName] = useState("");
   const [guardianList, setGuardianList] = useState([]);
@@ -1775,6 +1775,8 @@ function Content() {
   }, [init]);
 
   const onTabSelect = (sender, e) => {
+    console.log(sender, e)
+    setTabIndex(e)
     // TODO: Add logic when tab is selected
   };
   
@@ -1921,6 +1923,7 @@ function Content() {
                       value={dobt}
                       minDate={mindate}
                       maxDate={new Date()}
+                      format = {'dd-MM-y'}
                     />
                     {/* <input type='date' min='1900' max = '2031' value={dob ? dob : ''} onChange={(e)=>(validDate(e))}></input> */}
                   </div>
@@ -4909,10 +4912,10 @@ kind of investment apart from the list mentioned above"
             </Tabs>
           </TabPanel>
           <TabPanel>
-            <FadeIn delay="100">
+          <FadeIn delay="100">
               <div
                 className="content-last"
-                style={{ backgroundColor: "#ffffff", overflow: "hidden" }}
+                style={{ backgroundColor: "#ffffff", overflow: "hidden", display:'flex', flexDirection:'column' }}
               >
                 <img
                   src={Logo}
@@ -4922,7 +4925,7 @@ kind of investment apart from the list mentioned above"
                     alignSelf: "center",
                     maxWidth: "100%",
                     height: "auto",
-                    marginLeft: "30px",
+                   
                     transform: "none",
                   }}
                 />
