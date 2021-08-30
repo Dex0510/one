@@ -1777,6 +1777,23 @@ function Content() {
   const onTabSelect = (sender, e) => {
     // TODO: Add logic when tab is selected
   };
+  
+  // useEffect(() => {
+  //  if (init === 0){
+  //     const temp = JSON.parse(localStorage.getItem('personalDetails'))
+  //     temp.dob = new Date().toDateString()
+  //     localStorage.setItem('personalDetails', JSON.stringify(temp));
+  //     setInit(1)
+  //  }
+  // }, [init])
+  const [dobt , setDobt] = useState(new Date())
+  useEffect( () => {
+      setDob(dobt)   
+      console.log(dobt)
+  }
+
+  ,[dobt])
+
 
   return (
     <div className="content">
@@ -1900,8 +1917,8 @@ function Content() {
                     <label>DOB</label>
                     {/* <div><Calendar onChange ={setDob} value = {dob}></Calendar></div> */}
                     <DatePicker
-                      onChange={(value) => setDob(value)}
-                      value={dob}
+                      onChange={setDobt}
+                      value={dobt}
                       minDate={mindate}
                       maxDate={new Date()}
                     />
@@ -2134,6 +2151,20 @@ function Content() {
                   </div>
                 </div>
                 <div className="form-row">
+                <div className="form-item">
+                    <label>Pin*</label>
+
+                    <input
+                      type="text"
+                      autoComplete="off"
+                      className="form-control"
+                      name="pincode"
+                      onChange={validPin}
+                      value={presentPin ? presentPin : ""}
+                      required
+                    />
+                    {pinerr && <span className="text-danger">{pinerr}</span>}
+                  </div>
                   <div className="form-item">
                     <label>City/Town*</label>
                     <input
@@ -2155,20 +2186,7 @@ function Content() {
                     )}
                   </div>
 
-                  <div className="form-item">
-                    <label>Pin*</label>
-
-                    <input
-                      type="text"
-                      autoComplete="off"
-                      className="form-control"
-                      name="pincode"
-                      onChange={validPin}
-                      value={presentPin ? presentPin : ""}
-                      required
-                    />
-                    {pinerr && <span className="text-danger">{pinerr}</span>}
-                  </div>
+                  
                   <div className="form-item">
                     <label>Country*</label>
                     <input
@@ -2590,6 +2608,21 @@ function Content() {
                   </div>
                 </div>
                 <div className="form-row">
+                <div className="form-item">
+                    <label>Pin*</label>
+
+                    <input
+                      type="text"
+                      autoComplete="off"
+                      className="form-control"
+                      name="pincode"
+                      onChange={validPin}
+                      value={presentPin ? presentPin : ""}
+                      required
+                      style={{ width: "250px" }}
+                    />
+                    {pinerr && <span className="text-danger">{pinerr}</span>}
+                  </div>
                   <div className="form-item">
                     <label>City/Town*</label>
                     <input
@@ -2613,21 +2646,7 @@ function Content() {
                     )}
                   </div>
 
-                  <div className="form-item">
-                    <label>Pin*</label>
-
-                    <input
-                      type="text"
-                      autoComplete="off"
-                      className="form-control"
-                      name="pincode"
-                      onChange={validPin}
-                      value={presentPin ? presentPin : ""}
-                      required
-                      style={{ width: "250px" }}
-                    />
-                    {pinerr && <span className="text-danger">{pinerr}</span>}
-                  </div>
+                 
                   <div className="form-item">
                     <label>Country*</label>
                     <input

@@ -110,7 +110,7 @@ const Home = () => {
       setSubmitted(true);
     } else {
       setSubmitted(false);
-      console.error("Invalid Form");
+      alert("Please Fill valid details");
     }
   };
 
@@ -232,7 +232,7 @@ const Home = () => {
                   </h1>
                   <h3 style={{ color: "white", textAlign: "center" }}>
                     “Secure your dear ones.Express your wishes so that your
-                    loved ones stay protected.”
+                    loved ones stay protected. Create Your WILL in 3 simple steps”
                   </h3>
                 </div>
                 <div className="col-md-1 pt-5 pt-lg-0 order-1 order-lg-1 d-flex justify-content-center flex-column"></div>
