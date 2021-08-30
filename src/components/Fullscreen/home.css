@@ -1,12 +1,19 @@
-.mob {
+#exampleCheck1 {
+  margin-top: 12px;
+}
+
+.modal-dialog .modal-header .close {
+  border: none;
+  background: transparent;
+  font-size: 22px;
+}
+.modal-dialog .modal-header .close .sr-only {
   display: none;
 }
 
-
 @media screen and (max-width: 992px) {
-    img {
-      float: none;
-      transform: scale(0.1);
-    }
-    
+  .myVerticallyCenteredModal img {
+    float: none;
+    transform: scale(0.1);
   }
+}

@@ -1,0 +1,18 @@
+@font-face {
+  font-family: "AllianzSans Bold";
+  font-style: normal;
+  src: local("../fonts/AllianzSans Bold"),
+    url("../fonts/AllianzSans Bold.otf") format("opentype");
+}
+
+* {
+  font-family: "AllianzSans Bold";
+}
+
+body {
+  margin: 0;
+  margin-top: -25px;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
