@@ -22,7 +22,7 @@
   font-weight: 600 !important;
 }
 
-input[type="text"] {
+input[type="text"], input[type="number"] {
   font-weight: 400;
   color: #f27317;
   background: #ffffff;
@@ -30,7 +30,7 @@ input[type="text"] {
   box-shadow: 0px 8px 20px rgb(0 0 0 / 4%);
   border-radius: 10px;
 }
-input[type="text"]:focus {
+input[type="text"]:focus, input[type="number"]:focus {
   border-bottom: none;
 }
 
@@ -51,8 +51,11 @@ select,
 }
 
 .form-item > label {
-  font-weight: 700;
+  font-weight: 300;
   font-size: 15px;
+}
+.form-row {
+  font-weight: 300;
 }
 
 /* Buttons */
@@ -107,10 +110,9 @@ button[id="next-btn"]:hover:before {
 }
 
 .secondary-button {
-  margin-left: 10px;
-  padding: 10px;
-  font-weight: 600;
-  font-size: 15px;
+  margin: 0 5px;
+  padding: 5px 10px;
+  font-size: 14px;
   color: white;
   background-color: #f27317;
   border: 1px solid #f27317;
@@ -124,6 +126,9 @@ button[id="next-btn"]:hover:before {
 }
 
 /* React Date Picker */
+.react-date-picker {
+  z-index: 99;
+}
 .react-date-picker .react-date-picker__wrapper {
   border: 1px solid rgba(151, 151, 151, 0.2);
   box-shadow: 0px 8px 20px rgb(0 0 0 / 4%);
@@ -140,6 +145,8 @@ button[id="next-btn"]:hover:before {
   color: #f27317;
   font-size: 16px;
   font-weight: 500;
+  border: 0;
+  box-shadow: none;
 }
 
 .react-date-picker .react-date-picker__wrapper svg {

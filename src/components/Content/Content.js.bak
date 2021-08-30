@@ -400,7 +400,6 @@ function Content() {
     const tempShare = [];
     if (beneficiaries.length === 0) {
       alert.show("Please add beneficiary");
-      return
     } else {
       beneficiaries.map((ben, index) => {
         tempShare.push({ index: index, name: ben[1], dob: ben[2], value: 0 });
@@ -1717,17 +1716,15 @@ function Content() {
   function validbenName(e) {
     e.preventDefault();
     const str = e.target.value;
-    
+    let rel = "";
     setBenName(str);
-    
-  }
-  useState( () =>{
     if (!benName.match(/^[a-zA-Z]+ [a-zA-Z]+$/)) {
-      setBennamerr("Please add valid full name");
+      rel = "Invalid Value";
+      setBennamerr(rel);
     } else {
       setBennamerr("");
-    };
-  }, [benName])
+    }
+  }
 
   const [benrelerr, setBenrelerr] = useState("");
   function validbenRelation(e) {
@@ -2267,7 +2264,7 @@ function Content() {
                         <button
                           disabled={executors.length >= 3}
                           onClick={(e) => addExecutor(e)}
-                          className="secondary-button add-remove-executor"
+                          className="secondary-button"
                         >
                           Add Executor
                         </button>
@@ -2284,14 +2281,14 @@ function Content() {
                         <button
                           disabled={executors.length >= 3}
                           onClick={(e) => addExecutor(e)}
-                          className="secondary-button add-remove-executor"
+                          className="secondary-button"
                         >
                           Add Executor
                         </button>
                         <button
                           disabled={executors.length === 1}
                           onClick={(e) => removeExecutor(e)}
-                          className="secondary-button add-remove-executor"
+                          className="secondary-button"
                         >
                           Remove Executor
                         </button>
@@ -2307,7 +2304,7 @@ function Content() {
                         <button
                           disabled={executors.length === 1}
                           onClick={(e) => removeExecutor(e)}
-                          className="secondary-button add-remove-executor"
+                          className="secondary-button"
                         >
                           Remove Executor
                         </button>
@@ -2990,7 +2987,6 @@ function Content() {
                 </div>
               </form>
               {beneficiaries.length !== 0 ? (
-				<div style={{ padding: "0 20px" }} >
                 <table className="styled-table">
                   <thead>
                     <tr>
@@ -3017,7 +3013,7 @@ function Content() {
                     ))}
                   </tbody>
                 </table>
-              </div>) : (
+              ) : (
                 ""
               )}
             </div>
@@ -3081,9 +3077,9 @@ function Content() {
                       <>
                         <div
                           style={{
-                           
+                            justifyContent: "center",
                             paddingTop: "25px",
-                            paddingLeft: "20px",
+                            paddingLeft: "22%",
                           }}
                           className="form-row"
                         >
@@ -3168,9 +3164,9 @@ function Content() {
                           <>
                             <div
                               style={{
-                               
+                                justifyContent: "right",
                                 paddingTop: "25px",
-                                paddingLeft: "20px",
+                                paddingLeft: "20%",
                               }}
                               className="form-row"
                             >
@@ -3213,7 +3209,6 @@ function Content() {
                   </div>
                 </form>
                 {beneficiaries.length !== 0 ? (
-					<div style={{ padding: "0 20px" }} >
                   <table className="styled-table">
                     <thead>
                       <tr>
@@ -3240,7 +3235,7 @@ function Content() {
                       ))}
                     </tbody>
                   </table>
-                </div>) : (
+                ) : (
                   ""
                 )}
               </div>
@@ -3448,7 +3443,6 @@ function Content() {
                       )}
                       <h3>Allocate to: </h3>
                       {beneficiaries.length !== 0 ? (
-						<div style={{ padding: "0 20px" }} >
                         <table className="styled-table">
                           <thead>
                             <tr>
@@ -3486,11 +3480,11 @@ function Content() {
                             ))}
                           </tbody>
                         </table>
-                      </div>) : (
+                      ) : (
                         ""
                       )}
                       <div
-                        style={{margin: "20px" }}
+                        style={{ justifyContent: "center", marginTop: "20px" }}
                         className="form-row"
                       >
                         <button
@@ -3562,7 +3556,7 @@ function Content() {
                                   checked={ownership === "Solely Owned"}
                                   onClick={(e) => setOwnership(e.target.value)}
                                 ></input>
-                                <label style={{ marginLeft: "10px" }}>Solely Owned</label>
+                                <label>Solely Owned</label>
                                 <input
                                   style={{ marginLeft: "15px" }}
                                   type="radio"
@@ -3570,7 +3564,7 @@ function Content() {
                                   checked={ownership === "Jointly Owned"}
                                   onClick={(e) => setOwnership(e.target.value)}
                                 ></input>
-                                <label style={{ marginLeft: "10px" }}>Jointly Owned</label>
+                                <label>Jointly Owned</label>
                               </div>
                             </div>
                           </div>
@@ -3673,7 +3667,6 @@ function Content() {
                       )}
                       <h3>Allocate to: </h3>
                       {beneficiaries.length !== 0 ? (
-							<div style={{ padding: "0 20px" }} >
                         <table className="styled-table">
                           <thead>
                             <tr>
@@ -3711,11 +3704,11 @@ function Content() {
                             ))}
                           </tbody>
                         </table>
-                      </div> ) : (
+                      ) : (
                         ""
                       )}
                       <div
-                        style={{  margin: "20px" }}
+                        style={{ justifyContent: "center", marginTop: "20px" }}
                         className="form-row"
                       >
                         <button
@@ -3787,7 +3780,7 @@ function Content() {
                 </div>
                 <h3
                   onClick={() =>
-                    setMovVisible(movVisible === "none" ? "block" : "none")
+                    setMovVisible(movVisible === "none" ? "flex" : "none")
                   }
                   style={{
                     display: "flex",
@@ -3802,7 +3795,7 @@ function Content() {
 
                 <div style={{ display: movVisible, transition: "0.3s" }}>
                   <div className="immovasefull">
-                    <form >
+                    <form style={{ width: "100%" }}>
                       <div className="form-row">
                         <div className="form-item">
                           <label>Asset Type: </label>
@@ -4140,7 +4133,6 @@ kind of investment apart from the list mentioned above"
                       )}
                       <h3>Allocate to: </h3>
                       {beneficiaries.length !== 0 ? (
-						<div style={{ padding: "0 20px" }} >
                         <table className="styled-table">
                           <thead>
                             <tr>
@@ -4177,11 +4169,11 @@ kind of investment apart from the list mentioned above"
                             ))}
                           </tbody>
                         </table>
-                      </div>) : (
+                      ) : (
                         ""
                       )}
                       <div
-                        style={{margin: "20px" }}
+                        style={{ justifyContent: "right", marginTop: "20px" }}
                         className="form-row"
                       >
                         <button
@@ -4624,7 +4616,6 @@ kind of investment apart from the list mentioned above"
                       )}
                       <h3>Allocate to: </h3>
                       {beneficiaries.length !== 0 ? (
-						<div style={{ padding: "0 20px" }} >
                         <table className="styled-table">
                           <thead>
                             <tr>
@@ -4661,11 +4652,11 @@ kind of investment apart from the list mentioned above"
                             ))}
                           </tbody>
                         </table>
-                      </div>) : (
+                      ) : (
                         ""
                       )}
                       <div
-                        style={{margin: "20px" }}
+                        style={{ justifyContent: "right", marginTop: "20px" }}
                         className="form-row"
                       >
                         <button
@@ -4959,7 +4950,7 @@ kind of investment apart from the list mentioned above"
               </div>{" "}
             </FadeIn>{" "}
             <div
-              style={{ marginTop: "20px" }}
+              style={{ justifyContent: "right", marginTop: "20px" }}
               className="form-row"
             >
               <button onClick={() => setTabIndex(2)} id="next-btn">

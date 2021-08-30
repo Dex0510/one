@@ -96,9 +96,11 @@ h3 {
 }
 #next-btn {
   padding: 12px 20px;
-  margin-left: 10px;
+  margin: 0 20px;
   font-size: 15px;
-  margin-right: 10px;
+}
+.secondary-button.add-remove-executor{
+  margin-top: 25px;
 }
 
 .document-table {
@@ -368,7 +370,7 @@ ul {
 }
 
 .immovasefull {
-  display: flex;
+  display: block;
 }
 
 .alt-mob {
@@ -405,7 +407,6 @@ ul {
   width: 100%;
   text-align: center;
   position: relative;
-  /* cursor: pointer; */
 }
 
 .react-tabs__tab:not(:last-child):after {
@@ -448,6 +449,10 @@ ul {
 .react-tabs__tab-list .react-tabs__tab.react-tabs__tab--selected {
   background-color: #0072bc;
   border-left: 1px solid #fff;
+}
+
+.react-tabs__tab-list .react-tabs__tab.done {
+  cursor: pointer;
 }
 
 .react-tabs__tab-list .react-tabs__tab.done .steps .tab-no {
