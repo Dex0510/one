@@ -1,12 +1,28 @@
 @font-face {
-  font-family: "AllianzSans Bold";
+  font-family: "AllianzSansLight";
   font-style: normal;
+  font-weight: normal;
+  src: local("../fonts/ALSANLIG"),
+    url("../fonts/ALSANLIG.otf") format("opentype");
+}
+@font-face {
+  font-family: "AllianzSansLight";
+  
+  font-weight: bold;
   src: local("../fonts/AllianzSans Bold"),
     url("../fonts/AllianzSans Bold.otf") format("opentype");
 }
 
+@font-face {
+  font-family: "AllianzSansLight";
+  
+  font-weight: 300;
+  src: local("../fonts/ALSANREG"),
+    url("../fonts/ALSANREG.otf") format("opentype");
+}
+
 * {
-  font-family: "AllianzSans Bold";
+  font-family: "AllianzSansLight";
 }
 
 body {

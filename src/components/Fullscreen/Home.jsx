@@ -102,7 +102,7 @@ const Home = () => {
     );
     return valid;
   };
-
+  const [fill ,setFill ] = useState('')
   const handleSubmit = (event) => {
     event.preventDefault();
     if (validateForm(err)) {
@@ -110,7 +110,23 @@ const Home = () => {
       setSubmitted(true);
     } else {
       setSubmitted(false);
-      alert("Please Fill valid details");
+      
+      let temp = []
+      // alert("Please Fill valid details");
+      Object.values(err).forEach(
+        // if we have an error string set valid to false
+        (val) => {temp.push(val)}
+
+      );
+      for( let i =0; i <= temp.length; i++){
+        if (temp[i] === '0'){
+          setFill('Please Enter all the details')
+          break
+        }
+        else{
+          setFill('')
+        }
+      }
     }
   };
 
@@ -313,6 +329,7 @@ const Home = () => {
                       /> */}
 
                       {/* {(submitted && !emailvalid) ? <span className="text-danger">please enter the valid email</span> : null} */}
+                      
                     </div>
 
                     <div className="mb-3 form-check">
@@ -349,10 +366,10 @@ const Home = () => {
                         </span>
                       )}
                     </div>
-
-                    <div style={{ display: "flex", justifyContent: "center" }}>
+                        {/* style={{ display: "flex", justifyContent: "center" }} */}
+                    <div  style={{ display: "flex", justifyContent: "center" , flexDirection:'row'}} >
                       <button
-                        type="submit"
+                        
                         id="next-btn"
                         style={{ justifyContent: "center" }}
                         onClick={handleSubmit}
@@ -362,7 +379,18 @@ const Home = () => {
                           <Redirect to="/will-creator-tool"></Redirect>
                         ) : null}
                       </button>
+                      
                     </div>
+                    <div  style={{ display: "flex", justifyContent: "center" }} >
+                    {fill.length > 1 && (
+                        <span
+                          className="text-danger"
+                          style={{ display: "inline-block" , marginTop:'10px' }}
+                        >
+                          {fill}
+                        </span>
+                      )}
+                      </div>
                   </form>
                 </div>
               </div>
