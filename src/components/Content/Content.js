@@ -1993,7 +1993,7 @@ function Content() {
   return (
     <div className="content">
       {/* {pinn.length ===6 && <GetApi setPresentCity ={setpresentCity} setPresentState= {setPresentState} pin ={pinn}/>} */}
-      <button onClick={handleExportWithComponent}> Download</button>
+      {/* <button onClick={handleExportWithComponent}> Download</button> */}
       <div className="content-sub">
         <Tabs
           selectedIndex={tabIndex}

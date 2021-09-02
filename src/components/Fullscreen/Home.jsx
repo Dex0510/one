@@ -271,8 +271,176 @@ const Home = () => {
           marginTop: "80px",
         }}
       >
+        <div className ="header1">
+         <main className="header" style={{ marginTop: "80px" }}>
+        <header
+          className="header"
+          style={{ paddingTop: "150px", backgroundColor: "#0072bc" }}
+        >
+          <h1
+            style={{ color: "white", textAlign: "center", fontWeight: "bold" }}
+          >
+            {" "}
+            Bajaj Allianz Life Will Creator{" "}
+          </h1>
+          <h6
+            style={{
+              fontSize: "17px",
+              color: "white",
+              textAlign: "center",
+              marginRight: "10%",
+              marginLeft: "10%",
+            }}
+          >
+            {" "}
+            “Secure your dear ones. Express your wishes so that your loved ones
+            stay protected.
+            Create Your WILL in 3 simple steps"
+          </h6>
+          <img
+            src={Index}
+            alt="alt"
+            style={{
+              transform: "scale(0.7)",
+              borderRadius: "50%",
+              justifyContent: "center",
+              marginTop: "-30px",
+              marginRight: "10px",
+            }}
+          ></img>
+        </header>
+        
+       
+      </main>
+      <div
+        className="col-lg-4 order-2 order-lg-2 d-flex flex-column justify-content-center content"
+        style={{
+          backgroundColor: "white",
+          marginTop: "50px",
+          borderRadius: "13px",
+          padding: "10px 16px",
+        }}
+      >
+        <form onSubmit={handleSubmit} style={{ paddingTop: "40px" }}>
+          <div className="mb-3">
+            <label className="form-label">
+              Full Name{" "}
+              <span className="required" style={{ color: "#db2f23" }}>
+                *
+              </span>
+            </label>
+            <input
+              autoComplete="off"
+              className="form-control"
+              type="name"
+              name="fullname"
+              onChange={handleChange}
+              value={hname}
+              required
+            />
+            {err.fullname.length > 1 && (
+              <span className="text-danger">{err.fullname}</span>
+            )}
+            {/* {submitted && !values.fullname ? <span className="text-danger">please enter the fullname</span> : null} */}
+            {/* {submitted && !namevalid ?  <span className="text-danger">please enter only characters</span> : null} */}
+          </div>
+          <div className="mb-3">
+            <label htmlFor="phoneNo" className="form-label">
+              Contact No.{" "}
+              <span className="required" style={{ color: "#db2f23" }}>
+                *
+              </span>
+            </label>
+            <input
+              autoComplete="off"
+              className="form-control"
+              type="tel"
+              name="phoneno"
+              onChange={handleChange}
+              value={hphone}
+              required
+            />
+            {err.phoneno.length > 1 && (
+              <span className="text-danger">{err.phoneno}</span>
+            )}
+            {/* {submitted && !values.phone ? <span className="text-danger">please enter the phone number</span> : null}
+                      {submitted && phonevalid ? <span className="text-danger">please enter the valid phone number</span> : null} */}
+          </div>
+          <div className="mb-3">
+            <label htmlFor="email" className="form-label ">
+              Email address{" "}
+              <span className="required" style={{ color: "#db2f23" }}>
+                *
+              </span>
+            </label>
+            <input
+              autoComplete="off"
+              className="form-control"
+              type="email"
+              name="email"
+              onChange={handleChange}
+              value={hemail}
+              required
+            />
+            {err.email.length > 1 && (
+              <span className="text-danger">{err.email}</span>
+            )}
+            {/* <input type='email' id='email' name='email' className={`input ${errors.email && 'is-danger'}`}  className="form-control" name = 'email'
+                        onChange={handleChange}
+                      /> */}
+
+            {/* {(submitted && !emailvalid) ? <span className="text-danger">please enter the valid email</span> : null} */}
+          </div>
+
+          <div className="mb-3 form-check">
+            <input
+              type="checkbox"
+              className="form-check-input"
+              id="exampleCheck1"
+              onClick={toggleTick}
+              value={ticked}
+              required
+              name="tick"
+            />
+            <p className="form-check-label" htmlFor="exampleCheck1">
+              {" "}
+              I accept all{" "}
+              <button
+                className="secondary-button"
+                style={{ textDecoration: "none", cursor: "pointer" }}
+                onClick={() => setModalShow(true)}
+              >
+                Terms and Conditions
+              </button>
+            </p>
+            <MyVerticallyCenteredModal
+              show={modalShow}
+              onHide={() => setModalShow(false)}
+            />
+            {err.ticked.length > 1 && (
+              <span className="text-danger" style={{ display: "inline-block" }}>
+                {err.ticked}
+              </span>
+            )}
+          </div>
+
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <button
+              type="submit"
+              id="next-btn"
+              style={{ justifyContent: "center", alignSelf: "center" }}
+              onClick={handleSubmit}
+            >
+              Create Will
+              {submitted ? <Redirect to="/will-creator-tool"></Redirect> : null}
+            </button>
+          </div>
+        </form>
+      </div>
+      </div>
+      <div className = 'fullsc'>
         <div className="container-fluid nav_bg">
-          <div className="row">
+          <div className="row" style ={{justifyContent:'center'}}>
             <div className="col-12 mx-auto">
               <div className="row">
                 <div className="col-md-3 pt-5 pt-lg-0 order-1 order-lg-1 d-flex  flex-column">
@@ -283,7 +451,7 @@ const Home = () => {
                   ></img>
                 </div>
                 <div
-                  className="col-md-3 pt-5 pt-lg-0 order-1 order-lg-1 d-flex  flex-column"
+                  className="col-md-5 pt-5 pt-lg-0 order-1 order-lg-1 d-flex  flex-column"
                   style={{ justifyContent: "center", marginRight: "40px" }}
                 >
                   <h1 className="brand-name">
@@ -308,13 +476,14 @@ const Home = () => {
                      
                   </h3>
                 </div>
-                <div className="col-md-1 pt-5 pt-lg-0 order-1 order-lg-1 d-flex justify-content-center flex-column"></div>
+                {/* <div className="col-md-1 pt-5 pt-lg-0 order-1 order-lg-1 d-flex justify-content-center flex-column"></div> */}
                 <div
-                  className="col-lg-4 order-2 order-lg-2 d-flex flex-column justify-content-center"
+                  className="col-lg-3 order-2 order-lg-2 d-flex flex-column justify-content-center"
                   style={{
                     backgroundColor: "white",
                     padding: "10px 50px 50px 50px",
                     borderRadius: "13px",
+                    marginLeft:'50px',
                   }}
                 >
                   <form onSubmit={handleSubmit} style={{ paddingTop: "40px" }}>
@@ -454,6 +623,7 @@ const Home = () => {
               </div>
             </div>
           </div>
+        </div>
         </div>
       </section>
     </>

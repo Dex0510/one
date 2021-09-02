@@ -19,12 +19,12 @@ const Contact = () => {
               alt=""
               style={{
                 transform: "scale(0.9)",
-                marginLeft: "50px",
+                marginLeft: "24%",
                 marginRight: "auto",
                 width: "50%",
               }}
             ></img>
-            <h4 style={{ color: "#0072bc", marginLeft: "60px" }}>
+            <h4 style={{ color: "#0072bc", marginLeft: "25%" }}>
               Customer Support{" "}
             </h4>
           </div>
