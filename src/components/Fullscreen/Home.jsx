@@ -6,6 +6,8 @@ import Index from "../../static/index.jpg";
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import "./home.css";
+import { useAlert } from "react-alert";
+import Alert from 'react-bootstrap/Alert'
 // import  {Link} from 'react-router-dom'
 
 function MyVerticallyCenteredModal(props) {
@@ -46,7 +48,7 @@ const Home = () => {
   const [modalShow, setModalShow] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [show ,setShow] = useState(false);
-
+  const alert = useAlert();
   const toggleTick = (event) => {
     let t = !ticked;
     let errors = err;
@@ -259,9 +261,17 @@ const Home = () => {
   //   }
   // }
 
+  function func(e){
+    return(<Alert variant='primary'>
+      This is a light alert—check it out!
+    </Alert>)
+  }
+
+
   return (
     <>
-   
+    <button onClick= {(e) => {setShow(!show)}}> click</button>
+    {show? <Alert severity="error">This is an error alert — check it out!</Alert>: ''}
       <section
         id="header"
         className="d-flex align-items-center"

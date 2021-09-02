@@ -10,7 +10,6 @@ import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import Logo from "../Banner/logo.png";
 import axios from "axios";
 import FadeIn from "react-fade-in";
-import DatePicker from "react-date-picker";
 import header from "./header.png";
 import header1 from "./header1.png";
 import header2 from "./header2.png";
@@ -209,7 +208,7 @@ function Content() {
         };
 
         if (getAge(dob) < 18) {
-          alert.show("You need to be at least 18 years old to make will");
+          alert.show(<div style ={{color:'red',background:'green', borderRadius:'10px 10px' }}>You need to be at least 18 years old to make will</div>);
           setDob(new Date());
           return;
         }
@@ -464,12 +463,12 @@ function Content() {
       
       setTabIndex(2);
     }
-    // else {
-    //     if (totalShare < 100)
-    //         alert.show('Assign 100% of the residuary properties')
-    //     else
-    //         alert.show("More Than 100% Residuary Property Assigned")
-    // }
+    else {
+        if (totalShare < 100)
+            alert.show('Assign 100% of the residuary properties')
+        else
+            alert.show("More Than 100% Residuary Property Assigned")
+    }
   }
   // useEffect(() => {
   //     async function fetchapi(){
