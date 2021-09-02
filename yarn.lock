@@ -4278,6 +4278,14 @@ create-hmac@^1.1.0, create-hmac@^1.1.4, create-hmac@^1.1.7:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
+create-react-context@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/create-react-context/-/create-react-context-0.3.0.tgz#546dede9dc422def0d3fc2fe03afe0bc0f4f7d8c"
+  integrity sha512-dNldIoSuNSvlTJ7slIKC/ZFGKexBMBrrcc+TTe1NdmROnaASuLPvqpwj9v4XS4uXZ8+YPu0sNmShX2rXI5LNsw==
+  dependencies:
+    gud "^1.0.0"
+    warning "^4.0.3"
+
 cross-fetch@^3.0.4:
   version "3.1.4"
   resolved "https://registry.yarnpkg.com/cross-fetch/-/cross-fetch-3.1.4.tgz#9723f3a3a247bf8b89039f3a380a9244e8fa2f39"
@@ -10203,6 +10211,11 @@ promise-inflight@^1.0.1:
   resolved "https://registry.yarnpkg.com/promise-inflight/-/promise-inflight-1.0.1.tgz#98472870bf228132fcbdd868129bad12c3c029e3"
   integrity sha1-mEcocL8igTL8vdhoEputEsPAKeM=
 
+promise-polyfill@8.1.0:
+  version "8.1.0"
+  resolved "https://registry.yarnpkg.com/promise-polyfill/-/promise-polyfill-8.1.0.tgz#30059da54d1358ce905ac581f287e184aedf995d"
+  integrity sha512-OzSf6gcCUQ01byV4BgwyUCswlaQQ6gzXc23aLQWhicvfX9kfsUiUhgt3CCQej8jDnl8/PhGF31JdHX2/MzF3WA==
+
 promise@^7.1.1:
   version "7.3.1"
   resolved "https://registry.yarnpkg.com/promise/-/promise-7.3.1.tgz#064b72602b18f90f29192b8b1bc418ffd1ebd3bf"
@@ -10241,7 +10254,7 @@ prop-types-extra@^1.1.0:
     react-is "^16.3.2"
     warning "^4.0.0"
 
-prop-types@15, prop-types@15.7.2, prop-types@^15.5.0, prop-types@^15.5.6, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@15, prop-types@15.7.2, prop-types@^15.0.0, prop-types@^15.5.0, prop-types@^15.5.6, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -10492,6 +10505,11 @@ react-chartjs-2@2.9.0:
     lodash "^4.17.4"
     prop-types "^15.5.8"
 
+react-confirm-alert@^2.7.0:
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/react-confirm-alert/-/react-confirm-alert-2.7.0.tgz#7cdbf2e052e03554ac6a7d8956c9c227010c8a53"
+  integrity sha512-21NWtGK/e85+ZX3TLRpMc3IsU5Kj6Z9ElCOrkTIlwMzV9EancyXNlkqHGbtKP63a2iS6g5hOxROokmJOqKQiXA==
+
 react-date-picker@^8.3.2:
   version "8.3.2"
   resolved "https://registry.yarnpkg.com/react-date-picker/-/react-date-picker-8.3.2.tgz#d3ab1dc3d29f72294110d8ad2824727cf58d1e89"
@@ -10615,6 +10633,16 @@ react-fit@^1.0.3:
     detect-element-overflow "^1.2.0"
     prop-types "^15.6.0"
 
+react-form-validator-core@1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/react-form-validator-core/-/react-form-validator-core-1.1.1.tgz#d084b94b9ef66bed3847fa8851b45cc2f8960a5c"
+  integrity sha512-5SG9pKrRptrhrt/dZg0bL28VvyGeuXftfhx6qwJLNdUqs2GgEnrV07BBtGpWyoBKXmO+fplD+O70DbI03CMqUQ==
+  dependencies:
+    create-react-context "^0.3.0"
+    promise-polyfill "8.1.0"
+    prop-types "^15.0.0"
+    react-lifecycles-compat "^3.0.2"
+
 react-icons@^4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/react-icons/-/react-icons-4.2.0.tgz#6dda80c8a8f338ff96a1851424d63083282630d0"
@@ -10649,6 +10677,14 @@ react-list@^0.8.13:
   integrity sha512-LSxfvdwB9Ip+E+8NBtLPW2pcIngzuV0rSoH9nMt9C2lFjZEbnoBY/ib/Zx121jPgFgg3xYkMlMXSzx5gaiP5ig==
   dependencies:
     prop-types "15"
+
+react-material-ui-form-validator@^2.1.4:
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/react-material-ui-form-validator/-/react-material-ui-form-validator-2.1.4.tgz#466af3e272bef022d11d048cda7a2259fa778a02"
+  integrity sha512-XoZQxhtSRoHjQgIxSV8cF7q+Ep5Uwt0OtDDJELAq9/E2NSXH6Hbw/yAiw8eaDmCEaeQpKT+HbIavCtJ51GJIvw==
+  dependencies:
+    prop-types "^15.0.0"
+    react-form-validator-core "1.1.1"
 
 react-modal@^3.8.1:
   version "3.14.3"

@@ -3,6 +3,8 @@ import TermsConditions from "./TermsConditions";
 import Modal from "react-bootstrap/Modal";
 import { Redirect } from "react-router-dom";
 import Index from "../../static/index.jpg";
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import "./home.css";
 // import  {Link} from 'react-router-dom'
 
@@ -31,6 +33,11 @@ function MyVerticallyCenteredModal(props) {
   );
 }
 
+
+
+
+
+
 const Home = () => {
   const [hemail, setEmail] = useState("");
   const [hname, setName] = useState("");
@@ -38,6 +45,7 @@ const Home = () => {
   const [ticked, setTicked] = useState(false);
   const [modalShow, setModalShow] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [show ,setShow] = useState(false);
 
   const toggleTick = (event) => {
     let t = !ticked;
@@ -94,6 +102,35 @@ const Home = () => {
     setErr(errors);
   };
 
+
+
+  // const options = {
+  //   title: 'Title',
+  //   message: 'Message',
+  //   buttons: [
+      
+  //     {
+  //       label: 'Go Back',
+  //       onClick: () => setSubmitted(false)
+  //     },
+  //     {
+  //       label: 'Continue',
+  //       onClick: () => setSubmitted(true)
+  //     }
+  //   ],
+  //   // childrenElement: () => <div />,
+    
+  //   closeOnEscape: true,
+  //   closeOnClickOutside: true,
+  //   willUnmount: () => {},
+  //   afterClose: () => {},
+  //   onClickOutside: () => {},
+  //   onKeypressEscape: () => {},
+  //   overlayClassName: "overlay-custom-class-name"
+  // };
+  
+  // confirmAlert(options);
+
   const validateForm = (errors) => {
     let valid = true;
     Object.values(errors).forEach(
@@ -107,7 +144,22 @@ const Home = () => {
     event.preventDefault();
     if (validateForm(err)) {
       console.info("Valid Form");
-      setSubmitted(true);
+      confirmAlert({
+        title: 'Do you want to proceed',
+        message: 'Please Ensure that Valid Details are filled as the Will document will be sent on email ID',
+        buttons: [
+          {
+            label: 'Go Back',
+            onClick: () => setSubmitted(false)
+          },
+          {
+            label: 'Continue',
+            onClick: () => setSubmitted(true)
+          }
+        ]
+      });
+      //alert('Please Ensure information provided is correct ')
+      //setSubmitted(true);
     } else {
       setSubmitted(false);
       
@@ -209,6 +261,7 @@ const Home = () => {
 
   return (
     <>
+   
       <section
         id="header"
         className="d-flex align-items-center"
@@ -238,17 +291,21 @@ const Home = () => {
                     <strong
                       style={{
                         color: "white",
-                        fontSize: "38px",
+                        fontSize: "35px",
                         marginTop: "50px",
-                        textAlign: "left",
+                        textAlign: "center",
                       }}
                     >
-                      Will Creator
+                      Bajaj Allianz Life Will Creator
                     </strong>{" "}
                   </h1>
                   <h3 style={{ color: "white", textAlign: "center" }}>
-                    “Secure your dear ones.Express your wishes so that your
-                    loved ones stay protected. Create Your WILL in 3 simple steps”
+                    <p>“Secure your dear ones. Express your wishes so that your
+                    loved ones stay protected.</p>
+                    Create Your WILL in 3 simple steps”
+                  </h3>
+                  <h3 style={{ color: "white", textAlign: "center"}}>
+                     
                   </h3>
                 </div>
                 <div className="col-md-1 pt-5 pt-lg-0 order-1 order-lg-1 d-flex justify-content-center flex-column"></div>
@@ -376,7 +433,8 @@ const Home = () => {
                       >
                         Create Will
                         {submitted ? (
-                          <Redirect to="/will-creator-tool"></Redirect>
+                           
+                           <Redirect to="/will-creator-tool"></Redirect>
                         ) : null}
                       </button>
                       

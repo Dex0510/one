@@ -109,6 +109,7 @@ h3 {
   font-size: 0.9em;
   font-family: sans-serif;
   width: 100%;
+  
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 .document-table thead tr {
@@ -142,9 +143,11 @@ h3 {
   font-family: sans-serif;
   width: 100%;
   padding: 0 10px;
+  border-radius: 20px 20px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 .styled-table thead tr {
+ 
   background-color: #f27317;
   color: #ffffff;
   text-align: left;
@@ -165,6 +168,7 @@ h3 {
     border-bottom: 2px solid #F27317;
 } */
 .tr-last {
+  
   border-bottom: 2px solid #f27317;
 }
 

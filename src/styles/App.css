@@ -9,6 +9,7 @@
     src: local("../fonts/AllianzSans Bold"),
       url("../fonts/AllianzSans Bold.otf") format("opentype");
   }
+  
   font-weight: 500 !important;
 }
 .App-header > h1 {

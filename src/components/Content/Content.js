@@ -12,6 +12,8 @@ import axios from "axios";
 import FadeIn from "react-fade-in";
 import DatePicker from "react-date-picker";
 import header from "./header.png";
+import header1 from "./header1.png";
+import header2 from "./header2.png";
 // Create styles
 
 function Content() {
@@ -42,6 +44,7 @@ function Content() {
   const [executors, setExecutors] = useState([
     { sal: "Mr", name: "", relation: "" },
   ]);
+  const [visited, setVisited] = useState([false,false,false,false])
   useEffect(() => {
     const tempPersonal = JSON.parse(localStorage.getItem("personalDetails"));
     if (tempPersonal) {
@@ -69,6 +72,7 @@ function Content() {
   }, []);
   function initializeChildren(e) {
     var number = e.target.value;
+    
     if (number > 3) {
       alert.show("Maximum Allowed Children are 3");
       number = 3;
@@ -78,6 +82,14 @@ function Content() {
     for (var i = 0; i < number; i++) {
       temp.push({ index: i, childName: "", childAge: "" });
     }
+    setChilderen(temp);
+  }
+  function initializeChildren1(n) {
+
+    const temp = [];
+    
+    temp.push({ index: 0, childName: "", childAge: "" });
+    
     setChilderen(temp);
   }
 
@@ -157,7 +169,8 @@ function Content() {
     }
     if (maritalStatus === "Single") {
       setHaveChilderen("No");
-      setYomerr();
+      setYomerr('');
+      console.log('oop', haveChilderen,noOfChilderen,childeren)
     }
     if (
       (maritalStatus === "Married" && spouse && yom) ||
@@ -197,7 +210,7 @@ function Content() {
 
         if (getAge(dob) < 18) {
           alert.show("You need to be at least 18 years old to make will");
-          setDob("");
+          setDob(new Date());
           return;
         }
         // console.log('c')
@@ -233,6 +246,11 @@ function Content() {
           "personalDetails",
           JSON.stringify(personalDetails)
         );
+        let v = visited;
+        v[0]= true
+        let f = flip;
+        f[0]= true
+        setVisited(v)
         setTabIndex(1);
       } else {
         alert.show("All personal information fields are required");
@@ -405,6 +423,12 @@ function Content() {
       beneficiaries.map((ben, index) => {
         tempShare.push({ index: index, name: ben[1], dob: ben[2], value: 0 });
       });
+      let v = visited
+      v[1] = true
+      let f = flip 
+      f[1] = true
+      setFlip(f)
+      setVisited(v)
       setTabIndex(2);
       setShare(tempShare);
     }
@@ -437,6 +461,7 @@ function Content() {
     });
     if (totalShare === 100) {
       localStorage.setItem("residuary", JSON.stringify(share));
+      
       setTabIndex(2);
     }
     // else {
@@ -697,7 +722,7 @@ function Content() {
     //     else
     //         alert.show("You have over allocated property: Share % total for one asset should be 100%")
     // }
-    if (immovableAssets.length === 0 || movableAssets.length === 0) {
+    if (immovableAssets.length === 0 && movableAssets.length === 0) {
       alert.show("Please Fill in Asset Details");
     } else {
       setTabIndex1(1);
@@ -1071,10 +1096,85 @@ function Content() {
       ],
       content: [
         {
+          image: header2,
+         
+        },
+        {
           // deleted the undefined component which was getting printed as undefined
           text: `WILL AND TESTAMENT OF ${sal} ${name.toUpperCase()} 
     EXECUTED ON ${date}`,
           style: "header",
+        },
+        {
+          image: header1,
+          style: 'botimg',
+        },
+        {
+          style: "tableExamplet",
+
+          table: {
+            widths: ["*"],
+            heights: 10,
+            body: [
+              
+              [
+                {
+                  border: [true, true, true, false],
+                  alignment: "center",
+                  text: "LAST WILL",
+                  style: "header1",
+                }
+              ],
+              [
+                {
+                  border: [true, false, true, false],
+                  alignment: "center",
+                  text: "&",
+                  style: "header1",
+                }
+              ],
+              [
+                {
+                  border: [true, false, true, false],
+                  alignment: "center",
+                  text: "TESTAMENT",
+                  style: "header1",
+                }
+              ],
+              [
+                {
+                  border: [true, false, true, false],
+                  alignment: "center",
+                  text: "OF",
+                  style: "header1",
+                }
+              ],
+              [
+                {
+                  border: [true, false, true, false],
+                  alignment: "center",
+                  text: ` ${sal} ${name.toUpperCase()}`,
+                  style: "header1",
+                }
+              ],
+              [
+                {
+                  border: [true, false, true, false],
+                  alignment: "center",
+                  text: "EXECUTED ON",
+                  style: "header1",
+                }
+              ],
+              [
+                {
+                  border: [true, false, true, true],
+                  alignment: "center",
+                  text: `${date}`,
+                  style: "header1",
+                }
+              ],
+            ],
+          },
         },
         {
           text: `I, ${sal} ${name} , age ${getAge(
@@ -1307,11 +1407,19 @@ function Content() {
         whitness2Sign: {
           margin: [0, 30, 40, 0],
         },
-
+        botimg :{
+          margin:[30,0,0,0],
+        },
         header: {
           fontSize: 18,
           bold: true,
           margin: [0, 0, 0, 10],
+          alignment: "center",
+        },
+        header1: {
+          fontSize: 30,
+          
+          margin: [0, 15, 0, 15],
           alignment: "center",
         },
         subheader: {
@@ -1330,6 +1438,10 @@ function Content() {
         },
         tableExample: {
           margin: [0, 5, 0, 15],
+          alignment: "center",
+        },
+        tableExamplet: {
+          margin: [0, 120, 0, 80],
           alignment: "center",
         },
         tableHeader: {
@@ -1368,6 +1480,13 @@ function Content() {
     });
     if (totalShare === 100) {
       localStorage.setItem("residuary", JSON.stringify(share));
+      let v = visited
+      let f = flip 
+      f[2] = true 
+      setFlip(f)
+      v[2] = true
+      v[3] = true
+      setVisited(v)
       setTabIndex(3);
       handleExportWithComponent();
     } else {
@@ -1481,13 +1600,26 @@ function Content() {
 
   async function GettApi(pin) {
     try {
-      axios
-        .get(`https://api.postalpincode.in/pincode/${pin}`)
-        .then((response) => {
-          if( response.data.length > 1){
-          setPresentState(response.data[0].PostOffice[0].State);
-          setpresentCity(response.data[0].PostOffice[0].Block);}
-        });
+      // axios
+      //   .get(`https://api.postalpincode.in/pincode/${pin}`)
+      //   .then((response) => {
+      //     if( response.data.length > 1){
+      //     setPresentState(response.data[0].PostOffice[0].State);
+      //     setpresentCity(response.data[0].PostOffice[0].Block);} 
+      //   });
+      const t = {pin:pin,moduleName:"GBOWEB"}
+      axios.post('https://balicuat.bajajallianz.com/GBOWebSales/users/populatePin' , t ).then(
+        (response) => {
+          if( response.data.state ){
+          let str = response.data.state.toLowerCase()
+          const str2 = str.charAt(0).toUpperCase() + str.slice(1);
+          setPresentState(str2)
+          console.log(response)
+          let str1 = response.data.dist.toLowerCase()
+          const str3 = str1.charAt(0).toUpperCase() + str1.slice(1);
+          setpresentCity(str3)
+        }}
+      )
     } catch (err) {
       console.log("error");
     }
@@ -1506,14 +1638,27 @@ function Content() {
   // catch(err){
   //     console.error(err);
   // };
-  async function GettApi1(pin) {
+  async function GettApi1(pins) {
     try {
-      axios
-        .get(`https://api.postalpincode.in/pincode/${pinn}`)
-        .then((response) => {
-          setAssetState(response.data[0].PostOffice[0].State);
-          setAssetCity(response.data[0].PostOffice[0].Block);
-        });
+      // axios
+      //   .get(`https://api.postalpincode.in/pincode/${pinn}`)
+      //   .then((response) => {
+      //     setAssetState(response.data[0].PostOffice[0].State);
+      //     setAssetCity(response.data[0].PostOffice[0].Block);
+      //   });
+      const t = {pin:pins,moduleName:"GBOWEB"}
+      axios.post('https://balicuat.bajajallianz.com/GBOWebSales/users/populatePin' , t ).then(
+        (response) => {
+          if( response.data.state ){
+          let str = response.data.state.toLowerCase()
+          const str2 = str.charAt(0).toUpperCase() + str.slice(1);
+          setAssetState(str2)
+         
+          let str1 = response.data.dist.toLowerCase()
+          const str3 = str1.charAt(0).toUpperCase() + str1.slice(1);
+          setAssetCity(str3)
+        }}
+      )
     } catch (err) {
       console.log("error");
     }
@@ -1523,12 +1668,10 @@ function Content() {
   const [pinerr, setPinerr] = useState("");
   let validPin = (e) => {
     var str = e.target.value;
-    console.log(str);
+    
     setPresentPin(str);
     if (str.length === 6) {
-      GettApi(str).then((c, s) => {
-        console.log(c, s, "eeeeee");
-      });
+      GettApi(str)
     }
     // if ( str.match(/^\d{6}$/)){
     //     setPinerr(" Please Enter Valid Pin Code")
@@ -1547,7 +1690,13 @@ function Content() {
     ) {
       if (haveChilderen === "Yes") {
         setNoOfChilderen(1);
+        initializeChildren1(1)
       }
+    }
+    else{
+      setHaveChilderen('No');
+      setNoOfChilderen(0);
+      setChilderen([])
     }
   }, [maritalStatus, haveChilderen]);
   useEffect(() => {
@@ -1648,8 +1797,13 @@ function Content() {
   function validYom(e) {
     e.preventDefault();
     const str = e.target.value;
+    if (str.length > 4){
+      
+      return
+    }
     setYom(str);
-    const pp = dob.toString().substring(0, 4);
+    const pp = dob.getFullYear();
+    console.log('re',pp)
     if (!str.match(/^\d{4}$/)) {
       setYomerr("Enter Valid Year of marraige");
     } else {
@@ -1695,6 +1849,7 @@ function Content() {
   }
   const [flatarea, setFlatarea] = useState("");
   useState(() => {
+    console.log('lllllasda')
     if (isNaN(area)) {
       setFlatarea("Invalid Value");
     } else {
@@ -1704,13 +1859,17 @@ function Content() {
 
   function validflatarea(e) {
     e.preventDefault();
-    const str = e.target.value;
-    setArea(str);
-    if (isNaN(area)) {
+   
+    setArea(e.target.value);
+    if (parseInt(area) <=0  ) {
       setFlatarea("Invalid Value");
-    } else {
-      setFlatarea("");
     }
+    else if (!area.match(/^[0-9]*$/)){
+      setFlatarea("Invalid Value");
+    }
+    else {
+      setFlatarea("");
+    }  
   }
 
   const [bennamer, setBennamerr] = useState("");
@@ -1719,15 +1878,24 @@ function Content() {
     const str = e.target.value;
     
     setBenName(str);
-    
-  }
-  useState( () =>{
     if (!benName.match(/^[a-zA-Z]+ [a-zA-Z]+$/)) {
       setBennamerr("Please add valid full name");
+      console.log('bad')
     } else {
       setBennamerr("");
+      console.log('good')
     };
-  }, [benName])
+    
+  }
+  // useState( () =>{
+  //   if (!benName.match(/^[a-zA-Z]+ [a-zA-Z]+$/)) {
+  //     setBennamerr("Please add valid full name");
+  //     console.log('bad')
+  //   } else {
+  //     setBennamerr("");
+  //     console.log('good')
+  //   };
+  // }, [benName])
 
   const [benrelerr, setBenrelerr] = useState("");
   function validbenRelation(e) {
@@ -1762,13 +1930,17 @@ function Content() {
   function validguardrel(e) {
     e.preventDefault();
     setGuardianRelation(e.target.value);
-    if (guardianRelation.match(/^[a-zA-Z]+ [a-zA-Z]+$/)) {
+    
+  }
+  useEffect(() => {
+    if (guardianRelation.match(/^[0-9]+$/)) {
       setGuardrelerr("Please input valid relation");
     } else {
       setGuardrelerr("");
     }
   }
 
+  , [guardianRelation]);
   const mindate = new Date();
   mindate.setFullYear(1900);
 
@@ -1783,10 +1955,20 @@ function Content() {
       }
     }
   }, [init]);
-
+  const [flip,setFlip] = useState([true,true,true,true])
   const onTabSelect = (sender, e) => {
-    console.log(sender, e)
+    console.log(sender, e, visited[e])
+    if(visited[e]){
     setTabIndex(e)
+    let v = flip
+    
+    
+    for( let i=0; i <e; i++){
+      v[i] = true
+    }
+    v[e] = false
+    setFlip(v)
+    } 
     // TODO: Add logic when tab is selected
   };
   
@@ -1802,6 +1984,7 @@ function Content() {
   useEffect( () => {
       setDob(dobt)   
       console.log(dobt)
+
   }
 
   ,[dobt])
@@ -1810,7 +1993,7 @@ function Content() {
   return (
     <div className="content">
       {/* {pinn.length ===6 && <GetApi setPresentCity ={setpresentCity} setPresentState= {setPresentState} pin ={pinn}/>} */}
-      {/* <button onClick={handleExportWithComponent}> Download</button> */}
+      <button onClick={handleExportWithComponent}> Download</button>
       <div className="content-sub">
         <Tabs
           selectedIndex={tabIndex}
@@ -1819,7 +2002,7 @@ function Content() {
           <TabList>
             <Tab
               className={
-                0 < tabIndex ? "react-tabs__tab done" : "react-tabs__tab"
+                0 < tabIndex && flip[0] ? "react-tabs__tab done" : "react-tabs__tab"
               }
             >
               <div className="steps">
@@ -1837,7 +2020,7 @@ function Content() {
             </Tab>
             <Tab
               className={
-                1 < tabIndex ? "react-tabs__tab done" : "react-tabs__tab"
+                1 < tabIndex && flip[1] ? "react-tabs__tab done" : "react-tabs__tab"
               }
             >
               <div className="steps">
@@ -1855,7 +2038,7 @@ function Content() {
             </Tab>
             <Tab
               className={
-                2 < tabIndex ? "react-tabs__tab done" : "react-tabs__tab"
+                2 < tabIndex && flip[2] ? "react-tabs__tab done" : "react-tabs__tab"
               }
             >
               <div className="steps">
@@ -1873,7 +2056,7 @@ function Content() {
             </Tab>
             <Tab
               className={
-                3 < tabIndex ? "react-tabs__tab done" : "react-tabs__tab"
+                3 < tabIndex && flip[3] ? "react-tabs__tab done" : "react-tabs__tab"
               }
             >
               <div className="steps">
@@ -2064,6 +2247,7 @@ function Content() {
                     ""
                   )}
                   {haveChilderen === "Yes" ? (
+                    <div>
                     <div className="form-item">
                       <label>Number of Children</label>
                       <input
@@ -2071,8 +2255,10 @@ function Content() {
                         min="1"
                         max="3"
                         value={noOfChilderen}
-                        onChange={(e) => initializeChildren(e)}
+                        onChange={initializeChildren}
                       ></input>
+                    </div>
+                    
                     </div>
                   ) : (
                     ""
@@ -2381,6 +2567,7 @@ function Content() {
                       value={dob}
                       minDate={mindate}
                       maxDate={new Date()}
+                      format = {'dd-MM-y'}
                     />
                     {/* <input type='date' min='1900' max = '2031' value={dob ? dob : ''} onChange={(e)=>(validDate(e))}></input> */}
                   </div>
@@ -2518,6 +2705,7 @@ function Content() {
                     ""
                   )}
                   {haveChilderen === "Yes" ? (
+                    <div>
                     <div className="form-item">
                       <label>Number of Children</label>
                       <input
@@ -2529,10 +2717,14 @@ function Content() {
                         style={{ width: "250px" }}
                       ></input>
                     </div>
+                    
+                    </div>
                   ) : (
                     ""
                   )}
                 </div>
+                
+                
                 {haveChilderen === "Yes" && maritalStatus !== "Single" ? (
                   <div>
                     {childeren?.map((child, index) => (
@@ -2567,7 +2759,7 @@ function Content() {
                             </span>
                           )}
                         </div>
-                        <div className="remove-btn">
+                        <div className="remove-btn" style ={{paddingTop:'20px'}}>
                           <CancelIcon
                             onClick={(e) => remChild(e, index)}
                           ></CancelIcon>
@@ -2852,6 +3044,7 @@ function Content() {
                       value={benDOB}
                       minDate={mindate}
                       maxDate={new Date()}
+                      format = {'dd-MM-y'}
                     />
                   </div>
                   <div className="form-item" style={{ width: "300px" }}>
@@ -2929,6 +3122,7 @@ function Content() {
                           value={guardianDOB}
                           minDate={mindate}
                           maxDate={new Date()}
+                          format = {'dd-MM-y'}
                         />
                         {/* <input value={guardianDOB} onChange={(e) => setGuardianDOB(e.target.value)} type='date'></input> */}
                       </div>
@@ -3299,7 +3493,7 @@ function Content() {
                             <div className="form-item">
                               <label>Area of {assetType1} </label>
                               <input
-                                type="text"
+                                type="number"
                                 value={area}
                                 onChange={validflatarea}
                               ></input>
@@ -3392,6 +3586,17 @@ function Content() {
                             </div>
                           </div>
                           <div className="form-row">
+                          <div className="form-item">
+                              <label>Pin*</label>
+                              <input
+                                type="text"
+                                value={assetPin}
+                                onChange={validPin1}
+                              ></input>
+                              {assetPin && (
+                                <span className="text-danger">{imaerr}</span>
+                              )}
+                            </div>
                             <div className="form-item">
                               <label>City/Town*</label>
                               <input
@@ -3405,7 +3610,10 @@ function Content() {
                                 </span>
                               )}
                             </div>
-                            <div className="form-item">
+                            
+                          </div>
+                          <div className="form-row">
+                          <div className="form-item">
                               <label>State*</label>
                               <input
                                 type="text"
@@ -3416,19 +3624,6 @@ function Content() {
                                 <span className="text-danger">
                                   {imastateerr}
                                 </span>
-                              )}
-                            </div>
-                          </div>
-                          <div className="form-row">
-                            <div className="form-item">
-                              <label>Pin*</label>
-                              <input
-                                type="text"
-                                value={assetPin}
-                                onChange={validPin1}
-                              ></input>
-                              {assetPin && (
-                                <span className="text-danger">{imaerr}</span>
                               )}
                             </div>
                             <div className="form-item">
@@ -3617,6 +3812,17 @@ function Content() {
                             </div>
                           </div>
                           <div className="form-row">
+                          <div className="form-item" style={{ width: "30%" }}>
+                              <label>Pin*</label>
+                              <input
+                                type="text"
+                                value={assetPin}
+                                onChange={validPin1}
+                              ></input>
+                              {assetPin && (
+                                <span className="text-danger">{imaerr}</span>
+                              )}
+                            </div>
                             <div className="form-item" style={{ width: "30%" }}>
                               <label>City/Town*</label>
                               <input
@@ -3630,7 +3836,10 @@ function Content() {
                                 </span>
                               )}
                             </div>
-                            <div className="form-item" style={{ width: "38%" }}>
+                            
+                          </div>
+                          <div className="form-row">
+                          <div className="form-item" style={{ width: "38%" }}>
                               <label>State*</label>
                               <input
                                 type="text"
@@ -3641,19 +3850,6 @@ function Content() {
                                 <span className="text-danger">
                                   {imastateerr}
                                 </span>
-                              )}
-                            </div>
-                          </div>
-                          <div className="form-row">
-                            <div className="form-item" style={{ width: "30%" }}>
-                              <label>Pin*</label>
-                              <input
-                                type="text"
-                                value={assetPin}
-                                onChange={validPin1}
-                              ></input>
-                              {assetPin && (
-                                <span className="text-danger">{imaerr}</span>
                               )}
                             </div>
                             <div className="form-item" style={{ width: "30%" }}>
@@ -3735,6 +3931,7 @@ function Content() {
                     ""
                   )}
                   {immovableAssets.length !== 0 ? (
+                    <div style={{ padding: "0 20px" }} >
                     <table className="styled-table">
                       <thead>
                         <tr>
@@ -3781,6 +3978,7 @@ function Content() {
                         ))}
                       </tbody>
                     </table>
+                    </div>
                   ) : (
                     ""
                   )}
@@ -4198,6 +4396,7 @@ kind of investment apart from the list mentioned above"
                         ""
                       )}
                       {movableAssets.length !== 0 ? (
+                        <div style={{ padding: "0 20px" }} >
                         <table className="styled-table">
                           <thead>
                             <tr>
@@ -4239,6 +4438,7 @@ kind of investment apart from the list mentioned above"
                             ))}
                           </tbody>
                         </table>
+                        </div>
                       ) : (
                         ""
                       )}
@@ -4682,6 +4882,7 @@ kind of investment apart from the list mentioned above"
                         ""
                       )}
                       {movableAssets.length !== 0 ? (
+                         <div style={{ padding: "0 20px" }} >
                         <table className="styled-table">
                           <thead>
                             <tr>
@@ -4689,7 +4890,7 @@ kind of investment apart from the list mentioned above"
                               <th>Type</th>
                               <th>Details</th>
                               <th>Successors</th>
-                              <th>Modify/Delete</th>
+                              <th>Delete</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -4723,6 +4924,7 @@ kind of investment apart from the list mentioned above"
                             ))}
                           </tbody>
                         </table>
+                        </div>
                       ) : (
                         ""
                       )}

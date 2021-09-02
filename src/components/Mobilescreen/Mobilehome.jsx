@@ -224,7 +224,7 @@ const Mobilehome = () => {
             <input
               autoComplete="off"
               className="form-control"
-              type="phoneno"
+              type="tel"
               name="phoneno"
               onChange={handleChange}
               value={hphone}
